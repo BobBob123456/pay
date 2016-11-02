@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.UserSafeTyInformationDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.UserSafeTyInformation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="AffirmPassWord" property="affirmpassword" jdbcType="VARCHAR" />
+    <result column="PayPassWord" property="paypassword" jdbcType="VARCHAR" />
+    <result column="AffirmTitle" property="affirmtitle" jdbcType="VARCHAR" />
+    <result column="AffirmAnswer" property="affirmanswer" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="t0" property="t0" jdbcType="INTEGER" />
+    <result column="PayBank" property="paybank" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, UserID, AffirmPassWord, PayPassWord, AffirmTitle, AffirmAnswer, Email, t0, PayBank
+  </sql>
+  <select id="getObjectByCondition" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_usersafetyinformation
+    where UserID = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_usersafetyinformation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_usersafetyinformation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.UserSafeTyInformation" >
+    insert into pay_usersafetyinformation (id, UserID, AffirmPassWord, 
+      PayPassWord, AffirmTitle, AffirmAnswer, 
+      Email, t0, PayBank)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{affirmpassword,jdbcType=VARCHAR}, 
+      #{paypassword,jdbcType=VARCHAR}, #{affirmtitle,jdbcType=VARCHAR}, #{affirmanswer,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{t0,jdbcType=INTEGER}, #{paybank,jdbcType=INTEGER})
+  </insert>
+  <insert id="addSelective" parameterType="com.pay.pojo.UserSafeTyInformation" >
+    insert into pay_usersafetyinformation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="affirmpassword != null" >
+        AffirmPassWord,
+      </if>
+      <if test="paypassword != null" >
+        PayPassWord,
+      </if>
+      <if test="affirmtitle != null" >
+        AffirmTitle,
+      </if>
+      <if test="affirmanswer != null" >
+        AffirmAnswer,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="t0 != null" >
+        t0,
+      </if>
+      <if test="paybank != null" >
+        PayBank,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="affirmpassword != null" >
+        #{affirmpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="paypassword != null" >
+        #{paypassword,jdbcType=VARCHAR},
+      </if>
+      <if test="affirmtitle != null" >
+        #{affirmtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="affirmanswer != null" >
+        #{affirmanswer,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="t0 != null" >
+        #{t0,jdbcType=INTEGER},
+      </if>
+      <if test="paybank != null" >
+        #{paybank,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="com.pay.pojo.UserSafeTyInformation" >
+    update pay_usersafetyinformation
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="affirmpassword != null" >
+        AffirmPassWord = #{affirmpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="paypassword != null" >
+        PayPassWord = #{paypassword,jdbcType=VARCHAR},
+      </if>
+      <if test="affirmtitle != null" >
+        AffirmTitle = #{affirmtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="affirmanswer != null" >
+        AffirmAnswer = #{affirmanswer,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="t0 != null" >
+        t0 = #{t0,jdbcType=INTEGER},
+      </if>
+      <if test="paybank != null" >
+        PayBank = #{paybank,jdbcType=INTEGER},
+      </if>
+    </set>
+    where  UserID = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.UserSafeTyInformation" >
+    update pay_usersafetyinformation
+    set UserID = #{userid,jdbcType=INTEGER},
+      AffirmPassWord = #{affirmpassword,jdbcType=VARCHAR},
+      PayPassWord = #{paypassword,jdbcType=VARCHAR},
+      AffirmTitle = #{affirmtitle,jdbcType=VARCHAR},
+      AffirmAnswer = #{affirmanswer,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      t0 = #{t0,jdbcType=INTEGER},
+      PayBank = #{paybank,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

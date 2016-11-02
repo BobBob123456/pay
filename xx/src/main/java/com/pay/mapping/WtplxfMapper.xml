@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.WtplxfDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.Wtplxf" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="Money" property="money" jdbcType="DECIMAL" />
+    <result column="ks_date" property="ksDate" jdbcType="TIMESTAMP" />
+    <result column="js_date" property="jsDate" jdbcType="TIMESTAMP" />
+    <result column="sq_date" property="sqDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, UserID, Money, ks_date, js_date, sq_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_wtplxf
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_wtplxf
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.Wtplxf" >
+    insert into pay_wtplxf (ID, UserID, Money, 
+      ks_date, js_date, sq_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, 
+      #{ksDate,jdbcType=TIMESTAMP}, #{jsDate,jdbcType=TIMESTAMP}, #{sqDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.Wtplxf" >
+    insert into pay_wtplxf
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="money != null" >
+        Money,
+      </if>
+      <if test="ksDate != null" >
+        ks_date,
+      </if>
+      <if test="jsDate != null" >
+        js_date,
+      </if>
+      <if test="sqDate != null" >
+        sq_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="ksDate != null" >
+        #{ksDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jsDate != null" >
+        #{jsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sqDate != null" >
+        #{sqDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.Wtplxf" >
+    update pay_wtplxf
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        Money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="ksDate != null" >
+        ks_date = #{ksDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jsDate != null" >
+        js_date = #{jsDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sqDate != null" >
+        sq_date = #{sqDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.Wtplxf" >
+    update pay_wtplxf
+    set UserID = #{userid,jdbcType=INTEGER},
+      Money = #{money,jdbcType=DECIMAL},
+      ks_date = #{ksDate,jdbcType=TIMESTAMP},
+      js_date = #{jsDate,jdbcType=TIMESTAMP},
+      sq_date = #{sqDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

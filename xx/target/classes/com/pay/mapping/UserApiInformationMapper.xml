@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.UserApiInformationDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.UserApiInformation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="CompanyName" property="companyname" jdbcType="VARCHAR" />
+    <result column="WebsiteName" property="websitename" jdbcType="VARCHAR" />
+    <result column="WebsiteUrl" property="websiteurl" jdbcType="VARCHAR" />
+    <result column="IdentificationFront" property="identificationfront" jdbcType="VARCHAR" />
+    <result column="IdentificationReverse" property="identificationreverse" jdbcType="VARCHAR" />
+    <result column="BusinessLicense" property="businesslicense" jdbcType="VARCHAR" />
+    <result column="scsfzbsz" property="scsfzbsz" jdbcType="VARCHAR" />
+    <result column="Key" property="key" jdbcType="VARCHAR" />
+    <result column="Zt" property="zt" jdbcType="INTEGER" />
+    <result column="dbszp" property="dbszp" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, UserID, CompanyName, WebsiteName, WebsiteUrl, IdentificationFront, IdentificationReverse, 
+    BusinessLicense, scsfzbsz, Zt, dbszp
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_userapiinformation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="getObjectByCondition" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_userapiinformation
+    where UserID = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_userapiinformation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.UserApiInformation" >
+    insert into pay_userapiinformation (id, UserID, CompanyName, 
+      WebsiteName, WebsiteUrl, IdentificationFront, 
+      IdentificationReverse, BusinessLicense, 
+      scsfzbsz, Key, Zt, 
+      dbszp)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{companyname,jdbcType=VARCHAR}, 
+      #{websitename,jdbcType=VARCHAR}, #{websiteurl,jdbcType=VARCHAR}, #{identificationfront,jdbcType=VARCHAR}, 
+      #{identificationreverse,jdbcType=VARCHAR}, #{businesslicense,jdbcType=VARCHAR}, 
+      #{scsfzbsz,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR}, #{zt,jdbcType=INTEGER}, 
+      #{dbszp,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.UserApiInformation" >
+    insert into pay_userapiinformation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="companyname != null" >
+        CompanyName,
+      </if>
+      <if test="websitename != null" >
+        WebsiteName,
+      </if>
+      <if test="websiteurl != null" >
+        WebsiteUrl,
+      </if>
+      <if test="identificationfront != null" >
+        IdentificationFront,
+      </if>
+      <if test="identificationreverse != null" >
+        IdentificationReverse,
+      </if>
+      <if test="businesslicense != null" >
+        BusinessLicense,
+      </if>
+      <if test="scsfzbsz != null" >
+        scsfzbsz,
+      </if>
+      <if test="key != null" >
+        Key,
+      </if>
+      <if test="zt != null" >
+        Zt,
+      </if>
+      <if test="dbszp != null" >
+        dbszp,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="companyname != null" >
+        #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="websitename != null" >
+        #{websitename,jdbcType=VARCHAR},
+      </if>
+      <if test="websiteurl != null" >
+        #{websiteurl,jdbcType=VARCHAR},
+      </if>
+      <if test="identificationfront != null" >
+        #{identificationfront,jdbcType=VARCHAR},
+      </if>
+      <if test="identificationreverse != null" >
+        #{identificationreverse,jdbcType=VARCHAR},
+      </if>
+      <if test="businesslicense != null" >
+        #{businesslicense,jdbcType=VARCHAR},
+      </if>
+      <if test="scsfzbsz != null" >
+        #{scsfzbsz,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null" >
+        #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="zt != null" >
+        #{zt,jdbcType=INTEGER},
+      </if>
+      <if test="dbszp != null" >
+        #{dbszp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.UserApiInformation" >
+    update pay_userapiinformation
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="companyname != null" >
+        CompanyName = #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="websitename != null" >
+        WebsiteName = #{websitename,jdbcType=VARCHAR},
+      </if>
+      <if test="websiteurl != null" >
+        WebsiteUrl = #{websiteurl,jdbcType=VARCHAR},
+      </if>
+      <if test="identificationfront != null" >
+        IdentificationFront = #{identificationfront,jdbcType=VARCHAR},
+      </if>
+      <if test="identificationreverse != null" >
+        IdentificationReverse = #{identificationreverse,jdbcType=VARCHAR},
+      </if>
+      <if test="businesslicense != null" >
+        BusinessLicense = #{businesslicense,jdbcType=VARCHAR},
+      </if>
+      <if test="scsfzbsz != null" >
+        scsfzbsz = #{scsfzbsz,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null" >
+        Key = #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="zt != null" >
+        Zt = #{zt,jdbcType=INTEGER},
+      </if>
+      <if test="dbszp != null" >
+        dbszp = #{dbszp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.UserApiInformation" >
+    update pay_userapiinformation
+    set UserID = #{userid,jdbcType=INTEGER},
+      CompanyName = #{companyname,jdbcType=VARCHAR},
+      WebsiteName = #{websitename,jdbcType=VARCHAR},
+      WebsiteUrl = #{websiteurl,jdbcType=VARCHAR},
+      IdentificationFront = #{identificationfront,jdbcType=VARCHAR},
+      IdentificationReverse = #{identificationreverse,jdbcType=VARCHAR},
+      BusinessLicense = #{businesslicense,jdbcType=VARCHAR},
+      scsfzbsz = #{scsfzbsz,jdbcType=VARCHAR},
+      Key = #{key,jdbcType=VARCHAR},
+      Zt = #{zt,jdbcType=INTEGER},
+      dbszp = #{dbszp,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

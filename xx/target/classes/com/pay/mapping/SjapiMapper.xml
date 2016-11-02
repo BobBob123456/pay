@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.SjapiDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.Sjapi" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="apiname" property="apiname" jdbcType="VARCHAR" />
+    <result column="myname" property="myname" jdbcType="VARCHAR" />
+    <result column="shid" property="shid" jdbcType="VARCHAR" />
+    <result column="key" property="key" jdbcType="VARCHAR" />
+    <result column="zhanghu" property="zhanghu" jdbcType="VARCHAR" />
+    <result column="edit_date" property="editDate" jdbcType="VARCHAR" />
+    <result column="payname" property="payname" jdbcType="VARCHAR" />
+    <result column="fl" property="fl" jdbcType="DECIMAL" />
+    <result column="xz" property="xz" jdbcType="INTEGER" />
+    <result column="tzurl" property="tzurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, apiname, myname, shid, key, zhanghu, edit_date, payname, fl, xz, tzurl
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_sjapi
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_sjapi
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.Sjapi" >
+    insert into pay_sjapi (id, apiname, myname, 
+      shid, key, zhanghu, 
+      edit_date, payname, fl, 
+      xz, tzurl)
+    values (#{id,jdbcType=INTEGER}, #{apiname,jdbcType=VARCHAR}, #{myname,jdbcType=VARCHAR}, 
+      #{shid,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR}, #{zhanghu,jdbcType=VARCHAR}, 
+      #{editDate,jdbcType=VARCHAR}, #{payname,jdbcType=VARCHAR}, #{fl,jdbcType=DECIMAL}, 
+      #{xz,jdbcType=INTEGER}, #{tzurl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.Sjapi" >
+    insert into pay_sjapi
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="apiname != null" >
+        apiname,
+      </if>
+      <if test="myname != null" >
+        myname,
+      </if>
+      <if test="shid != null" >
+        shid,
+      </if>
+      <if test="key != null" >
+        key,
+      </if>
+      <if test="zhanghu != null" >
+        zhanghu,
+      </if>
+      <if test="editDate != null" >
+        edit_date,
+      </if>
+      <if test="payname != null" >
+        payname,
+      </if>
+      <if test="fl != null" >
+        fl,
+      </if>
+      <if test="xz != null" >
+        xz,
+      </if>
+      <if test="tzurl != null" >
+        tzurl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="apiname != null" >
+        #{apiname,jdbcType=VARCHAR},
+      </if>
+      <if test="myname != null" >
+        #{myname,jdbcType=VARCHAR},
+      </if>
+      <if test="shid != null" >
+        #{shid,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null" >
+        #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="zhanghu != null" >
+        #{zhanghu,jdbcType=VARCHAR},
+      </if>
+      <if test="editDate != null" >
+        #{editDate,jdbcType=VARCHAR},
+      </if>
+      <if test="payname != null" >
+        #{payname,jdbcType=VARCHAR},
+      </if>
+      <if test="fl != null" >
+        #{fl,jdbcType=DECIMAL},
+      </if>
+      <if test="xz != null" >
+        #{xz,jdbcType=INTEGER},
+      </if>
+      <if test="tzurl != null" >
+        #{tzurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.Sjapi" >
+    update pay_sjapi
+    <set >
+      <if test="apiname != null" >
+        apiname = #{apiname,jdbcType=VARCHAR},
+      </if>
+      <if test="myname != null" >
+        myname = #{myname,jdbcType=VARCHAR},
+      </if>
+      <if test="shid != null" >
+        shid = #{shid,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null" >
+        key = #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="zhanghu != null" >
+        zhanghu = #{zhanghu,jdbcType=VARCHAR},
+      </if>
+      <if test="editDate != null" >
+        edit_date = #{editDate,jdbcType=VARCHAR},
+      </if>
+      <if test="payname != null" >
+        payname = #{payname,jdbcType=VARCHAR},
+      </if>
+      <if test="fl != null" >
+        fl = #{fl,jdbcType=DECIMAL},
+      </if>
+      <if test="xz != null" >
+        xz = #{xz,jdbcType=INTEGER},
+      </if>
+      <if test="tzurl != null" >
+        tzurl = #{tzurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.Sjapi" >
+    update pay_sjapi
+    set apiname = #{apiname,jdbcType=VARCHAR},
+      myname = #{myname,jdbcType=VARCHAR},
+      shid = #{shid,jdbcType=VARCHAR},
+      key = #{key,jdbcType=VARCHAR},
+      zhanghu = #{zhanghu,jdbcType=VARCHAR},
+      edit_date = #{editDate,jdbcType=VARCHAR},
+      payname = #{payname,jdbcType=VARCHAR},
+      fl = #{fl,jdbcType=DECIMAL},
+      xz = #{xz,jdbcType=INTEGER},
+      tzurl = #{tzurl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

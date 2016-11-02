@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.TkflDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.Tkfl" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="k_money" property="kMoney" jdbcType="DECIMAL" />
+    <result column="s_money" property="sMoney" jdbcType="DECIMAL" />
+    <result column="fl_money" property="flMoney" jdbcType="DECIMAL" />
+    <result column="T" property="t" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, k_money, s_money, fl_money, T
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_tkfl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_tkfl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.Tkfl" >
+    insert into pay_tkfl (id, k_money, s_money, 
+      fl_money, T)
+    values (#{id,jdbcType=INTEGER}, #{kMoney,jdbcType=DECIMAL}, #{sMoney,jdbcType=DECIMAL}, 
+      #{flMoney,jdbcType=DECIMAL}, #{t,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.Tkfl" >
+    insert into pay_tkfl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="kMoney != null" >
+        k_money,
+      </if>
+      <if test="sMoney != null" >
+        s_money,
+      </if>
+      <if test="flMoney != null" >
+        fl_money,
+      </if>
+      <if test="t != null" >
+        T,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="kMoney != null" >
+        #{kMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sMoney != null" >
+        #{sMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="flMoney != null" >
+        #{flMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="t != null" >
+        #{t,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.Tkfl" >
+    update pay_tkfl
+    <set >
+      <if test="kMoney != null" >
+        k_money = #{kMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sMoney != null" >
+        s_money = #{sMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="flMoney != null" >
+        fl_money = #{flMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="t != null" >
+        T = #{t,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.Tkfl" >
+    update pay_tkfl
+    set k_money = #{kMoney,jdbcType=DECIMAL},
+      s_money = #{sMoney,jdbcType=DECIMAL},
+      fl_money = #{flMoney,jdbcType=DECIMAL},
+      T = #{t,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

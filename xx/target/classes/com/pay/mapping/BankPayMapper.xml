@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.BankPayDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.BankPay" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="BankName" property="bankname" jdbcType="VARCHAR" />
+    <result column="Sjt" property="sjt" jdbcType="VARCHAR" />
+    <result column="baofu" property="baofu" jdbcType="VARCHAR" />
+    <result column="alipay" property="alipay" jdbcType="VARCHAR" />
+    <result column="tenpay" property="tenpay" jdbcType="VARCHAR" />
+<!--     <result column="10086" property="10086" jdbcType="VARCHAR" /> -->
+    <result column="shengfutong" property="shengfutong" jdbcType="VARCHAR" />
+    <result column="kuaiqian" property="kuaiqian" jdbcType="VARCHAR" />
+    <result column="yibao" property="yibao" jdbcType="VARCHAR" />
+    <result column="qiling" property="qiling" jdbcType="VARCHAR" />
+    <result column="yinlian" property="yinlian" jdbcType="VARCHAR" />
+    <result column="kuaihuibao" property="kuaihuibao" jdbcType="VARCHAR" />
+    <result column="rongbao" property="rongbao" jdbcType="VARCHAR" />
+    <result column="huanxunips" property="huanxunips" jdbcType="VARCHAR" />
+    <result column="yipiaoliang" property="yipiaoliang" jdbcType="VARCHAR" />
+    <result column="hualian" property="hualian" jdbcType="VARCHAR" />
+    <result column="guofubao" property="guofubao" jdbcType="VARCHAR" />
+    <result column="huicao" property="huicao" jdbcType="VARCHAR" />
+    <result column="xinsheng" property="xinsheng" jdbcType="VARCHAR" />
+    <result column="mobao" property="mobao" jdbcType="VARCHAR" />
+    <result column="wftwx" property="wftwx" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, BankName, Sjt, baofu, alipay, tenpay, shengfutong, kuaiqian, yibao, qiling, 
+    yinlian, kuaihuibao, rongbao, huanxunips, yipiaoliang, hualian, guofubao, huicao, 
+    xinsheng, mobao, wftwx
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_bankpay
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="getBankPayList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+  	id, BankName
+    from pay_bankpay
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_bankpay
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.BankPay" >
+    insert into pay_bankpay (id, BankName, Sjt, 
+      baofu, alipay, tenpay, 
+       shengfutong, kuaiqian, 
+      yibao, qiling, yinlian, 
+      kuaihuibao, rongbao, huanxunips, 
+      yipiaoliang, hualian, guofubao, 
+      huicao, xinsheng, mobao, 
+      wftwx)
+    values (#{id,jdbcType=INTEGER}, #{bankname,jdbcType=VARCHAR}, #{sjt,jdbcType=VARCHAR}, 
+      #{baofu,jdbcType=VARCHAR}, #{alipay,jdbcType=VARCHAR}, #{tenpay,jdbcType=VARCHAR}, 
+  	 #{shengfutong,jdbcType=VARCHAR}, #{kuaiqian,jdbcType=VARCHAR}, 
+      #{yibao,jdbcType=VARCHAR}, #{qiling,jdbcType=VARCHAR}, #{yinlian,jdbcType=VARCHAR}, 
+      #{kuaihuibao,jdbcType=VARCHAR}, #{rongbao,jdbcType=VARCHAR}, #{huanxunips,jdbcType=VARCHAR}, 
+      #{yipiaoliang,jdbcType=VARCHAR}, #{hualian,jdbcType=VARCHAR}, #{guofubao,jdbcType=VARCHAR}, 
+      #{huicao,jdbcType=VARCHAR}, #{xinsheng,jdbcType=VARCHAR}, #{mobao,jdbcType=VARCHAR}, 
+      #{wftwx,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.BankPay" >
+    insert into pay_bankpay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bankname != null" >
+        BankName,
+      </if>
+      <if test="sjt != null" >
+        Sjt,
+      </if>
+      <if test="baofu != null" >
+        baofu,
+      </if>
+      <if test="alipay != null" >
+        alipay,
+      </if>
+      <if test="tenpay != null" >
+        tenpay,
+      </if>
+  
+      <if test="shengfutong != null" >
+        shengfutong,
+      </if>
+      <if test="kuaiqian != null" >
+        kuaiqian,
+      </if>
+      <if test="yibao != null" >
+        yibao,
+      </if>
+      <if test="qiling != null" >
+        qiling,
+      </if>
+      <if test="yinlian != null" >
+        yinlian,
+      </if>
+      <if test="kuaihuibao != null" >
+        kuaihuibao,
+      </if>
+      <if test="rongbao != null" >
+        rongbao,
+      </if>
+      <if test="huanxunips != null" >
+        huanxunips,
+      </if>
+      <if test="yipiaoliang != null" >
+        yipiaoliang,
+      </if>
+      <if test="hualian != null" >
+        hualian,
+      </if>
+      <if test="guofubao != null" >
+        guofubao,
+      </if>
+      <if test="huicao != null" >
+        huicao,
+      </if>
+      <if test="xinsheng != null" >
+        xinsheng,
+      </if>
+      <if test="mobao != null" >
+        mobao,
+      </if>
+      <if test="wftwx != null" >
+        wftwx,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bankname != null" >
+        #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="sjt != null" >
+        #{sjt,jdbcType=VARCHAR},
+      </if>
+      <if test="baofu != null" >
+        #{baofu,jdbcType=VARCHAR},
+      </if>
+      <if test="alipay != null" >
+        #{alipay,jdbcType=VARCHAR},
+      </if>
+      <if test="tenpay != null" >
+        #{tenpay,jdbcType=VARCHAR},
+      </if>
+
+      <if test="shengfutong != null" >
+        #{shengfutong,jdbcType=VARCHAR},
+      </if>
+      <if test="kuaiqian != null" >
+        #{kuaiqian,jdbcType=VARCHAR},
+      </if>
+      <if test="yibao != null" >
+        #{yibao,jdbcType=VARCHAR},
+      </if>
+      <if test="qiling != null" >
+        #{qiling,jdbcType=VARCHAR},
+      </if>
+      <if test="yinlian != null" >
+        #{yinlian,jdbcType=VARCHAR},
+      </if>
+      <if test="kuaihuibao != null" >
+        #{kuaihuibao,jdbcType=VARCHAR},
+      </if>
+      <if test="rongbao != null" >
+        #{rongbao,jdbcType=VARCHAR},
+      </if>
+      <if test="huanxunips != null" >
+        #{huanxunips,jdbcType=VARCHAR},
+      </if>
+      <if test="yipiaoliang != null" >
+        #{yipiaoliang,jdbcType=VARCHAR},
+      </if>
+      <if test="hualian != null" >
+        #{hualian,jdbcType=VARCHAR},
+      </if>
+      <if test="guofubao != null" >
+        #{guofubao,jdbcType=VARCHAR},
+      </if>
+      <if test="huicao != null" >
+        #{huicao,jdbcType=VARCHAR},
+      </if>
+      <if test="xinsheng != null" >
+        #{xinsheng,jdbcType=VARCHAR},
+      </if>
+      <if test="mobao != null" >
+        #{mobao,jdbcType=VARCHAR},
+      </if>
+      <if test="wftwx != null" >
+        #{wftwx,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.BankPay" >
+    update pay_bankpay
+    <set >
+      <if test="bankname != null" >
+        BankName = #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="sjt != null" >
+        Sjt = #{sjt,jdbcType=VARCHAR},
+      </if>
+      <if test="baofu != null" >
+        baofu = #{baofu,jdbcType=VARCHAR},
+      </if>
+      <if test="alipay != null" >
+        alipay = #{alipay,jdbcType=VARCHAR},
+      </if>
+      <if test="tenpay != null" >
+        tenpay = #{tenpay,jdbcType=VARCHAR},
+      </if>
+
+      <if test="shengfutong != null" >
+        shengfutong = #{shengfutong,jdbcType=VARCHAR},
+      </if>
+      <if test="kuaiqian != null" >
+        kuaiqian = #{kuaiqian,jdbcType=VARCHAR},
+      </if>
+      <if test="yibao != null" >
+        yibao = #{yibao,jdbcType=VARCHAR},
+      </if>
+      <if test="qiling != null" >
+        qiling = #{qiling,jdbcType=VARCHAR},
+      </if>
+      <if test="yinlian != null" >
+        yinlian = #{yinlian,jdbcType=VARCHAR},
+      </if>
+      <if test="kuaihuibao != null" >
+        kuaihuibao = #{kuaihuibao,jdbcType=VARCHAR},
+      </if>
+      <if test="rongbao != null" >
+        rongbao = #{rongbao,jdbcType=VARCHAR},
+      </if>
+      <if test="huanxunips != null" >
+        huanxunips = #{huanxunips,jdbcType=VARCHAR},
+      </if>
+      <if test="yipiaoliang != null" >
+        yipiaoliang = #{yipiaoliang,jdbcType=VARCHAR},
+      </if>
+      <if test="hualian != null" >
+        hualian = #{hualian,jdbcType=VARCHAR},
+      </if>
+      <if test="guofubao != null" >
+        guofubao = #{guofubao,jdbcType=VARCHAR},
+      </if>
+      <if test="huicao != null" >
+        huicao = #{huicao,jdbcType=VARCHAR},
+      </if>
+      <if test="xinsheng != null" >
+        xinsheng = #{xinsheng,jdbcType=VARCHAR},
+      </if>
+      <if test="mobao != null" >
+        mobao = #{mobao,jdbcType=VARCHAR},
+      </if>
+      <if test="wftwx != null" >
+        wftwx = #{wftwx,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.BankPay" >
+    update pay_bankpay
+    set BankName = #{bankname,jdbcType=VARCHAR},
+      Sjt = #{sjt,jdbcType=VARCHAR},
+      baofu = #{baofu,jdbcType=VARCHAR},
+      alipay = #{alipay,jdbcType=VARCHAR},
+      tenpay = #{tenpay,jdbcType=VARCHAR},
+
+      shengfutong = #{shengfutong,jdbcType=VARCHAR},
+      kuaiqian = #{kuaiqian,jdbcType=VARCHAR},
+      yibao = #{yibao,jdbcType=VARCHAR},
+      qiling = #{qiling,jdbcType=VARCHAR},
+      yinlian = #{yinlian,jdbcType=VARCHAR},
+      kuaihuibao = #{kuaihuibao,jdbcType=VARCHAR},
+      rongbao = #{rongbao,jdbcType=VARCHAR},
+      huanxunips = #{huanxunips,jdbcType=VARCHAR},
+      yipiaoliang = #{yipiaoliang,jdbcType=VARCHAR},
+      hualian = #{hualian,jdbcType=VARCHAR},
+      guofubao = #{guofubao,jdbcType=VARCHAR},
+      huicao = #{huicao,jdbcType=VARCHAR},
+      xinsheng = #{xinsheng,jdbcType=VARCHAR},
+      mobao = #{mobao,jdbcType=VARCHAR},
+      wftwx = #{wftwx,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

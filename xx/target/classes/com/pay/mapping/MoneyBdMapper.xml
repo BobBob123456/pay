@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.MoneyBdDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.MoneyBd" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="datetime" property="datetime" jdbcType="TIMESTAMP" />
+    <result column="lx" property="lx" jdbcType="INTEGER" />
+    <result column="ymoney" property="ymoney" jdbcType="DECIMAL" />
+    <result column="gmoney" property="gmoney" jdbcType="DECIMAL" />
+    <result column="TransID" property="transid" jdbcType="VARCHAR" />
+    <result column="tcjb" property="tcjb" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, UserID, money, datetime, lx, ymoney, gmoney, TransID, tcjb
+  </sql>
+  <select id="getMoneyBdCount"  resultType="Integer" parameterType="java.util.Map" >
+		select count(*) from pay_moneybd 
+		where UserID = #{userId,jdbcType=INTEGER}
+		and datetime &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   		and datetime &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+   		<if test="lx !=null and  lx != ''" >
+        	and lx=#{lx,jdbcType=INTEGER}
+   		</if>
+  </select>
+  <select id="getMoneyBdList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from pay_moneybd
+	   	where UserID = #{userId,jdbcType=INTEGER} 
+	    and datetime &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+	   	and datetime &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+	   	<if test="lx !=null and  lx != ''" >
+        	and lx=#{lx,jdbcType=INTEGER}
+   		</if>
+	   	order by datetime desc
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_moneybd
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_moneybd
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.MoneyBd" >
+    insert into pay_moneybd (id, UserID, money, 
+      datetime, lx, ymoney, 
+      gmoney, TransID, tcjb
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, 
+      #{datetime,jdbcType=TIMESTAMP}, #{lx,jdbcType=INTEGER}, #{ymoney,jdbcType=DECIMAL}, 
+      #{gmoney,jdbcType=DECIMAL}, #{transid,jdbcType=VARCHAR}, #{tcjb,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.MoneyBd" >
+    insert into pay_moneybd
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+      <if test="lx != null" >
+        lx,
+      </if>
+      <if test="ymoney != null" >
+        ymoney,
+      </if>
+      <if test="gmoney != null" >
+        gmoney,
+      </if>
+      <if test="transid != null" >
+        TransID,
+      </if>
+      <if test="tcjb != null" >
+        tcjb,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lx != null" >
+        #{lx,jdbcType=INTEGER},
+      </if>
+      <if test="ymoney != null" >
+        #{ymoney,jdbcType=DECIMAL},
+      </if>
+      <if test="gmoney != null" >
+        #{gmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="transid != null" >
+        #{transid,jdbcType=VARCHAR},
+      </if>
+      <if test="tcjb != null" >
+        #{tcjb,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.MoneyBd" >
+    update pay_moneybd
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lx != null" >
+        lx = #{lx,jdbcType=INTEGER},
+      </if>
+      <if test="ymoney != null" >
+        ymoney = #{ymoney,jdbcType=DECIMAL},
+      </if>
+      <if test="gmoney != null" >
+        gmoney = #{gmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="transid != null" >
+        TransID = #{transid,jdbcType=VARCHAR},
+      </if>
+      <if test="tcjb != null" >
+        tcjb = #{tcjb,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.MoneyBd" >
+    update pay_moneybd
+    set UserID = #{userid,jdbcType=INTEGER},
+      money = #{money,jdbcType=DECIMAL},
+      datetime = #{datetime,jdbcType=TIMESTAMP},
+      lx = #{lx,jdbcType=INTEGER},
+      ymoney = #{ymoney,jdbcType=DECIMAL},
+      gmoney = #{gmoney,jdbcType=DECIMAL},
+      TransID = #{transid,jdbcType=VARCHAR},
+      tcjb = #{tcjb,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

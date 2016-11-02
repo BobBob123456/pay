@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.BankDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.Bank" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="BankName" property="bankname" jdbcType="VARCHAR" />
+    <result column="BankBranch" property="bankbranch" jdbcType="VARCHAR" />
+    <result column="BankAccountNumber" property="bankaccountnumber" jdbcType="VARCHAR" />
+    <result column="BankCompellation" property="bankcompellation" jdbcType="VARCHAR" />
+    <result column="moren" property="moren" jdbcType="INTEGER" />
+    <result column="banktype" property="banktype" jdbcType="INTEGER" />
+    <result column="tk_money" property="tkMoney" jdbcType="DECIMAL" />
+    <result column="sxf_money" property="sxfMoney" jdbcType="DOUBLE" />
+    <result column="sj_money" property="sjMoney" jdbcType="DECIMAL" />
+    <result column="T" property="t" jdbcType="INTEGER" />
+    <result column="tk_if" property="tkIf" jdbcType="INTEGER" />
+    <result column="zhihang" property="zhihang" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, UserID, BankName, BankBranch, BankAccountNumber, BankCompellation, moren, banktype, 
+    tk_money, sxf_money, sj_money, T, tk_if, zhihang
+  </sql>
+   <select id="getBankByUserId"  resultType="float" parameterType="java.util.Map" >
+   select count(*) from pay_bank where 
+   UserID= #{userId,jdbcType=INTEGER} and banktype = 0 
+  </select>
+  <select id="getObjectByCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_bank
+    where  UserID= #{userId,jdbcType=INTEGER} and moren = 1
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_bank
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_bank
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.Bank" >
+    insert into pay_bank (id, UserID, BankName, 
+      BankBranch, BankAccountNumber, BankCompellation, 
+      moren, banktype, tk_money, 
+      sxf_money, sj_money, T, 
+      tk_if, zhihang)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{bankname,jdbcType=VARCHAR}, 
+      #{bankbranch,jdbcType=VARCHAR}, #{bankaccountnumber,jdbcType=VARCHAR}, #{bankcompellation,jdbcType=VARCHAR}, 
+      #{moren,jdbcType=INTEGER}, #{banktype,jdbcType=INTEGER}, #{tkMoney,jdbcType=DECIMAL}, 
+      #{sxfMoney,jdbcType=DOUBLE}, #{sjMoney,jdbcType=DECIMAL}, #{t,jdbcType=INTEGER}, 
+      #{tkIf,jdbcType=INTEGER}, #{zhihang,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.Bank" >
+    insert into pay_bank
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="bankname != null" >
+        BankName,
+      </if>
+      <if test="bankbranch != null" >
+        BankBranch,
+      </if>
+      <if test="bankaccountnumber != null" >
+        BankAccountNumber,
+      </if>
+      <if test="bankcompellation != null" >
+        BankCompellation,
+      </if>
+      <if test="moren != null" >
+        moren,
+      </if>
+      <if test="banktype != null" >
+        banktype,
+      </if>
+      <if test="tkMoney != null" >
+        tk_money,
+      </if>
+      <if test="sxfMoney != null" >
+        sxf_money,
+      </if>
+      <if test="sjMoney != null" >
+        sj_money,
+      </if>
+      <if test="t != null" >
+        T,
+      </if>
+      <if test="tkIf != null" >
+        tk_if,
+      </if>
+      <if test="zhihang != null" >
+        zhihang,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="bankname != null" >
+        #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="bankbranch != null" >
+        #{bankbranch,jdbcType=VARCHAR},
+      </if>
+      <if test="bankaccountnumber != null" >
+        #{bankaccountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcompellation != null" >
+        #{bankcompellation,jdbcType=VARCHAR},
+      </if>
+      <if test="moren != null" >
+        #{moren,jdbcType=INTEGER},
+      </if>
+      <if test="banktype != null" >
+        #{banktype,jdbcType=INTEGER},
+      </if>
+      <if test="tkMoney != null" >
+        #{tkMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sxfMoney != null" >
+        #{sxfMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="sjMoney != null" >
+        #{sjMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="t != null" >
+        #{t,jdbcType=INTEGER},
+      </if>
+      <if test="tkIf != null" >
+        #{tkIf,jdbcType=INTEGER},
+      </if>
+      <if test="zhihang != null" >
+        #{zhihang,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.Bank" >
+    update pay_bank
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="bankname != null" >
+        BankName = #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="bankbranch != null" >
+        BankBranch = #{bankbranch,jdbcType=VARCHAR},
+      </if>
+      <if test="bankaccountnumber != null" >
+        BankAccountNumber = #{bankaccountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcompellation != null" >
+        BankCompellation = #{bankcompellation,jdbcType=VARCHAR},
+      </if>
+      <if test="moren != null" >
+        moren = #{moren,jdbcType=INTEGER},
+      </if>
+      <if test="banktype != null" >
+        banktype = #{banktype,jdbcType=INTEGER},
+      </if>
+      <if test="tkMoney != null" >
+        tk_money = #{tkMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sxfMoney != null" >
+        sxf_money = #{sxfMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="sjMoney != null" >
+        sj_money = #{sjMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="t != null" >
+        T = #{t,jdbcType=INTEGER},
+      </if>
+      <if test="tkIf != null" >
+        tk_if = #{tkIf,jdbcType=INTEGER},
+      </if>
+      <if test="zhihang != null" >
+        zhihang = #{zhihang,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.Bank" >
+    update pay_bank
+    set UserID = #{userid,jdbcType=INTEGER},
+      BankName = #{bankname,jdbcType=VARCHAR},
+      BankBranch = #{bankbranch,jdbcType=VARCHAR},
+      BankAccountNumber = #{bankaccountnumber,jdbcType=VARCHAR},
+      BankCompellation = #{bankcompellation,jdbcType=VARCHAR},
+      moren = #{moren,jdbcType=INTEGER},
+      banktype = #{banktype,jdbcType=INTEGER},
+      tk_money = #{tkMoney,jdbcType=DECIMAL},
+      sxf_money = #{sxfMoney,jdbcType=DOUBLE},
+      sj_money = #{sjMoney,jdbcType=DECIMAL},
+      T = #{t,jdbcType=INTEGER},
+      tk_if = #{tkIf,jdbcType=INTEGER},
+      zhihang = #{zhihang,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

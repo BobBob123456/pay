@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.UserDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="UserName" property="username" jdbcType="VARCHAR" />
+    <result column="LoginPassWord" property="loginpassword" jdbcType="VARCHAR" />
+    <result column="UserType" property="usertype" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="RegDate" property="regdate" jdbcType="TIMESTAMP" />
+    <result column="activate" property="activate" jdbcType="VARCHAR" />
+    <result column="mbk" property="mbk" jdbcType="INTEGER" />
+    <result column="SjUserID" property="sjuserid" jdbcType="INTEGER" />
+    <result column="gmwttk" property="gmwttk" jdbcType="INTEGER" />
+    <result column="mypayurlname" property="mypayurlname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, UserName, LoginPassWord, UserType, status, RegDate, activate, mbk, SjUserID, 
+    gmwttk, mypayurlname
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getCount" statementType="PREPARED" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM pay_user
+ </select>
+ <!-- 获得下级用户的数量 -->
+ <select id="getOwnerUserCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+	select count(*) from pay_user 
+    where SjUserID= #{sjuserid,jdbcType=INTEGER} 
+ </select>
+  <!-- 获得下级用户的userid-->
+<select id="getXjUserId" resultType="java.lang.String" parameterType="java.util.Map" >
+    select group_concat(id) as uid from pay_user 
+    where SjUserID= #{sjuserid,jdbcType=INTEGER} 
+</select>
+ 
+ <!-- 获得下级用户的列表-->
+<select id="getOwnerUserList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_user
+    where 
+    SjUserID= #{sjuserid,jdbcType=INTEGER} 
+</select>
+  
+  <select id="selectByUserName" resultMap="BaseResultMap"  parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_user  where userName = #{userName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.User" >
+    insert into pay_user (id, UserName, LoginPassWord, 
+      UserType, status, RegDate, 
+      activate, mbk, SjUserID, 
+      gmwttk, mypayurlname)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{loginpassword,jdbcType=VARCHAR}, 
+      #{usertype,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{regdate,jdbcType=TIMESTAMP}, 
+      #{activate,jdbcType=VARCHAR}, #{mbk,jdbcType=INTEGER}, #{sjuserid,jdbcType=INTEGER}, 
+      #{gmwttk,jdbcType=INTEGER}, #{mypayurlname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.User" >
+    insert into pay_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        UserName,
+      </if>
+      <if test="loginpassword != null" >
+        LoginPassWord,
+      </if>
+      <if test="usertype != null" >
+        UserType,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="regdate != null" >
+        RegDate,
+      </if>
+      <if test="activate != null" >
+        activate,
+      </if>
+      <if test="mbk != null" >
+        mbk,
+      </if>
+      <if test="sjuserid != null" >
+        SjUserID,
+      </if>
+      <if test="gmwttk != null" >
+        gmwttk,
+      </if>
+      <if test="mypayurlname != null" >
+        mypayurlname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="loginpassword != null" >
+        #{loginpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="usertype != null" >
+        #{usertype,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="regdate != null" >
+        #{regdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activate != null" >
+        #{activate,jdbcType=VARCHAR},
+      </if>
+      <if test="mbk != null" >
+        #{mbk,jdbcType=INTEGER},
+      </if>
+      <if test="sjuserid != null" >
+        #{sjuserid,jdbcType=INTEGER},
+      </if>
+      <if test="gmwttk != null" >
+        #{gmwttk,jdbcType=INTEGER},
+      </if>
+      <if test="mypayurlname != null" >
+        #{mypayurlname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="com.pay.pojo.User" >
+    update pay_user
+    <set >
+      <if test="username != null" >
+        UserName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="loginpassword != null" >
+        LoginPassWord = #{loginpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="usertype != null" >
+        UserType = #{usertype,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="regdate != null" >
+        RegDate = #{regdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activate != null" >
+        activate = #{activate,jdbcType=VARCHAR},
+      </if>
+      <if test="mbk != null" >
+        mbk = #{mbk,jdbcType=INTEGER},
+      </if>
+      <if test="sjuserid != null" >
+        SjUserID = #{sjuserid,jdbcType=INTEGER},
+      </if>
+      <if test="gmwttk != null" >
+        gmwttk = #{gmwttk,jdbcType=INTEGER},
+      </if>
+      <if test="mypayurlname != null" >
+        mypayurlname = #{mypayurlname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.User" >
+    update pay_user
+    set UserName = #{username,jdbcType=VARCHAR},
+      LoginPassWord = #{loginpassword,jdbcType=VARCHAR},
+      UserType = #{usertype,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      RegDate = #{regdate,jdbcType=TIMESTAMP},
+      activate = #{activate,jdbcType=VARCHAR},
+      mbk = #{mbk,jdbcType=INTEGER},
+      SjUserID = #{sjuserid,jdbcType=INTEGER},
+      gmwttk = #{gmwttk,jdbcType=INTEGER},
+      mypayurlname = #{mypayurlname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

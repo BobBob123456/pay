@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.OrderTzDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.OrderTz" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="Sjt_MerchantID" property="sjtMerchantid" jdbcType="VARCHAR" />
+    <result column="Sjt_UserName" property="sjtUsername" jdbcType="VARCHAR" />
+    <result column="Sjt_TransID" property="sjtTransid" jdbcType="VARCHAR" />
+    <result column="Sjt_Return" property="sjtReturn" jdbcType="VARCHAR" />
+    <result column="Sjt_Error" property="sjtError" jdbcType="VARCHAR" />
+    <result column="Sjt_factMoney" property="sjtFactmoney" jdbcType="DECIMAL" />
+    <result column="Sjt_SuccTime" property="sjtSucctime" jdbcType="VARCHAR" />
+    <result column="Sjt_Sign" property="sjtSign" jdbcType="VARCHAR" />
+    <result column="Sjt_urlname" property="sjtUrlname" jdbcType="VARCHAR" />
+    <result column="Sjt_num" property="sjtNum" jdbcType="INTEGER" />
+    <result column="success" property="success" jdbcType="INTEGER" />
+    <result column="Diaodang" property="diaodang" jdbcType="INTEGER" />
+    <result column="datetime" property="datetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, Sjt_MerchantID, Sjt_UserName, Sjt_TransID, Sjt_Return, Sjt_Error, Sjt_factMoney, 
+    Sjt_SuccTime, Sjt_Sign, Sjt_urlname, Sjt_num, success, Diaodang, datetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_ordertz
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_ordertz
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.OrderTz" >
+    insert into pay_ordertz (id, Sjt_MerchantID, Sjt_UserName, 
+      Sjt_TransID, Sjt_Return, Sjt_Error, 
+      Sjt_factMoney, Sjt_SuccTime, Sjt_Sign, 
+      Sjt_urlname, Sjt_num, success, 
+      Diaodang, datetime)
+    values (#{id,jdbcType=INTEGER}, #{sjtMerchantid,jdbcType=VARCHAR}, #{sjtUsername,jdbcType=VARCHAR}, 
+      #{sjtTransid,jdbcType=VARCHAR}, #{sjtReturn,jdbcType=VARCHAR}, #{sjtError,jdbcType=VARCHAR}, 
+      #{sjtFactmoney,jdbcType=DECIMAL}, #{sjtSucctime,jdbcType=VARCHAR}, #{sjtSign,jdbcType=VARCHAR}, 
+      #{sjtUrlname,jdbcType=VARCHAR}, #{sjtNum,jdbcType=INTEGER}, #{success,jdbcType=INTEGER}, 
+      #{diaodang,jdbcType=INTEGER}, #{datetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.OrderTz" >
+    insert into pay_ordertz
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sjtMerchantid != null" >
+        Sjt_MerchantID,
+      </if>
+      <if test="sjtUsername != null" >
+        Sjt_UserName,
+      </if>
+      <if test="sjtTransid != null" >
+        Sjt_TransID,
+      </if>
+      <if test="sjtReturn != null" >
+        Sjt_Return,
+      </if>
+      <if test="sjtError != null" >
+        Sjt_Error,
+      </if>
+      <if test="sjtFactmoney != null" >
+        Sjt_factMoney,
+      </if>
+      <if test="sjtSucctime != null" >
+        Sjt_SuccTime,
+      </if>
+      <if test="sjtSign != null" >
+        Sjt_Sign,
+      </if>
+      <if test="sjtUrlname != null" >
+        Sjt_urlname,
+      </if>
+      <if test="sjtNum != null" >
+        Sjt_num,
+      </if>
+      <if test="success != null" >
+        success,
+      </if>
+      <if test="diaodang != null" >
+        Diaodang,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sjtMerchantid != null" >
+        #{sjtMerchantid,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtUsername != null" >
+        #{sjtUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtTransid != null" >
+        #{sjtTransid,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtReturn != null" >
+        #{sjtReturn,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtError != null" >
+        #{sjtError,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtFactmoney != null" >
+        #{sjtFactmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sjtSucctime != null" >
+        #{sjtSucctime,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtSign != null" >
+        #{sjtSign,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtUrlname != null" >
+        #{sjtUrlname,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtNum != null" >
+        #{sjtNum,jdbcType=INTEGER},
+      </if>
+      <if test="success != null" >
+        #{success,jdbcType=INTEGER},
+      </if>
+      <if test="diaodang != null" >
+        #{diaodang,jdbcType=INTEGER},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.OrderTz" >
+    update pay_ordertz
+    <set >
+      <if test="sjtMerchantid != null" >
+        Sjt_MerchantID = #{sjtMerchantid,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtUsername != null" >
+        Sjt_UserName = #{sjtUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtTransid != null" >
+        Sjt_TransID = #{sjtTransid,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtReturn != null" >
+        Sjt_Return = #{sjtReturn,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtError != null" >
+        Sjt_Error = #{sjtError,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtFactmoney != null" >
+        Sjt_factMoney = #{sjtFactmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sjtSucctime != null" >
+        Sjt_SuccTime = #{sjtSucctime,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtSign != null" >
+        Sjt_Sign = #{sjtSign,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtUrlname != null" >
+        Sjt_urlname = #{sjtUrlname,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtNum != null" >
+        Sjt_num = #{sjtNum,jdbcType=INTEGER},
+      </if>
+      <if test="success != null" >
+        success = #{success,jdbcType=INTEGER},
+      </if>
+      <if test="diaodang != null" >
+        Diaodang = #{diaodang,jdbcType=INTEGER},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.OrderTz" >
+    update pay_ordertz
+    set Sjt_MerchantID = #{sjtMerchantid,jdbcType=VARCHAR},
+      Sjt_UserName = #{sjtUsername,jdbcType=VARCHAR},
+      Sjt_TransID = #{sjtTransid,jdbcType=VARCHAR},
+      Sjt_Return = #{sjtReturn,jdbcType=VARCHAR},
+      Sjt_Error = #{sjtError,jdbcType=VARCHAR},
+      Sjt_factMoney = #{sjtFactmoney,jdbcType=DECIMAL},
+      Sjt_SuccTime = #{sjtSucctime,jdbcType=VARCHAR},
+      Sjt_Sign = #{sjtSign,jdbcType=VARCHAR},
+      Sjt_urlname = #{sjtUrlname,jdbcType=VARCHAR},
+      Sjt_num = #{sjtNum,jdbcType=INTEGER},
+      success = #{success,jdbcType=INTEGER},
+      Diaodang = #{diaodang,jdbcType=INTEGER},
+      datetime = #{datetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

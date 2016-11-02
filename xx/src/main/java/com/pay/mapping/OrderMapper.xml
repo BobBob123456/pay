@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.OrderDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.Order" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="TransID" property="transid" jdbcType="VARCHAR" />
+    <result column="TradeDate" property="tradedate" jdbcType="TIMESTAMP" />
+    <result column="trademoney" property="trademoney" jdbcType="DECIMAL" />
+    <result column="sxfmoney" property="sxfmoney" jdbcType="DECIMAL" />
+    <result column="sjflmoney" property="sjflmoney" jdbcType="DECIMAL" />
+    <result column="OrderMoney" property="ordermoney" jdbcType="DECIMAL" />
+    <result column="ProductName" property="productname" jdbcType="VARCHAR" />
+    <result column="Amount" property="amount" jdbcType="INTEGER" />
+    <result column="Username" property="username" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="Mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="Zt" property="zt" jdbcType="INTEGER" />
+    <result column="Sjt_Merchant_url" property="sjtMerchantUrl" jdbcType="VARCHAR" />
+    <result column="Sjt_Return_url" property="sjtReturnUrl" jdbcType="VARCHAR" />
+    <result column="tjurl" property="tjurl" jdbcType="VARCHAR" />
+    <result column="CardNO" property="cardno" jdbcType="VARCHAR" />
+    <result column="CardPWD" property="cardpwd" jdbcType="VARCHAR" />
+    <result column="typepay" property="typepay" jdbcType="INTEGER" />
+    <result column="tongdao" property="tongdao" jdbcType="VARCHAR" />
+    <result column="bankname" property="bankname" jdbcType="VARCHAR" />
+    <result column="payname" property="payname" jdbcType="VARCHAR" />
+    <result column="fhlx" property="fhlx" jdbcType="VARCHAR" />
+    <result column="ewmimg" property="ewmimg" jdbcType="VARCHAR" />
+    <result column="tbhdurl" property="tbhdurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.pay.pojo.Order" extends="BaseResultMap" >
+    <result column="AdditionalInfo" property="additionalinfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, UserID, TransID, TradeDate, trademoney, sxfmoney, sjflmoney, OrderMoney, ProductName, 
+    Amount, Username, Email, Mobile, Zt, Sjt_Merchant_url, Sjt_Return_url, tjurl, CardNO, 
+    CardPWD, typepay, tongdao, bankname, payname, fhlx, ewmimg, tbhdurl
+  </sql>
+  <sql id="Blob_Column_List" >
+    AdditionalInfo
+  </sql>
+  <select id="getDayOrder"  resultType="float" parameterType="java.util.Map" >
+   select count(*)  from pay_order where 
+   UserID= #{userId,jdbcType=INTEGER}
+   and DATEDIFF(#{tradeDate,jdbcType=TIMESTAMP},TradeDate)=0 and Zt=1
+  </select>
+  <select id="getDayMoney"  resultType="float" parameterType="java.util.Map" >
+   select SUM(trademoney)  from pay_order where 
+   UserID= #{userId,jdbcType=INTEGER}
+   and DATEDIFF(#{tradeDate,jdbcType=TIMESTAMP},TradeDate)=0 and Zt=1
+  </select>
+  <!-- 成功笔数 -->
+   <select id="getSuccessCount"  resultType="float"  parameterType="java.util.Map" >
+   select count(*)  from pay_order where 
+   UserID= #{userId,jdbcType=INTEGER} and TradeDate &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   and TradeDate &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+   and (typepay = 0 or typepay = 1)
+   and Zt=1
+   <if test="status !=null and  status != ''" >
+        and Zt=#{status,jdbcType=INTEGER}
+   </if>
+   <if test="order_number !=null and order_number != ''" >
+        and TransID=#{order_number,jdbcType=VARCHAR}
+   </if>
+  </select>
+  
+  <select id="getSuccessMoney"  resultType="float"  parameterType="java.util.Map" >
+   select sum(trademoney)  from pay_order where 
+   UserID= #{userId,jdbcType=INTEGER} and TradeDate &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   and TradeDate &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+   and (typepay = 0 or typepay = 1)
+   and Zt=1
+   <if test="status !=null and  status != ''" >
+        and Zt=#{status,jdbcType=INTEGER}
+   </if>
+   <if test="order_number !=null and order_number != ''" >
+        and TransID=#{order_number,jdbcType=VARCHAR}
+   </if>
+  </select>
+  
+  <select id="getCount"  resultType="Integer"  parameterType="java.util.Map" >
+   select count(*)  from pay_order where 
+   UserID= #{userId,jdbcType=INTEGER} and TradeDate &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   and TradeDate &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+   and (typepay = 0 or typepay = 1)
+   <if test="status !=null and  status != ''" >
+        and Zt=#{status,jdbcType=INTEGER}
+   </if>
+   <if test="order_number !=null and order_number != ''" >
+        and TransID=#{order_number,jdbcType=VARCHAR}
+   </if>
+  </select>
+  
+  <select id="getList" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pay_order
+    where 
+    UserID= #{userId,jdbcType=INTEGER} and TradeDate &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   and TradeDate &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+    and (typepay = 0 or typepay = 1)
+    <if test="status !=null and  status != ''" >
+        and Zt=#{status,jdbcType=INTEGER}
+   </if>
+   <if test="order_number !=null and order_number != ''" >
+        and TransID=#{order_number,jdbcType=VARCHAR}
+   </if>
+    order by TradeDate desc
+  </select>
+  
+
+  
+  <select id="getPtCount"  resultType="Integer"  parameterType="java.util.Map" >
+   select count(*)  from pay_order where 
+   ( Username = #{userId,jdbcType=INTEGER}
+    and typepay =5)and Zt=1
+
+  </select>
+  
+  <select id="getPtList" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pay_order
+    where (Username = #{userId,jdbcType=INTEGER}
+    and typepay =5)and Zt=1
+    order by TradeDate desc
+  </select>
+  
+   <select id="getPtSettlementCount"  resultType="Integer"  parameterType="java.util.Map" >
+   select count(*)  from pay_order where 
+   (UserID= #{userId,jdbcType=INTEGER} 
+    and typepay =5)and Zt=1
+
+  </select>
+  
+  <select id="getPtSettlementList" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pay_order
+    where (UserID= #{userId,jdbcType=INTEGER} 
+    and typepay =5)and Zt=1
+    order by TradeDate desc
+  </select>
+
+
+  <select id="getXjOrderCount"  resultType="Integer"  parameterType="java.util.Map" >
+   select count(*)  from pay_order where 
+   UserID in (#{userId,jdbcType=INTEGER}) and (typepay = 0 or typepay = 1)
+
+  </select>
+  
+  <select id="getXjOrders" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pay_order
+    where 
+    UserID in (#{userId,jdbcType=INTEGER}) and (typepay = 0 or typepay = 1)
+    order by TradeDate desc
+  </select>	
+
+  
+  <select id="getRecentOrder" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pay_order
+    where (UserID = #{userId,jdbcType=INTEGER} or 
+    (Username =#{userId,jdbcType=INTEGER}  and typepay=5))
+    and Zt=1 order by TradeDate desc
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.Order" >
+    insert into pay_order (id, UserID, TransID, 
+      TradeDate, trademoney, sxfmoney, 
+      sjflmoney, OrderMoney, ProductName, 
+      Amount, Username, Email, 
+      Mobile, Zt, Sjt_Merchant_url, 
+      Sjt_Return_url, tjurl, CardNO, 
+      CardPWD, typepay, tongdao, 
+      bankname, payname, fhlx, 
+      ewmimg, tbhdurl, AdditionalInfo
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{transid,jdbcType=VARCHAR}, 
+      #{tradedate,jdbcType=TIMESTAMP}, #{trademoney,jdbcType=DECIMAL}, #{sxfmoney,jdbcType=DECIMAL}, 
+      #{sjflmoney,jdbcType=DECIMAL}, #{ordermoney,jdbcType=DECIMAL}, #{productname,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{zt,jdbcType=INTEGER}, #{sjtMerchantUrl,jdbcType=VARCHAR}, 
+      #{sjtReturnUrl,jdbcType=VARCHAR}, #{tjurl,jdbcType=VARCHAR}, #{cardno,jdbcType=VARCHAR}, 
+      #{cardpwd,jdbcType=VARCHAR}, #{typepay,jdbcType=INTEGER}, #{tongdao,jdbcType=VARCHAR}, 
+      #{bankname,jdbcType=VARCHAR}, #{payname,jdbcType=VARCHAR}, #{fhlx,jdbcType=VARCHAR}, 
+      #{ewmimg,jdbcType=VARCHAR}, #{tbhdurl,jdbcType=VARCHAR}, #{additionalinfo,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.Order" >
+    insert into pay_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="transid != null" >
+        TransID,
+      </if>
+      <if test="tradedate != null" >
+        TradeDate,
+      </if>
+      <if test="trademoney != null" >
+        trademoney,
+      </if>
+      <if test="sxfmoney != null" >
+        sxfmoney,
+      </if>
+      <if test="sjflmoney != null" >
+        sjflmoney,
+      </if>
+      <if test="ordermoney != null" >
+        OrderMoney,
+      </if>
+      <if test="productname != null" >
+        ProductName,
+      </if>
+      <if test="amount != null" >
+        Amount,
+      </if>
+      <if test="username != null" >
+        Username,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="mobile != null" >
+        Mobile,
+      </if>
+      <if test="zt != null" >
+        Zt,
+      </if>
+      <if test="sjtMerchantUrl != null" >
+        Sjt_Merchant_url,
+      </if>
+      <if test="sjtReturnUrl != null" >
+        Sjt_Return_url,
+      </if>
+      <if test="tjurl != null" >
+        tjurl,
+      </if>
+      <if test="cardno != null" >
+        CardNO,
+      </if>
+      <if test="cardpwd != null" >
+        CardPWD,
+      </if>
+      <if test="typepay != null" >
+        typepay,
+      </if>
+      <if test="tongdao != null" >
+        tongdao,
+      </if>
+      <if test="bankname != null" >
+        bankname,
+      </if>
+      <if test="payname != null" >
+        payname,
+      </if>
+      <if test="fhlx != null" >
+        fhlx,
+      </if>
+      <if test="ewmimg != null" >
+        ewmimg,
+      </if>
+      <if test="tbhdurl != null" >
+        tbhdurl,
+      </if>
+      <if test="additionalinfo != null" >
+        AdditionalInfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="transid != null" >
+        #{transid,jdbcType=VARCHAR},
+      </if>
+      <if test="tradedate != null" >
+        #{tradedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trademoney != null" >
+        #{trademoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sxfmoney != null" >
+        #{sxfmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sjflmoney != null" >
+        #{sjflmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="ordermoney != null" >
+        #{ordermoney,jdbcType=DECIMAL},
+      </if>
+      <if test="productname != null" >
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="zt != null" >
+        #{zt,jdbcType=INTEGER},
+      </if>
+      <if test="sjtMerchantUrl != null" >
+        #{sjtMerchantUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtReturnUrl != null" >
+        #{sjtReturnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="tjurl != null" >
+        #{tjurl,jdbcType=VARCHAR},
+      </if>
+      <if test="cardno != null" >
+        #{cardno,jdbcType=VARCHAR},
+      </if>
+      <if test="cardpwd != null" >
+        #{cardpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="typepay != null" >
+        #{typepay,jdbcType=INTEGER},
+      </if>
+      <if test="tongdao != null" >
+        #{tongdao,jdbcType=VARCHAR},
+      </if>
+      <if test="bankname != null" >
+        #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="payname != null" >
+        #{payname,jdbcType=VARCHAR},
+      </if>
+      <if test="fhlx != null" >
+        #{fhlx,jdbcType=VARCHAR},
+      </if>
+      <if test="ewmimg != null" >
+        #{ewmimg,jdbcType=VARCHAR},
+      </if>
+      <if test="tbhdurl != null" >
+        #{tbhdurl,jdbcType=VARCHAR},
+      </if>
+      <if test="additionalinfo != null" >
+        #{additionalinfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.Order" >
+    update pay_order
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="transid != null" >
+        TransID = #{transid,jdbcType=VARCHAR},
+      </if>
+      <if test="tradedate != null" >
+        TradeDate = #{tradedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trademoney != null" >
+        trademoney = #{trademoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sxfmoney != null" >
+        sxfmoney = #{sxfmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sjflmoney != null" >
+        sjflmoney = #{sjflmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="ordermoney != null" >
+        OrderMoney = #{ordermoney,jdbcType=DECIMAL},
+      </if>
+      <if test="productname != null" >
+        ProductName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        Amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        Username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        Mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="zt != null" >
+        Zt = #{zt,jdbcType=INTEGER},
+      </if>
+      <if test="sjtMerchantUrl != null" >
+        Sjt_Merchant_url = #{sjtMerchantUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sjtReturnUrl != null" >
+        Sjt_Return_url = #{sjtReturnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="tjurl != null" >
+        tjurl = #{tjurl,jdbcType=VARCHAR},
+      </if>
+      <if test="cardno != null" >
+        CardNO = #{cardno,jdbcType=VARCHAR},
+      </if>
+      <if test="cardpwd != null" >
+        CardPWD = #{cardpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="typepay != null" >
+        typepay = #{typepay,jdbcType=INTEGER},
+      </if>
+      <if test="tongdao != null" >
+        tongdao = #{tongdao,jdbcType=VARCHAR},
+      </if>
+      <if test="bankname != null" >
+        bankname = #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="payname != null" >
+        payname = #{payname,jdbcType=VARCHAR},
+      </if>
+      <if test="fhlx != null" >
+        fhlx = #{fhlx,jdbcType=VARCHAR},
+      </if>
+      <if test="ewmimg != null" >
+        ewmimg = #{ewmimg,jdbcType=VARCHAR},
+      </if>
+      <if test="tbhdurl != null" >
+        tbhdurl = #{tbhdurl,jdbcType=VARCHAR},
+      </if>
+      <if test="additionalinfo != null" >
+        AdditionalInfo = #{additionalinfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pay.pojo.Order" >
+    update pay_order
+    set UserID = #{userid,jdbcType=INTEGER},
+      TransID = #{transid,jdbcType=VARCHAR},
+      TradeDate = #{tradedate,jdbcType=TIMESTAMP},
+      trademoney = #{trademoney,jdbcType=DECIMAL},
+      sxfmoney = #{sxfmoney,jdbcType=DECIMAL},
+      sjflmoney = #{sjflmoney,jdbcType=DECIMAL},
+      OrderMoney = #{ordermoney,jdbcType=DECIMAL},
+      ProductName = #{productname,jdbcType=VARCHAR},
+      Amount = #{amount,jdbcType=INTEGER},
+      Username = #{username,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      Mobile = #{mobile,jdbcType=VARCHAR},
+      Zt = #{zt,jdbcType=INTEGER},
+      Sjt_Merchant_url = #{sjtMerchantUrl,jdbcType=VARCHAR},
+      Sjt_Return_url = #{sjtReturnUrl,jdbcType=VARCHAR},
+      tjurl = #{tjurl,jdbcType=VARCHAR},
+      CardNO = #{cardno,jdbcType=VARCHAR},
+      CardPWD = #{cardpwd,jdbcType=VARCHAR},
+      typepay = #{typepay,jdbcType=INTEGER},
+      tongdao = #{tongdao,jdbcType=VARCHAR},
+      bankname = #{bankname,jdbcType=VARCHAR},
+      payname = #{payname,jdbcType=VARCHAR},
+      fhlx = #{fhlx,jdbcType=VARCHAR},
+      ewmimg = #{ewmimg,jdbcType=VARCHAR},
+      tbhdurl = #{tbhdurl,jdbcType=VARCHAR},
+      AdditionalInfo = #{additionalinfo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.Order" >
+    update pay_order
+    set UserID = #{userid,jdbcType=INTEGER},
+      TransID = #{transid,jdbcType=VARCHAR},
+      TradeDate = #{tradedate,jdbcType=TIMESTAMP},
+      trademoney = #{trademoney,jdbcType=DECIMAL},
+      sxfmoney = #{sxfmoney,jdbcType=DECIMAL},
+      sjflmoney = #{sjflmoney,jdbcType=DECIMAL},
+      OrderMoney = #{ordermoney,jdbcType=DECIMAL},
+      ProductName = #{productname,jdbcType=VARCHAR},
+      Amount = #{amount,jdbcType=INTEGER},
+      Username = #{username,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      Mobile = #{mobile,jdbcType=VARCHAR},
+      Zt = #{zt,jdbcType=INTEGER},
+      Sjt_Merchant_url = #{sjtMerchantUrl,jdbcType=VARCHAR},
+      Sjt_Return_url = #{sjtReturnUrl,jdbcType=VARCHAR},
+      tjurl = #{tjurl,jdbcType=VARCHAR},
+      CardNO = #{cardno,jdbcType=VARCHAR},
+      CardPWD = #{cardpwd,jdbcType=VARCHAR},
+      typepay = #{typepay,jdbcType=INTEGER},
+      tongdao = #{tongdao,jdbcType=VARCHAR},
+      bankname = #{bankname,jdbcType=VARCHAR},
+      payname = #{payname,jdbcType=VARCHAR},
+      fhlx = #{fhlx,jdbcType=VARCHAR},
+      ewmimg = #{ewmimg,jdbcType=VARCHAR},
+      tbhdurl = #{tbhdurl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

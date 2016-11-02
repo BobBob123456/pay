@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.TkConfigDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.TkConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="sz" property="sz" jdbcType="INTEGER" />
+    <result column="minmoney" property="minmoney" jdbcType="DECIMAL" />
+    <result column="maxmoney" property="maxmoney" jdbcType="DECIMAL" />
+    <result column="dbsxmoney" property="dbsxmoney" jdbcType="DECIMAL" />
+    <result column="mtsxmoney" property="mtsxmoney" jdbcType="DECIMAL" />
+    <result column="mttkcs" property="mttkcs" jdbcType="INTEGER" />
+    <result column="wtyh" property="wtyh" jdbcType="INTEGER" />
+    <result column="tksz" property="tksz" jdbcType="INTEGER" />
+    <result column="wttksz" property="wttksz" jdbcType="INTEGER" />
+    <result column="tjlnf" property="tjlnf" jdbcType="DECIMAL" />
+    <result column="zdtknf" property="zdtknf" jdbcType="DECIMAL" />
+    <result column="wtplxfnf" property="wtplxfnf" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, UserID, sz, minmoney, maxmoney, dbsxmoney, mtsxmoney, mttkcs, wtyh, tksz, wttksz, 
+    tjlnf, zdtknf, wtplxfnf
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_tkconfig
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_tkconfig
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.TkConfig" >
+    insert into pay_tkconfig (id, UserID, sz, 
+      minmoney, maxmoney, dbsxmoney, 
+      mtsxmoney, mttkcs, wtyh, 
+      tksz, wttksz, tjlnf, 
+      zdtknf, wtplxfnf)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{sz,jdbcType=INTEGER}, 
+      #{minmoney,jdbcType=DECIMAL}, #{maxmoney,jdbcType=DECIMAL}, #{dbsxmoney,jdbcType=DECIMAL}, 
+      #{mtsxmoney,jdbcType=DECIMAL}, #{mttkcs,jdbcType=INTEGER}, #{wtyh,jdbcType=INTEGER}, 
+      #{tksz,jdbcType=INTEGER}, #{wttksz,jdbcType=INTEGER}, #{tjlnf,jdbcType=DECIMAL}, 
+      #{zdtknf,jdbcType=DECIMAL}, #{wtplxfnf,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.TkConfig" >
+    insert into pay_tkconfig
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="sz != null" >
+        sz,
+      </if>
+      <if test="minmoney != null" >
+        minmoney,
+      </if>
+      <if test="maxmoney != null" >
+        maxmoney,
+      </if>
+      <if test="dbsxmoney != null" >
+        dbsxmoney,
+      </if>
+      <if test="mtsxmoney != null" >
+        mtsxmoney,
+      </if>
+      <if test="mttkcs != null" >
+        mttkcs,
+      </if>
+      <if test="wtyh != null" >
+        wtyh,
+      </if>
+      <if test="tksz != null" >
+        tksz,
+      </if>
+      <if test="wttksz != null" >
+        wttksz,
+      </if>
+      <if test="tjlnf != null" >
+        tjlnf,
+      </if>
+      <if test="zdtknf != null" >
+        zdtknf,
+      </if>
+      <if test="wtplxfnf != null" >
+        wtplxfnf,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="sz != null" >
+        #{sz,jdbcType=INTEGER},
+      </if>
+      <if test="minmoney != null" >
+        #{minmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="maxmoney != null" >
+        #{maxmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="dbsxmoney != null" >
+        #{dbsxmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="mtsxmoney != null" >
+        #{mtsxmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="mttkcs != null" >
+        #{mttkcs,jdbcType=INTEGER},
+      </if>
+      <if test="wtyh != null" >
+        #{wtyh,jdbcType=INTEGER},
+      </if>
+      <if test="tksz != null" >
+        #{tksz,jdbcType=INTEGER},
+      </if>
+      <if test="wttksz != null" >
+        #{wttksz,jdbcType=INTEGER},
+      </if>
+      <if test="tjlnf != null" >
+        #{tjlnf,jdbcType=DECIMAL},
+      </if>
+      <if test="zdtknf != null" >
+        #{zdtknf,jdbcType=DECIMAL},
+      </if>
+      <if test="wtplxfnf != null" >
+        #{wtplxfnf,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.TkConfig" >
+    update pay_tkconfig
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="sz != null" >
+        sz = #{sz,jdbcType=INTEGER},
+      </if>
+      <if test="minmoney != null" >
+        minmoney = #{minmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="maxmoney != null" >
+        maxmoney = #{maxmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="dbsxmoney != null" >
+        dbsxmoney = #{dbsxmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="mtsxmoney != null" >
+        mtsxmoney = #{mtsxmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="mttkcs != null" >
+        mttkcs = #{mttkcs,jdbcType=INTEGER},
+      </if>
+      <if test="wtyh != null" >
+        wtyh = #{wtyh,jdbcType=INTEGER},
+      </if>
+      <if test="tksz != null" >
+        tksz = #{tksz,jdbcType=INTEGER},
+      </if>
+      <if test="wttksz != null" >
+        wttksz = #{wttksz,jdbcType=INTEGER},
+      </if>
+      <if test="tjlnf != null" >
+        tjlnf = #{tjlnf,jdbcType=DECIMAL},
+      </if>
+      <if test="zdtknf != null" >
+        zdtknf = #{zdtknf,jdbcType=DECIMAL},
+      </if>
+      <if test="wtplxfnf != null" >
+        wtplxfnf = #{wtplxfnf,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.TkConfig" >
+    update pay_tkconfig
+    set UserID = #{userid,jdbcType=INTEGER},
+      sz = #{sz,jdbcType=INTEGER},
+      minmoney = #{minmoney,jdbcType=DECIMAL},
+      maxmoney = #{maxmoney,jdbcType=DECIMAL},
+      dbsxmoney = #{dbsxmoney,jdbcType=DECIMAL},
+      mtsxmoney = #{mtsxmoney,jdbcType=DECIMAL},
+      mttkcs = #{mttkcs,jdbcType=INTEGER},
+      wtyh = #{wtyh,jdbcType=INTEGER},
+      tksz = #{tksz,jdbcType=INTEGER},
+      wttksz = #{wttksz,jdbcType=INTEGER},
+      tjlnf = #{tjlnf,jdbcType=DECIMAL},
+      zdtknf = #{zdtknf,jdbcType=DECIMAL},
+      wtplxfnf = #{wtplxfnf,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

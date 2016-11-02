@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.SystemDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.System" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="DefaultBank" property="defaultbank" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="Diaodan_OnOff" property="diaodanOnoff" jdbcType="INTEGER" />
+    <result column="Diaodan_Kdate" property="diaodanKdate" jdbcType="INTEGER" />
+    <result column="Diaodan_Sdate" property="diaodanSdate" jdbcType="INTEGER" />
+    <result column="Diaodan_Kmoney" property="diaodanKmoney" jdbcType="DECIMAL" />
+    <result column="Diaodan_Smoney" property="diaodanSmoney" jdbcType="DECIMAL" />
+    <result column="Diaodan_Pinlv" property="diaodanPinlv" jdbcType="INTEGER" />
+    <result column="Diaodan_Type" property="diaodanType" jdbcType="INTEGER" />
+    <result column="Diaodan_huifu" property="diaodanHuifu" jdbcType="INTEGER" />
+    <result column="Diaodan_User_OnOff" property="diaodanUserOnoff" jdbcType="INTEGER" />
+    <result column="ddpl" property="ddpl" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, DefaultBank, UserID, Diaodan_OnOff, Diaodan_Kdate, Diaodan_Sdate, Diaodan_Kmoney, 
+    Diaodan_Smoney, Diaodan_Pinlv, Diaodan_Type, Diaodan_huifu, Diaodan_User_OnOff, ddpl
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_system
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_system
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.System" >
+    insert into pay_system (id, DefaultBank, UserID, 
+      Diaodan_OnOff, Diaodan_Kdate, Diaodan_Sdate, 
+      Diaodan_Kmoney, Diaodan_Smoney, Diaodan_Pinlv, 
+      Diaodan_Type, Diaodan_huifu, Diaodan_User_OnOff, 
+      ddpl)
+    values (#{id,jdbcType=INTEGER}, #{defaultbank,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
+      #{diaodanOnoff,jdbcType=INTEGER}, #{diaodanKdate,jdbcType=INTEGER}, #{diaodanSdate,jdbcType=INTEGER}, 
+      #{diaodanKmoney,jdbcType=DECIMAL}, #{diaodanSmoney,jdbcType=DECIMAL}, #{diaodanPinlv,jdbcType=INTEGER}, 
+      #{diaodanType,jdbcType=INTEGER}, #{diaodanHuifu,jdbcType=INTEGER}, #{diaodanUserOnoff,jdbcType=INTEGER}, 
+      #{ddpl,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.System" >
+    insert into pay_system
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="defaultbank != null" >
+        DefaultBank,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="diaodanOnoff != null" >
+        Diaodan_OnOff,
+      </if>
+      <if test="diaodanKdate != null" >
+        Diaodan_Kdate,
+      </if>
+      <if test="diaodanSdate != null" >
+        Diaodan_Sdate,
+      </if>
+      <if test="diaodanKmoney != null" >
+        Diaodan_Kmoney,
+      </if>
+      <if test="diaodanSmoney != null" >
+        Diaodan_Smoney,
+      </if>
+      <if test="diaodanPinlv != null" >
+        Diaodan_Pinlv,
+      </if>
+      <if test="diaodanType != null" >
+        Diaodan_Type,
+      </if>
+      <if test="diaodanHuifu != null" >
+        Diaodan_huifu,
+      </if>
+      <if test="diaodanUserOnoff != null" >
+        Diaodan_User_OnOff,
+      </if>
+      <if test="ddpl != null" >
+        ddpl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="defaultbank != null" >
+        #{defaultbank,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanOnoff != null" >
+        #{diaodanOnoff,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanKdate != null" >
+        #{diaodanKdate,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanSdate != null" >
+        #{diaodanSdate,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanKmoney != null" >
+        #{diaodanKmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="diaodanSmoney != null" >
+        #{diaodanSmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="diaodanPinlv != null" >
+        #{diaodanPinlv,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanType != null" >
+        #{diaodanType,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanHuifu != null" >
+        #{diaodanHuifu,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanUserOnoff != null" >
+        #{diaodanUserOnoff,jdbcType=INTEGER},
+      </if>
+      <if test="ddpl != null" >
+        #{ddpl,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.System" >
+    update pay_system
+    <set >
+      <if test="defaultbank != null" >
+        DefaultBank = #{defaultbank,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanOnoff != null" >
+        Diaodan_OnOff = #{diaodanOnoff,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanKdate != null" >
+        Diaodan_Kdate = #{diaodanKdate,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanSdate != null" >
+        Diaodan_Sdate = #{diaodanSdate,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanKmoney != null" >
+        Diaodan_Kmoney = #{diaodanKmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="diaodanSmoney != null" >
+        Diaodan_Smoney = #{diaodanSmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="diaodanPinlv != null" >
+        Diaodan_Pinlv = #{diaodanPinlv,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanType != null" >
+        Diaodan_Type = #{diaodanType,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanHuifu != null" >
+        Diaodan_huifu = #{diaodanHuifu,jdbcType=INTEGER},
+      </if>
+      <if test="diaodanUserOnoff != null" >
+        Diaodan_User_OnOff = #{diaodanUserOnoff,jdbcType=INTEGER},
+      </if>
+      <if test="ddpl != null" >
+        ddpl = #{ddpl,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.System" >
+    update pay_system
+    set DefaultBank = #{defaultbank,jdbcType=INTEGER},
+      UserID = #{userid,jdbcType=INTEGER},
+      Diaodan_OnOff = #{diaodanOnoff,jdbcType=INTEGER},
+      Diaodan_Kdate = #{diaodanKdate,jdbcType=INTEGER},
+      Diaodan_Sdate = #{diaodanSdate,jdbcType=INTEGER},
+      Diaodan_Kmoney = #{diaodanKmoney,jdbcType=DECIMAL},
+      Diaodan_Smoney = #{diaodanSmoney,jdbcType=DECIMAL},
+      Diaodan_Pinlv = #{diaodanPinlv,jdbcType=INTEGER},
+      Diaodan_Type = #{diaodanType,jdbcType=INTEGER},
+      Diaodan_huifu = #{diaodanHuifu,jdbcType=INTEGER},
+      Diaodan_User_OnOff = #{diaodanUserOnoff,jdbcType=INTEGER},
+      ddpl = #{ddpl,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

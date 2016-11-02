@@ -1,0 +1,35 @@
+*{margin:0;padding:0;}
+	body {font-size: 13px;line-height: 18px;color: #222;margin:0;padding:0;}
+	li{list-style: none;}
+	.header{height:40px;line-height:40px;padding:0 30px;}
+	.header .logo{width:100px;height:40px;float:left;}
+	.header .logo img{height:40px;}
+	
+	
+	.header .header-right {float:right;width:360px;}
+	.header .header-right .yue{float:left;margin-right:20px;}
+	.header .header-right .yue span{font-size: 14px;font-weight: bold;color: orange;margin:0 5px;}
+	.header .header-right .login-name .logout{color: #08c;text-decoration: none;}
+	.header .header-right .login-name .logout:hover{color: #08c;text-decoration: underline;cursor:pointer;color:#005CCC;}
+	
+	
+
+	.top .t_c_cen .t_c_bottom li a span{width:14px;height:14px;display:block;float:left;background: url(../images/navbg.png) no-repeat;margin:13px 4px 0 0;}
+	.top .t_c_cen .t_c_bottom li a span.icon-shoukuan{background-position: -432px -144px;}
+	.top .t_c_cen .t_c_bottom li a span.icon-jiesuan{background-position: -360px -120px;}
+	.top .t_c_cen .t_c_bottom li a span.icon-shouzhi{background-position: -336px -48px;}
+	.top .t_c_cen .t_c_bottom li a span.icon-fukuan{background-position: -408px -120px;}
+	.top .t_c_cen .t_c_bottom li a span.icon-zhanghu{background-position: -168px 0;}
+	.top .t_c_cen .t_c_bottom li a span.icon-daili{background-position: -264px -24px;}
+	.top .t_c_cen .t_c_bottom li a span.icon-api{background-position: -360px -144px;}
+	.top .t_c_cen .t_c_bottom li a .caret{display: inline-block;width: 0;height: 0;vertical-align: top;border-top: 4px solid #000;border-right: 4px solid transparent;border-left: 4px solid transparent;content: "";border-bottom-color: #fff !important;border-top-color: #fff !important;margin:18px 0 0 5px;}
+
+
+	.mainNotice{padding:0 30px;overflow: hidden;color: #4e4e4e; font-size: 16px;font-family: 'Î¢ÈíÑÅºÚ';margin:20px 0; }
+	.mainNotice ul{background-color: #e6f1f5;border-color: #e6f1f5;border-radius: 4px;height:46px;line-height:46px;padding:0 20px;}
+	.mainNotice li{float:left;margin-right: 30px;}
+	.mainNotice li a{text-decoration:none;color:red;font-weight:normal;font-size:14px;}
+	.mainNotice .splashy-volume_loud{width: 16px;height: 16px; line-height: 16px;display:block;float:left;background: url(../images/splashy.png) no-repeat -63px -1384px;margin:14px 4px 0 0;}
+	
+	
+	

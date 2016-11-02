@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.TkListDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.TkList" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="tk_money" property="tkMoney" jdbcType="DECIMAL" />
+    <result column="sxf_money" property="sxfMoney" jdbcType="DECIMAL" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="bankname" property="bankname" jdbcType="VARCHAR" />
+    <result column="zhi_bankname" property="zhiBankname" jdbcType="VARCHAR" />
+    <result column="fen_bankname" property="fenBankname" jdbcType="VARCHAR" />
+    <result column="bank_number" property="bankNumber" jdbcType="VARCHAR" />
+    <result column="myname" property="myname" jdbcType="VARCHAR" />
+    <result column="sq_date" property="sqDate" jdbcType="TIMESTAMP" />
+    <result column="qr_date" property="qrDate" jdbcType="TIMESTAMP" />
+    <result column="ZT" property="zt" jdbcType="INTEGER" />
+    <result column="T" property="t" jdbcType="INTEGER" />
+    <result column="wt" property="wt" jdbcType="INTEGER" />
+  </resultMap>
+   <select id="getSuccessMoney"  resultType="float" parameterType="java.util.Map" >
+		select sum(tk_money) from pay_tklist 
+		where UserID = #{userId,jdbcType=INTEGER} and wt = 0
+		and sq_date &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   		and sq_date &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+   		<if test="lx !=null and  lx != ''" >
+        	and ZT=#{zt,jdbcType=INTEGER}
+   		</if>
+  </select>
+  
+  <select id="getSuccessCount"  resultType="float" parameterType="java.util.Map" >
+		select count(*) from pay_tklist 
+		where UserID = #{userId,jdbcType=INTEGER} and wt = 0 and ZT=2
+		and sq_date &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   		and sq_date &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+   		<if test="lx !=null and  lx != ''" >
+        	and ZT=#{zt,jdbcType=INTEGER}
+   		</if>
+  </select>
+  
+  <select id="getSettlementCount"  resultType="Integer" parameterType="java.util.Map" >
+		select count(*) from pay_tklist 
+		where UserID = #{userId,jdbcType=INTEGER} and wt = 0
+		and sq_date &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   		and sq_date &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+   		<if test="lx !=null and  lx != ''" >
+        	and ZT=#{zt,jdbcType=INTEGER}
+   		</if>
+  </select>
+  <select id="getSettlementList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+	    select 
+	    <include refid="Base_Column_List" />
+	    from pay_tklist
+	   	where UserID = #{userId,jdbcType=INTEGER} and wt = 0
+	    and sq_date &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+	   	and sq_date &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+	   	<if test="lx !=null and  lx != ''" >
+        	and ZT=#{zt,jdbcType=INTEGER}
+   		</if> 
+	   	order by sq_date desc
+  </select>
+
+  <sql id="Base_Column_List" >
+    id, UserID, tk_money, sxf_money, money, bankname, zhi_bankname, fen_bankname, bank_number, 
+    myname, sq_date, qr_date, ZT, T, wt
+  </sql>
+  <select id="getwclmoney"  resultType="float" parameterType="java.util.Map" >
+   select SUM(tk_money) from pay_tklist  where wt = 0 and 
+   UserID=#{userId,jdbcType=INTEGER} and ZT = 0
+  </select>
+  <select id="getyclmoney"  resultType="float" parameterType="java.util.Map" >
+   select SUM(money) from pay_tklist  where wt = 0 and 
+   UserID=#{userId,jdbcType=INTEGER} and ZT = 2
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_tklist
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_tklist
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.TkList" >
+    insert into pay_tklist (id, UserID, tk_money, 
+      sxf_money, money, bankname, 
+      zhi_bankname, fen_bankname, bank_number, 
+      myname, sq_date, qr_date, 
+      ZT, T, wt)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{tkMoney,jdbcType=DECIMAL}, 
+      #{sxfMoney,jdbcType=DECIMAL}, #{money,jdbcType=DECIMAL}, #{bankname,jdbcType=VARCHAR}, 
+      #{zhiBankname,jdbcType=VARCHAR}, #{fenBankname,jdbcType=VARCHAR}, #{bankNumber,jdbcType=VARCHAR}, 
+      #{myname,jdbcType=VARCHAR}, #{sqDate,jdbcType=TIMESTAMP}, #{qrDate,jdbcType=TIMESTAMP}, 
+      #{zt,jdbcType=INTEGER}, #{t,jdbcType=INTEGER}, #{wt,jdbcType=INTEGER})
+  </insert>
+  <insert id="addSelective" parameterType="com.pay.pojo.TkList" >
+    insert into pay_tklist
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="tkMoney != null" >
+        tk_money,
+      </if>
+      <if test="sxfMoney != null" >
+        sxf_money,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="bankname != null" >
+        bankname,
+      </if>
+      <if test="zhiBankname != null" >
+        zhi_bankname,
+      </if>
+      <if test="fenBankname != null" >
+        fen_bankname,
+      </if>
+      <if test="bankNumber != null" >
+        bank_number,
+      </if>
+      <if test="myname != null" >
+        myname,
+      </if>
+      <if test="sqDate != null" >
+        sq_date,
+      </if>
+      <if test="qrDate != null" >
+        qr_date,
+      </if>
+      <if test="zt != null" >
+        ZT,
+      </if>
+      <if test="t != null" >
+        T,
+      </if>
+      <if test="wt != null" >
+        wt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="tkMoney != null" >
+        #{tkMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sxfMoney != null" >
+        #{sxfMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="bankname != null" >
+        #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="zhiBankname != null" >
+        #{zhiBankname,jdbcType=VARCHAR},
+      </if>
+      <if test="fenBankname != null" >
+        #{fenBankname,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNumber != null" >
+        #{bankNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="myname != null" >
+        #{myname,jdbcType=VARCHAR},
+      </if>
+      <if test="sqDate != null" >
+        #{sqDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qrDate != null" >
+        #{qrDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="zt != null" >
+        #{zt,jdbcType=INTEGER},
+      </if>
+      <if test="t != null" >
+        #{t,jdbcType=INTEGER},
+      </if>
+      <if test="wt != null" >
+        #{wt,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.TkList" >
+    update pay_tklist
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="tkMoney != null" >
+        tk_money = #{tkMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sxfMoney != null" >
+        sxf_money = #{sxfMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="bankname != null" >
+        bankname = #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="zhiBankname != null" >
+        zhi_bankname = #{zhiBankname,jdbcType=VARCHAR},
+      </if>
+      <if test="fenBankname != null" >
+        fen_bankname = #{fenBankname,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNumber != null" >
+        bank_number = #{bankNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="myname != null" >
+        myname = #{myname,jdbcType=VARCHAR},
+      </if>
+      <if test="sqDate != null" >
+        sq_date = #{sqDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qrDate != null" >
+        qr_date = #{qrDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="zt != null" >
+        ZT = #{zt,jdbcType=INTEGER},
+      </if>
+      <if test="t != null" >
+        T = #{t,jdbcType=INTEGER},
+      </if>
+      <if test="wt != null" >
+        wt = #{wt,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.TkList" >
+    update pay_tklist
+    set UserID = #{userid,jdbcType=INTEGER},
+      tk_money = #{tkMoney,jdbcType=DECIMAL},
+      sxf_money = #{sxfMoney,jdbcType=DECIMAL},
+      money = #{money,jdbcType=DECIMAL},
+      bankname = #{bankname,jdbcType=VARCHAR},
+      zhi_bankname = #{zhiBankname,jdbcType=VARCHAR},
+      fen_bankname = #{fenBankname,jdbcType=VARCHAR},
+      bank_number = #{bankNumber,jdbcType=VARCHAR},
+      myname = #{myname,jdbcType=VARCHAR},
+      sq_date = #{sqDate,jdbcType=TIMESTAMP},
+      qr_date = #{qrDate,jdbcType=TIMESTAMP},
+      ZT = #{zt,jdbcType=INTEGER},
+      T = #{t,jdbcType=INTEGER},
+      wt = #{wt,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

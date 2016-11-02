@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pay.dao.SjflDao" >
+  <resultMap id="BaseResultMap" type="com.pay.pojo.Sjfl" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="jkname" property="jkname" jdbcType="VARCHAR" />
+    <result column="wy" property="wy" jdbcType="DECIMAL" />
+    <result column="thykt" property="thykt" jdbcType="DECIMAL" />
+    <result column="wmykt" property="wmykt" jdbcType="DECIMAL" />
+    <result column="ltczk" property="ltczk" jdbcType="DECIMAL" />
+    <result column="jyykt" property="jyykt" jdbcType="DECIMAL" />
+    <result column="qqczk" property="qqczk" jdbcType="DECIMAL" />
+    <result column="shykt" property="shykt" jdbcType="DECIMAL" />
+    <result column="ztyxk" property="ztyxk" jdbcType="DECIMAL" />
+    <result column="jwykt" property="jwykt" jdbcType="DECIMAL" />
+    <result column="sdykt" property="sdykt" jdbcType="DECIMAL" />
+    <result column="qgszx" property="qgszx" jdbcType="DECIMAL" />
+    <result column="txykt" property="txykt" jdbcType="DECIMAL" />
+    <result column="dxczk" property="dxczk" jdbcType="DECIMAL" />
+    <result column="gyykt" property="gyykt" jdbcType="DECIMAL" />
+    <result column="zyykt" property="zyykt" jdbcType="DECIMAL" />
+    <result column="yddx" property="yddx" jdbcType="DECIMAL" />
+    <result column="ltdx" property="ltdx" jdbcType="DECIMAL" />
+    <result column="dxdx" property="dxdx" jdbcType="DECIMAL" />
+    <result column="wyykt" property="wyykt" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, jkname, wy, thykt, wmykt, ltczk, jyykt, qqczk, shykt, ztyxk, jwykt, sdykt, qgszx, 
+    txykt, dxczk, gyykt, zyykt, yddx, ltdx, dxdx, wyykt
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_sjfl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_sjfl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pay.pojo.Sjfl" >
+    insert into pay_sjfl (id, jkname, wy, 
+      thykt, wmykt, ltczk, 
+      jyykt, qqczk, shykt, 
+      ztyxk, jwykt, sdykt, 
+      qgszx, txykt, dxczk, 
+      gyykt, zyykt, yddx, 
+      ltdx, dxdx, wyykt)
+    values (#{id,jdbcType=INTEGER}, #{jkname,jdbcType=VARCHAR}, #{wy,jdbcType=DECIMAL}, 
+      #{thykt,jdbcType=DECIMAL}, #{wmykt,jdbcType=DECIMAL}, #{ltczk,jdbcType=DECIMAL}, 
+      #{jyykt,jdbcType=DECIMAL}, #{qqczk,jdbcType=DECIMAL}, #{shykt,jdbcType=DECIMAL}, 
+      #{ztyxk,jdbcType=DECIMAL}, #{jwykt,jdbcType=DECIMAL}, #{sdykt,jdbcType=DECIMAL}, 
+      #{qgszx,jdbcType=DECIMAL}, #{txykt,jdbcType=DECIMAL}, #{dxczk,jdbcType=DECIMAL}, 
+      #{gyykt,jdbcType=DECIMAL}, #{zyykt,jdbcType=DECIMAL}, #{yddx,jdbcType=DECIMAL}, 
+      #{ltdx,jdbcType=DECIMAL}, #{dxdx,jdbcType=DECIMAL}, #{wyykt,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pay.pojo.Sjfl" >
+    insert into pay_sjfl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="jkname != null" >
+        jkname,
+      </if>
+      <if test="wy != null" >
+        wy,
+      </if>
+      <if test="thykt != null" >
+        thykt,
+      </if>
+      <if test="wmykt != null" >
+        wmykt,
+      </if>
+      <if test="ltczk != null" >
+        ltczk,
+      </if>
+      <if test="jyykt != null" >
+        jyykt,
+      </if>
+      <if test="qqczk != null" >
+        qqczk,
+      </if>
+      <if test="shykt != null" >
+        shykt,
+      </if>
+      <if test="ztyxk != null" >
+        ztyxk,
+      </if>
+      <if test="jwykt != null" >
+        jwykt,
+      </if>
+      <if test="sdykt != null" >
+        sdykt,
+      </if>
+      <if test="qgszx != null" >
+        qgszx,
+      </if>
+      <if test="txykt != null" >
+        txykt,
+      </if>
+      <if test="dxczk != null" >
+        dxczk,
+      </if>
+      <if test="gyykt != null" >
+        gyykt,
+      </if>
+      <if test="zyykt != null" >
+        zyykt,
+      </if>
+      <if test="yddx != null" >
+        yddx,
+      </if>
+      <if test="ltdx != null" >
+        ltdx,
+      </if>
+      <if test="dxdx != null" >
+        dxdx,
+      </if>
+      <if test="wyykt != null" >
+        wyykt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="jkname != null" >
+        #{jkname,jdbcType=VARCHAR},
+      </if>
+      <if test="wy != null" >
+        #{wy,jdbcType=DECIMAL},
+      </if>
+      <if test="thykt != null" >
+        #{thykt,jdbcType=DECIMAL},
+      </if>
+      <if test="wmykt != null" >
+        #{wmykt,jdbcType=DECIMAL},
+      </if>
+      <if test="ltczk != null" >
+        #{ltczk,jdbcType=DECIMAL},
+      </if>
+      <if test="jyykt != null" >
+        #{jyykt,jdbcType=DECIMAL},
+      </if>
+      <if test="qqczk != null" >
+        #{qqczk,jdbcType=DECIMAL},
+      </if>
+      <if test="shykt != null" >
+        #{shykt,jdbcType=DECIMAL},
+      </if>
+      <if test="ztyxk != null" >
+        #{ztyxk,jdbcType=DECIMAL},
+      </if>
+      <if test="jwykt != null" >
+        #{jwykt,jdbcType=DECIMAL},
+      </if>
+      <if test="sdykt != null" >
+        #{sdykt,jdbcType=DECIMAL},
+      </if>
+      <if test="qgszx != null" >
+        #{qgszx,jdbcType=DECIMAL},
+      </if>
+      <if test="txykt != null" >
+        #{txykt,jdbcType=DECIMAL},
+      </if>
+      <if test="dxczk != null" >
+        #{dxczk,jdbcType=DECIMAL},
+      </if>
+      <if test="gyykt != null" >
+        #{gyykt,jdbcType=DECIMAL},
+      </if>
+      <if test="zyykt != null" >
+        #{zyykt,jdbcType=DECIMAL},
+      </if>
+      <if test="yddx != null" >
+        #{yddx,jdbcType=DECIMAL},
+      </if>
+      <if test="ltdx != null" >
+        #{ltdx,jdbcType=DECIMAL},
+      </if>
+      <if test="dxdx != null" >
+        #{dxdx,jdbcType=DECIMAL},
+      </if>
+      <if test="wyykt != null" >
+        #{wyykt,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.Sjfl" >
+    update pay_sjfl
+    <set >
+      <if test="jkname != null" >
+        jkname = #{jkname,jdbcType=VARCHAR},
+      </if>
+      <if test="wy != null" >
+        wy = #{wy,jdbcType=DECIMAL},
+      </if>
+      <if test="thykt != null" >
+        thykt = #{thykt,jdbcType=DECIMAL},
+      </if>
+      <if test="wmykt != null" >
+        wmykt = #{wmykt,jdbcType=DECIMAL},
+      </if>
+      <if test="ltczk != null" >
+        ltczk = #{ltczk,jdbcType=DECIMAL},
+      </if>
+      <if test="jyykt != null" >
+        jyykt = #{jyykt,jdbcType=DECIMAL},
+      </if>
+      <if test="qqczk != null" >
+        qqczk = #{qqczk,jdbcType=DECIMAL},
+      </if>
+      <if test="shykt != null" >
+        shykt = #{shykt,jdbcType=DECIMAL},
+      </if>
+      <if test="ztyxk != null" >
+        ztyxk = #{ztyxk,jdbcType=DECIMAL},
+      </if>
+      <if test="jwykt != null" >
+        jwykt = #{jwykt,jdbcType=DECIMAL},
+      </if>
+      <if test="sdykt != null" >
+        sdykt = #{sdykt,jdbcType=DECIMAL},
+      </if>
+      <if test="qgszx != null" >
+        qgszx = #{qgszx,jdbcType=DECIMAL},
+      </if>
+      <if test="txykt != null" >
+        txykt = #{txykt,jdbcType=DECIMAL},
+      </if>
+      <if test="dxczk != null" >
+        dxczk = #{dxczk,jdbcType=DECIMAL},
+      </if>
+      <if test="gyykt != null" >
+        gyykt = #{gyykt,jdbcType=DECIMAL},
+      </if>
+      <if test="zyykt != null" >
+        zyykt = #{zyykt,jdbcType=DECIMAL},
+      </if>
+      <if test="yddx != null" >
+        yddx = #{yddx,jdbcType=DECIMAL},
+      </if>
+      <if test="ltdx != null" >
+        ltdx = #{ltdx,jdbcType=DECIMAL},
+      </if>
+      <if test="dxdx != null" >
+        dxdx = #{dxdx,jdbcType=DECIMAL},
+      </if>
+      <if test="wyykt != null" >
+        wyykt = #{wyykt,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.Sjfl" >
+    update pay_sjfl
+    set jkname = #{jkname,jdbcType=VARCHAR},
+      wy = #{wy,jdbcType=DECIMAL},
+      thykt = #{thykt,jdbcType=DECIMAL},
+      wmykt = #{wmykt,jdbcType=DECIMAL},
+      ltczk = #{ltczk,jdbcType=DECIMAL},
+      jyykt = #{jyykt,jdbcType=DECIMAL},
+      qqczk = #{qqczk,jdbcType=DECIMAL},
+      shykt = #{shykt,jdbcType=DECIMAL},
+      ztyxk = #{ztyxk,jdbcType=DECIMAL},
+      jwykt = #{jwykt,jdbcType=DECIMAL},
+      sdykt = #{sdykt,jdbcType=DECIMAL},
+      qgszx = #{qgszx,jdbcType=DECIMAL},
+      txykt = #{txykt,jdbcType=DECIMAL},
+      dxczk = #{dxczk,jdbcType=DECIMAL},
+      gyykt = #{gyykt,jdbcType=DECIMAL},
+      zyykt = #{zyykt,jdbcType=DECIMAL},
+      yddx = #{yddx,jdbcType=DECIMAL},
+      ltdx = #{ltdx,jdbcType=DECIMAL},
+      dxdx = #{dxdx,jdbcType=DECIMAL},
+      wyykt = #{wyykt,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
