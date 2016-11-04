@@ -2,12 +2,17 @@ package com.pay.base;
 
 import java.util.Scanner;
 
+
 public class LuhmTest {  
 	  
     public static void main(String[] args) {  
-        Scanner input = new Scanner(System.in);  
+    	String s=520+"_"+System.currentTimeMillis()+"";
+    	System.out.println(Utils.MD5(s));
+       /* Scanner input = new Scanner(System.in);  
+       
         System.out.println("请输入银行卡号：");  
         String bankNo = input.next();  
+
         char res = getBankCardCheckCode(bankNo.substring(0, bankNo.length()-1));  
         if(res!='N'){  
             System.out.println("校验结果为："+res);  
@@ -18,8 +23,10 @@ public class LuhmTest {
             }else{  
                 System.out.println("银行卡不合法！");  
             }  
-        }  
+        }  */
     }  
+    
+ 
       
     /** 
      * 从不含校验位的银行卡卡号采用 Luhm 校验算法获得校验位 

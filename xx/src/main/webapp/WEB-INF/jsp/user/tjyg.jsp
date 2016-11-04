@@ -23,37 +23,22 @@
 <script type="text/javascript">
 	$(document).ready(
 			function(e) {
-				var totalPage = $
-				{
-					totalPage
-				}
-				;
-				var currentPage = $
-				{
-					currentPage
-				}
-				;
-				$('#page_div').jqPaginator({
-					totalPages : totalPage,
-					visiblePages : 5,
-					currentPage : currentPage,
-					onPageChange : function(num, type) {
-						if (currentPage != num) {
-							location.href = "user/wyjyjl.html?cur=" + num;
+				var totalPage = ${totalPage};
+				var currentPage = ${currentPage;
+				if(totalPage!=0){
+					$('#page_div').jqPaginator({
+						totalPages : totalPage,
+						visiblePages : 5,
+						currentPage : currentPage,
+						onPageChange : function(num, type) {
+							if (currentPage != num) {
+								location.href = "user/wyjyjl.html?cur=" + num;
+							}
 						}
-					}
-				});
-
-				$("#menu div").addClass("menu_bg_y");
-				$("#menu div:eq(5)").addClass("menu_bg");
-				$("#menu_x > div > div:eq(0)").css("background-image",
-						"url(User/images/menumenu.gif)");
-				$("#menu_x > div > div:eq(0) a").css("color", "#F60");
-				$(".tjzp").click(function(e) {
-					$(this).next("span").show();
-					$(this).hide();
-				});
-			});
+					});
+				}
+			}
+		});
 
 	function tjsh() {
 		if (confirm("请确保完善了基本资料后再提交审核，提交审核后不能再修改基本信息！") == true) {

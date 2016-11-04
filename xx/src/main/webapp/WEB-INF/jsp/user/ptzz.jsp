@@ -22,16 +22,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$(document).ready(function(e) {
 		var totalPage=${totalPage};
 		var currentPage=${currentPage};
-		$('#page_div').jqPaginator({
-		    totalPages:totalPage,
-		    visiblePages: 5,
-		    currentPage: currentPage,
-		    onPageChange: function (num, type) {
-		    	if(currentPage!=num){
-		    		location.href="user/wyjyjl.html?cur="+num;
-		    	}
-		    }
-		});
+		if(totalPage!=0){
+			$('#page_div').jqPaginator({
+			    totalPages:totalPage,
+			    visiblePages: 5,
+			    currentPage: currentPage,
+			    onPageChange: function (num, type) {
+			    	if(currentPage!=num){
+			    		location.href="user/wyjyjl.html?cur="+num;
+			    	}
+			    }
+			});
+		}
 		 $("#menu div").addClass("menu_bg_y");
 		 $("#menu div:eq(2)").addClass("menu_bg");
 		 $("#menu_x > div > div:eq(4)").css("background-image",

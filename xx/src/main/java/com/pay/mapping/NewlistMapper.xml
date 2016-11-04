@@ -25,6 +25,17 @@
     from pay_newlist
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="getNews" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pay_newlist
+    where zt=0 and type=1 ORDER BY datetime DESC
+  </select>
+  
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from pay_newlist
     where id = #{id,jdbcType=INTEGER}

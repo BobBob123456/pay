@@ -24,35 +24,19 @@
 	$(document).ready(function(e) {
 			var totalPage=${totalPage};
 			var currentPage=${currentPage};
-			$('#page_div').jqPaginator({
-			    totalPages:totalPage,
-			    visiblePages: 5,
-			    currentPage: currentPage,
-			    onPageChange: function (num, type) {
-			    	if(currentPage!=num){
-			    		location.href="user/income_expenses_detail.html?cur="+num;
-			    	}
-			    }
-			});				
-						$("#banklist").floatdiv("middle");
-						$("#menu div").addClass("menu_bg_y");
-						$("#menu div:eq(2)").addClass("menu_bg");
-
-						$("#menu_x > div > div:eq(8)").css("background-image",
-								"url(User/images/menumenu.gif)");
-						$("#menu_x > div > div:eq(8) a").css("color", "#F60");
-
-						$("#SearchButton")
-								.click(
-										function(e) {
-											window.location.href = "/User_Index_tkjl.html?sq_date="
-													+ $("#sq_date").val()
-													+ "&zt="
-													+ $("#zt").val()
-													+ "&T=" + $("#T").val();
-										});
-
-					});
+			if(totalPage!=0){
+				$('#page_div').jqPaginator({
+				    totalPages:totalPage,
+				    visiblePages: 5,
+				    currentPage: currentPage,
+				    onPageChange: function (num, type) {
+				    	if(currentPage!=num){
+				    		location.href="user/income_expenses_detail.html?cur="+num;
+				    	}
+				    }
+				});		
+			}
+	});
 </script>
 <style type="text/css">
 #txtitle {

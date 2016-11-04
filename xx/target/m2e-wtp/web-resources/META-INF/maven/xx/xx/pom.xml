@@ -25,6 +25,11 @@
                 <!-- 表示开发的时候引入，发布的时候不会加载此包 -->  
                 <scope>test</scope>  
             </dependency>  
+             <dependency>  
+                <groupId>org.apache.poi</groupId>  
+                <artifactId>poi-ooxml</artifactId>  
+                <version>3.5-FINAL</version>  
+            </dependency>  
             <!-- spring核心包 -->  
             <dependency>  
                 <groupId>org.springframework</groupId>  

@@ -2,7 +2,6 @@ package com.pay.controller;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,11 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.pay.base.DateStyle;
 import com.pay.base.DateUtil;
 import com.pay.base.Utils;
 import com.pay.base.constant.CommonConstant;
-import com.pay.pojo.DlDate;
 import com.pay.pojo.Money;
 import com.pay.pojo.MoneyBd;
 import com.pay.pojo.Order;
@@ -236,11 +233,18 @@ public class UserController extends BaseController {
 		response.sendRedirect("login.html");
 	}
 	
+	/**获取账号余额**/
+	@RequestMapping("/account_money")
+	public void account_money(HttpServletResponse response,HttpServletRequest request){
+		Integer userId=Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		Money money= this.moneyService.selectByUserId(userId);
+		Utils.writer_out(response, money.getMoney().toString());
+	}
+	
+	
 	@RequestMapping("/user_index")
 	public String wyjyjl(HttpServletResponse response,HttpServletRequest request){
 		Integer userId=Integer.parseInt(request.getSession().getAttribute("userId").toString());
-		/**获取账号余额**/
-		Money money= this.moneyService.selectByUserId(userId);
 		String cur=request.getParameter("cur");
 		String order_number=request.getParameter("order_number");
 		String ksjy_date=request.getParameter("ksjy_date");
@@ -269,7 +273,6 @@ public class UserController extends BaseController {
 	    float p=Float.valueOf(total)/Float.valueOf(CommonConstant.PAGE_SIZE_DEFAULT);
 	    int totalPage=(int) Math.ceil(p);
 	    List<Order> list=this.orderService.getOrders(map,currentPage);
-	    request.getSession().setAttribute("money", money.getMoney());
 	    request.setAttribute("status", status);
 	    request.setAttribute("total", total);
 	    request.setAttribute("ksjy_date", ksjy_date);

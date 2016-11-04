@@ -26,16 +26,18 @@ $(document).ready(function(e) {
 	$("#menu_x > div > div:eq(0) a").css("color","#F60");
 	var totalPage=${totalPage};
 	var currentPage=${currentPage};
-	$('#page_div').jqPaginator({
-	    totalPages:totalPage,
-	    visiblePages: 5,
-	    currentPage: currentPage,
-	    onPageChange: function (num, type) {
-	    	if(currentPage!=num){
-	    		location.href="user/wyjyjl.html?cur="+num;
-	    	}
-	    }
-	});
+	if(totalPage!=0){
+		$('#page_div').jqPaginator({
+		    totalPages:totalPage,
+		    visiblePages: 5,
+		    currentPage: currentPage,
+		    onPageChange: function (num, type) {
+		    	if(currentPage!=num){
+		    		location.href="user/wyjyjl.html?cur="+num;
+		    	}
+		    }
+		});
+	}
 });
 </script>
 <style type="text/css">
