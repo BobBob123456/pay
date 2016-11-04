@@ -38,129 +38,79 @@
 			}
 	});
 </script>
-<style type="text/css">
-#txtitle {
-	width: 800px;
-	height: 50px;
-	margin: 0px auto;
-	text-align: center;
-}
-
-#txtitle div {
-	width: 800px;
-	height: 30px;
-	font-weight: bold;
-	font-size: 20px;
-	color: #06C;
-	text-align: center;
-	line-height: 30px;
-	border: 1px solid #999;
-	border-bottom: 0px;
-	cursor: pointer;
-	margin: 0px auto;
-}
-
-#txcontent {
-	width: 100%;
-	height: auto;
-}
-
-.selectclass {
-	width: 100%;
-	height: 50px;
-	line-height: 50px;
-	text-align: center;
-	text-align: left;
-	font-size: 15px;
-	margin: 0px auto;
-	border-bottom: 1px dashed #999999;
-}
-
-.selectclass table {
-	width: 100%;
-	height: 50px;
-}
-
-.selectclass table tr td {
-	width: 11%;
-	height: 50px;
-	text-align: center;
-	vertical-align: middle;
-	font-size: 12px;
-}
-
-.selectclass a {
-	font-size: 13px;
-	color: #333;
-}
-
-.selectclass a:hover {
-	
-}
-</style>
 </head>
-
 <body>
 	<jsp:include page="../common/top.jsp"></jsp:include>
-
-	<div class="xgjcxx">
-		<div
-			style="border: 1px solid #ccc; background-image: url(User/images/menu_bg_x.jpg); width: 100%; height: 40px; line-height: 40px; font-size: 15px; text-align: left; font-weight: bold; color: #333">
-			&nbsp;&nbsp;&nbsp;&nbsp;提款记录</div>
-
-		<div
-			style="width: 100%; height: auto; border: 1px solid #CCC; border-top: 0px;"
-			id="ntj">
-			<div id="txcontent">
-
-				<div class="selectclass" style="height: auto;">
-					<div style="text-align: center;">订单笔数：${total}|成功金额：${success_money}|成功笔数:${success_count}</div>
+	<div class="biaoge">
+		<div class="main_content">
+			<nav>
+				<div class='znav'>
+					<ul style="width: 5000px;">
+						<li class="first"><a href=""><i class="icon-home"></i></a></li>
+						<li>我的结算</li>
+						<li class="last">银行卡结算</li>
+					</ul>
 				</div>
-				<form action="user/settlement.html" method="post">
-					<div class="selectclass" style="font-size: 13px; text-align: left;margin-left:1rem;">
-						请选择申请时间：<input type="text" name="ksjy_date" id="ksjy_date" class="Wdate"
-								value="${ksjy_date}"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false,readOnly:true})"
-								style="width: 150px;">
-							&nbsp;&nbsp;&nbsp;&nbsp;至&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"
-								name="jsjy_date" id="jsjy_date" value="${jsjy_date}" class="Wdate"
-								onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false,readOnly:true})"
-								style="width: 150px;"> &nbsp;&nbsp;&nbsp;&nbsp;
-						请选择状态： <select name="zt" id="zt">
+			</nav>
+			<div style='clear:both;'></div>
+			<form action="user/settlement.html" method="post">
+				<input type="hidden" id="isSearch" name="isSearch" value="0">
+				<!--时间轴s-->
+		
+				<div class='ztime'>
+					<div class="input-group" style='width:290px;float:left;font-size:13px;margin:0 5px 0 -5px;'>
+						<div class="input-group-addon">开始时间</div>
+						<input type="text" class="form-control" name="ksjy_date" id="ksjy_date"  value="${ksjy_date}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false,readOnly:true})">
+						<div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+					</div>
+					<div class="input-group" style='width:290px;float:left;font-size:13px;'>
+						<div class="input-group-addon">结束时间</div>
+						<input type="text" class="form-control" name="jsjy_date" id="jsjy_date" value="${jsjy_date}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false,readOnly:true})">
+						 <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div> 
+					</div>
+	<!-- 				<div class="input-group" style='width:214px;float:left;font-size:13px;margin:0 5px;'>
+						<div class="input-group-addon">流水号</div>
+						<input type="text" class="form-control">
+					</div> -->
+					<div class="input-group" style='width:214px;float:left;font-size:13px;'>
+						<div class="input-group-addon">状态</div>
+						 <select class="form-control" name="zt" id="zt">
 							<option value="">全部</option>
 							<option value="0">未处理</option>
 							<option value="2">已打款</option>
 							<option value="3">失败</option>
-						</select>&nbsp;&nbsp;&nbsp;&nbsp; <input type="submit" style="line-height:normal;" value="搜 索"
-							id="SearchButton">&nbsp;&nbsp;&nbsp;&nbsp;
+						</select>
 						<script type="text/javascript">
 							$("#zt").val(${zt});
 						</script>
 					</div>
-				</form>
-				<div class="selectclass">
-					<table border="0" cellpadding="0" cellspacing="0">
-						<tr style="color: #69C; font-weight: bold;">
-							<td>姓名</td>
-							<td>卡号</td>
-							<td>银行名称</td>
-							<td>分行名称</td>
-							<td>金额</td>
-							<td>申请时间</td>
-							<td>状态</td>
-						</tr>
-					</table>
+					<div class="pull-right">
+						<input type="submit" value="查 询"  class="btn btn-primary btn-search"/>
+						<a class="btn btn-info btn-reset" style='margin:0 -5px 0 0;'> 重 置</a>
+					</div>
 				</div>
-				<c:forEach var="vo" items="${list}">
-					<div class="selectclass">
-						<table border="0" cellpadding="0" cellspacing="0">
+				<!--时间轴e-->
+				<div style="text-align: center;">订单笔数：${total}|成功金额：${success_money}|成功笔数:${success_count}</div>
+				<div class='ztab'>
+					<table class="table table-hover">
+					<thead>
+						<tr>
+							<th style="width: 116px;">结算订单号</th>
+							<th style="width: 179px;">姓名</th>
+							<th style="width: 179px;">卡号</th>
+							<th style="width: 240px;">金额（元）</th>
+							<th style="width: 149px;">订单状态</th>
+							<th style="width: 149px;">建立时间</th>
+							<th style="width: 87px;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="vo" items="${list}">
 							<tr>
-								<td style="color: #333;">${vo.myname}</td>
-								<td style="color: #333;">${vo.bankNumber}</td>
-								<td style="color: #333;">${vo.bankname}</td>
-								<td style="color: #333;">${vo.fenBankname}</td>
-								<td style="color: #666; font-weight: bold;">￥${vo.tkMoney}</td>
-								<td style="color: #666;"><fmt:formatDate value="${vo.sqDate}" pattern="yyyy/MM/dd HH:mm:ss" /></td>
+								<td></td>
+								<td>${vo.myname}</td>
+								<td>${vo.bankNumber}</td>
+								<td>￥${vo.tkMoney}</td>
 								<td>
 									<c:choose>
 										<c:when test="${vo.zt==0}">
@@ -177,18 +127,19 @@
 										</c:otherwise>
 									</c:choose>
 								</td>
+								<td><fmt:formatDate value="${vo.sqDate}" pattern="yyyy/MM/dd HH:mm:ss" /></td>
+								<td></td>
 							</tr>
-						</table>
-					</div>
-				</c:forEach>
-			</div>
+						</c:forEach>
+					</tbody>
+				</table>
+				</div>
+			</form>
 		</div>
 	</div>
 	<div style="text-align:center;">
-		<ul class="pagination" style="text-align:center;margin-bottom: 10px;" id="page_div" >
-						    
+		<ul class="pagination" style="text-align:center;margin-bottom: 10px;" id="page_div" >		    
 		</ul>
 	</div>
-	<div style="clear: left;"></div>
 </body>
 </html>

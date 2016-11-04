@@ -67,8 +67,6 @@ public class SessionFilter implements Filter {
     			response.sendRedirect(contextPath + forwardUrl + "?redirect=" + URLEncoder.encode(redirect, "UTF-8"));
                 return;  
              }  
-			
-	
 		} else {
 			chain.doFilter(req, res);
 		}

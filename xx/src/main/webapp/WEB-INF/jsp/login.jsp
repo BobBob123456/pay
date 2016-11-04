@@ -36,18 +36,6 @@ function flushValidateCode(){
 var validateImgObject = document.getElementById("codeValidateImg");
 validateImgObject.src = "${pageContext.request.contextPath }/imageGen/getSysManageLoginCode.html?time=" + new Date();
 }
-/*校验验证码输入是否正确*/
-function checkImg(code){
-    var url = "${pageContext.request.contextPath}/checkimagecode";
-    $.get(url,{"validateCode":code},function(data){
-        if(data=="ok"){
-            alert("ok!")
-        }else{
-            alert("error!")
-            flushValidateCode();
-        }
-    })
-}
 
 </script>
 

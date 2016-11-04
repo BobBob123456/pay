@@ -32,7 +32,7 @@
 			alert("请选择正确格式的文件（txt/xls/xlsx/csv）");
 			return
 		}
-	
+		$("#next").attr("disabled","disabled");
 		$.ajaxFileUpload({
 			url : "batchPay/fileUpload.html",
 			secureuri : false,
@@ -41,31 +41,22 @@
 			success : function(g, f) {
 				switch (parseInt(g.code)) {
 				case -1:
-					location.href = Helper
-							.getWebRootPath()
-							+ "/batchPay/listBatchPay.html?batchId="
-							+ g.batchId;
+					location.href = "batchPay/listBatchPay.html?batchId="+ g.batchId;
 					break;
 				default:
 					if (g.str == "") {
 						location.href = "batchPay/batchSubmission.html"
 					} else {
+						$("#next").removeAttr("disabled");
 						alert(g.str);
 					}
 					break
 				}
 			},
 			error : function(g, f, h) {
-			/* 	$(".btn-submit").removeAttr(
-						"disabled");
-				location.href = Helper
-						.getWebRootPath()
-						+ "/batchPay/batchSubmission.html" */
+				$("#next").removeAttr("disabled");
 			}
 		})
-		
-		//$('#pay_form').submit();
-		//alert(flieName);
 	}
 
 </script>
@@ -95,7 +86,7 @@
 		
 		<div class="selectclass" style="text-align: center;">
 				<input type="file" id="myfile" name="myfile"  class="btn btn-default" style="display: inline-block;margin-top:10px;"/>
-				&nbsp;&nbsp;&nbsp;&nbsp;<span  class="btn btn-default" style="margin-top:10px;" onclick="submit_file()">下一步</span>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span id="next"  class="btn btn-default" style="margin-top:10px;" onclick="submit_file()">下一步</span>
 		</div>
 		<div style="clear: left;"></div>
 	</form>

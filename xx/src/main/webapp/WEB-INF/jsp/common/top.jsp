@@ -10,7 +10,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" href="css/nav.css" media="screen">
 <link href="User/css/css.css" rel="stylesheet">
 <link href="User/css/showDialog.css" rel="stylesheet">
-
 <script type="text/javascript" src="User/js/js.js"></script>
 <script type="text/javascript" src="User/js/pcasunzip.js"></script>
 <script type="text/javascript" src="js/Other.js"></script>
@@ -51,7 +50,7 @@ $(function(){
 		var title=$('#title'+i).html();
 		layer.open({
 			type: 1,
-			title: '通知详情',
+			title: '公告详情',
 			closeBtn: 0,
 			shadeClose: true,
 			skin: 'yourclass',
@@ -97,7 +96,7 @@ $(function(){
 								</ul>
 							</div>
 						</li>
-						<li><a href="javascript:void(0);"><span class="icon-shouzhi"></span>收支明细</a></li>
+						<li><a href="user/income_expenses_detail.html"><span class="icon-shouzhi"></span>收支明细</a></li>
 						<li>
 							<a href="javascript:void(0);"><span class="icon-fukuan"></span>批量付款<b class="caret"></b></a>
 							<div class="Nodes">
@@ -111,16 +110,15 @@ $(function(){
 							<a href="javascript:void(0);"><span class="icon-zhanghu"></span>账户管理<b class="caret"></b></a>
 							<div class="Nodes">
 								<ul>
-									<li class='bott1'><a href="">提现</a></li>
-									<li class='bott2'><a href="">子账户管理</a></li>
-									<li><a href="">修改密码</a></li>
-									<li><a href="">银行卡设置</a></li>
-									<li><a href="">商户key值</a></li>
-									<li class='bott1'><a href="">找回安全码</a></li>
-									<li class='bott2'><a href="">手机绑定</a></li>
+									<li class='bott1'><a href="account/withdraw.html">提现</a></li>
+									<li><a href="account/update_password.html">修改密码</a></li>
+									<li><a href="account/cardSet.html">银行卡设置</a></li>
+									<li><a href="account/merchantKey.html">商户key值</a></li>
+									<li class='bott1'><a href="account/retrieveSafeCode.html">找回安全码</a></li>
+									<!-- <li class='bott2'><a href="">手机绑定</a></li>
 									<li class='bott1'><a href="">IP绑定</a></li>
 									<li class='bott2'><a href="">手机解绑</a></li>
-									<li class='bott1'><a href="">IP解绑</a></li>
+									<li class='bott1'><a href="">IP解绑</a></li> -->
 									<li class='bott2'><a href="">安全令牌</a></li>
 								</ul>
 							</div>

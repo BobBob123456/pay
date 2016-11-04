@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
@@ -196,4 +197,20 @@ public class Utils {
      	Matcher matcher = pattern.matcher(str);
      	return matcher.matches();
      }
+     
+     
+     /**
+ 	 * 比较两个数 a小 return false,b 大于或者等于return true
+ 	 * @param a
+ 	 * @param b
+ 	 * @return
+ 	 */
+ 	public static Boolean compare_money(BigDecimal a,BigDecimal b){
+ 		if(a.compareTo(b)==-1){
+ 			return false;
+ 		}else{
+ 			return true;
+ 		}
+ 	}
+
 }

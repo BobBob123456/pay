@@ -24,7 +24,7 @@
 	$(document).ready(
 			function(e) {
 				var totalPage = ${totalPage};
-				var currentPage = ${currentPage;
+				var currentPage = ${currentPage};
 				if(totalPage!=0){
 					$('#page_div').jqPaginator({
 						totalPages : totalPage,
@@ -38,13 +38,7 @@
 					});
 				}
 			}
-		});
-
-	function tjsh() {
-		if (confirm("请确保完善了基本资料后再提交审核，提交审核后不能再修改基本信息！") == true) {
-			location.href = "/User_Index_shjksh.html";
-		}
-	}
+		);
 </script>
 <style type="text/css">
 #yggl {
@@ -64,31 +58,43 @@
 </head>
 <body>
 <jsp:include page="../common/top.jsp"></jsp:include>
-	<!-------------------------------------------------基本信息-------------------------------------------------------->
-	<div class="xgjcxx">
-		<div
-			style="border: 1px solid #ccc; background-image: url(User/images/menu_bg_x.jpg); width: 100%; height: 40px; line-height: 40px; font-size: 15px; text-align: left; font-weight: bold; color: #333">
-			&nbsp;&nbsp;&nbsp;&nbsp;下级管理</div>
-		<div
-			style="width: 100%; height: auto; border: 1px solid #CCC; border-top: 0px">
-			<table border="0" cellpadding="0" cellspacing="0"
-				style="width: 100%;" id="yggl">
-				<tr>
-					<td style="font-weight: bold; border-bottom: 1px solid #CCC;">商户号</td>
-					<td style="font-weight: bold; border-bottom: 1px solid #CCC;">用户名</td>
-					<td style="font-weight: bold; border-bottom: 1px solid #CCC;">费率</td>
-					<td style="font-weight: bold; border-bottom: 1px solid #CCC;">建立时间</td>
-				</tr>
-				<c:forEach items="${users}" var="vo">
-					<tr>
-						<td>${vo.id+10000}</td>
-						<td>${vo.username}</td>
-						<td></td>
-						<td><fmt:formatDate value="${vo.regdate}"
-								pattern="yyyy/MM/dd HH:mm:ss" /></td>
-					</tr>
-				</c:forEach>
-			</table>
+
+	<div class="biaoge">
+		<div class="main_content">
+			<nav>
+				<div class='znav'>
+					<ul style="width: 5000px;">
+						<li class="first"><a href=""><i class="icon-home"></i></a></li>
+						<li>代理管理</li>
+						<li class="last">下级商户</li>
+					</ul>
+				</div>
+			</nav>
+			<div style='clear:both;'></div>
+				<input type="hidden" id="isSearch" name="isSearch" value="0">
+				<div class='ztab'>
+					<table class="table table-hover">
+					<thead>
+						<tr>
+							<th style="width: 116px;">商户号</th>
+							<th style="width: 179px;">用户名</th>
+							<th style="width: 179px;">费率</th>
+							<th style="width: 240px;">建立时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${users}" var="vo">
+							<tr>
+								<td>${vo.id+10000}</td>
+								<td>${vo.username}</td>
+								<td></td>
+								<td><fmt:formatDate value="${vo.regdate}"
+										pattern="yyyy/MM/dd HH:mm:ss" /></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>		
 		</div>
 	</div>
 	<div class="selectclass" style="text-align: center;">

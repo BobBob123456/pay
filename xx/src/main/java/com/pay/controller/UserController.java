@@ -138,6 +138,8 @@ public class UserController extends BaseController {
 		Utils.writer_out(response, "ok");
 	}
 	
+
+	
 	@RequestMapping("/user_basic")
 	public String user_basic(HttpServletResponse response,HttpServletRequest request){
 		Integer userId=Integer.parseInt(request.getSession().getAttribute("userId").toString());
@@ -154,40 +156,7 @@ public class UserController extends BaseController {
 		return "user/aqxx";
 	}
 	
-	@RequestMapping("/EditLoginPassWord")
-	public void EditLoginPassWord(HttpServletResponse response,HttpServletRequest request){
-		Integer userId=Integer.parseInt(request.getSession().getAttribute("userId").toString());
-		String Y_LoginPassWord=request.getParameter("Y_LoginPassWord");
-		String X_LoginPassWord=request.getParameter("X_LoginPassWord");
-		String XX_LoginPassWord=request.getParameter("XX_LoginPassWord");
-		if(StringUtils.isEmpty(Y_LoginPassWord)){
-			Utils.writer_out(response, "<script type='text/javascript'>alert('原密码不能为空！'); history.go(-1);</script>");
-		}else{
-			User user=this.userService.getUserById(userId);
-			if(!user.getLoginpassword().equals(Utils.MD5(Y_LoginPassWord))){
-				Utils.writer_out(response, "<script type='text/javascript'>alert('原密码错误！'); history.go(-1);</script>");
-			}else{
-				if(StringUtils.isEmpty(X_LoginPassWord)){
-					Utils.writer_out(response, "<script type='text/javascript'>alert('新密码不能为空！'); history.go(-1);</script>");
-				}else{
-					if(!X_LoginPassWord.equals(XX_LoginPassWord)){
-						Utils.writer_out(response, "<script type='text/javascript'>alert('两次新密码输入不一致！'); history.go(-1);</script>");
-					}else{
-						User t=new User();
-						t.setId(userId);
-						t.setLoginpassword(Utils.MD5(X_LoginPassWord));
-						int result=this.userService.updateSelective(t);
-						if(result==1){
-							request.getSession().setAttribute("userId", "");
-							Utils.writer_out(response, "<script type='text/javascript'>alert('登录密码修改成功！'); location.href='login.html'</script>");
-						}else{
-							Utils.writer_out(response, "<script type='text/javascript'>alert('修改失败，请稍后再试！'); location.href='history.go(-1);'</script>");
-						}
-					}
-				}
-			}
-		}
-	}
+	
 	
 	@RequestMapping("/EditPayPassWord")
 	public void EditPayPassWord(HttpServletResponse response,HttpServletRequest request){
@@ -225,7 +194,6 @@ public class UserController extends BaseController {
 	
 	@RequestMapping("/logou")
 	public void logou(HttpServletResponse response,HttpServletRequest request) throws IOException{
-		System.out.println("woai");
 		request.getSession().removeAttribute("userId");
 		request.getSession().removeAttribute("money");
 		request.getSession().removeAttribute("userName");

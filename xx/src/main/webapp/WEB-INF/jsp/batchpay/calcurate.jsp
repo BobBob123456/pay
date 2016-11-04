@@ -94,7 +94,32 @@ function vaild_form(){
 			}
 			r.push(p)
 		}
-		$('#pay_form').submit();
+		$("#next").attr("disabled","disabled");
+		 $.ajax({
+             type: "POST",
+             url:"batchPay/do_calcurate.html",
+             data: $('#pay_form').serialize(),
+             success : function(g, f) {
+            	g=eval("("+g+")");
+ 				switch (parseInt(g.code)) {
+ 				case -1:
+ 					location.href = "batchPay/listBatchPay.html?batchId="+ g.batchId;
+ 					break;
+ 				default:
+ 					if (g.str == "") {
+ 						location.href = "batchPay/batchSubmission.html"
+ 					} else {
+ 						$("#next").removeAttr("disabled");
+ 						alert(g.str);
+ 					}
+ 					break
+ 				}
+ 			},
+ 			error : function(g, f, h) {
+ 				$("#next").removeAttr("disabled");
+ 			}
+         });
+		///$('#pay_form').submit();
 }
 </script>
 <link href="css/table.css" rel="stylesheet">
@@ -155,7 +180,7 @@ function vaild_form(){
 			</div>
 		</div>
 		<div class="selectclass" style="text-align:center;">
-			<span  class="btn btn-primary" onclick="vaild_form()">下一步</span>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="addTr()">新增</button>
+			<span  class="btn btn-primary" onclick="vaild_form()" id="next">下一步</span>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="addTr()">新增</button>
 		</div>
 		<div style="clear: left;"></div>
 	</form>

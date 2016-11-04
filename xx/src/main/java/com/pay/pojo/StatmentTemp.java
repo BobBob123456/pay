@@ -1,5 +1,7 @@
 package com.pay.pojo;
 
+import java.util.Date;
+
 public class StatmentTemp {
     private Integer id;
 
@@ -14,6 +16,8 @@ public class StatmentTemp {
     private Float money;
 
     private String bank;
+
+    private Date createDate;
 
     public Integer getId() {
         return id;
@@ -69,5 +73,13 @@ public class StatmentTemp {
 
     public void setBank(String bank) {
         this.bank = bank == null ? null : bank.trim();
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }
