@@ -31,6 +31,7 @@ public class SessionFilter implements Filter {
 
 	public void init(FilterConfig cfg) throws ServletException {
 		sessionKey = cfg.getInitParameter("sessionKey");
+		
 
 		String excepUrlRegex = cfg.getInitParameter("excepUrlRegex");
 		if (!StringUtils.isBlank(excepUrlRegex)) {

@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class LuhmTest {  
 	  
     public static void main(String[] args) {  
+    	
     	String s=520+"_"+System.currentTimeMillis()+"";
     	System.out.println(Utils.MD5(s));
        /* Scanner input = new Scanner(System.in);  

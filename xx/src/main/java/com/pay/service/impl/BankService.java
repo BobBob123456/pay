@@ -16,6 +16,8 @@ public class BankService implements IBankService {
 	@Resource
 	private BankDaoImpl bankDaoImpl;
 	
+	
+	
 	public int getBankByUserId(Map<String, Object> map) {
 		
 		return (int) bankDaoImpl.getNumber(map, "getBankByUserId");

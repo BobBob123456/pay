@@ -26,8 +26,15 @@ public class AccountController {
 	@Resource
 	private IBankPayService bankPayService;
 	
+	    
+	
 	@RequestMapping("/update_password")
 	public String update_password(HttpServletResponse response,HttpServletRequest request){
+		
+	/*	mailMessage.setSubject("你好");
+		mailMessage.setText("这个是一个通过Spring框架来发送邮件的小程序");
+		mailMessage.setTo("345425170@qq.com");
+		mailSender.send(mailMessage);*/
 		return "account/update_password";
 	}
 	
