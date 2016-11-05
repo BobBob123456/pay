@@ -1,13 +1,13 @@
 $(document).ready(function(e) {
-    $(".zc img").click(function(e) {
+    //$(".zc img").click(function(e) {
         var reg = $(this).attr("reg");
 		var UserType = $(this).attr("UserType");
 		$(".zc").fadeOut(200,function(){
 			$("#regdiv input[type='image']").attr("src",reg);
 			$("#UserType").val(UserType);
 			$("#regdiv").fadeIn(200);
-			})
-    });
+			});
+    //});
 	
 	$(".inputtext").focus(function(e) {
 		$(".inputtext").removeClass("input_text");
