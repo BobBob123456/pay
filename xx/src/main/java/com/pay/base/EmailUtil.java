@@ -12,6 +12,7 @@ import org.apache.commons.mail.HtmlEmail;
 public class EmailUtil {
 
 	private static String code;
+	
 
 	private static String smtp; // 服务器地址
 
