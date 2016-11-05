@@ -14,7 +14,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="User/js/jquery-1.7.2.js"></script>
 </head>
 <body>
-<jsp:include page="WEB-INF/jsp/common/top.jsp"></jsp:include>
 	<div id="da-wrapper" class="fluid">
 		<!-- Content -->
 		<div id="da-content">

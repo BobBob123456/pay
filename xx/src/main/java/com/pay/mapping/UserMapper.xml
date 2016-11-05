@@ -13,10 +13,11 @@
     <result column="SjUserID" property="sjuserid" jdbcType="INTEGER" />
     <result column="gmwttk" property="gmwttk" jdbcType="INTEGER" />
     <result column="mypayurlname" property="mypayurlname" jdbcType="VARCHAR" />
+    <result column="usersessionid" property="usersessionid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, UserName, LoginPassWord, UserType, status, RegDate, activate, mbk, SjUserID, 
-    gmwttk, mypayurlname
+    gmwttk, mypayurlname,usersessionid
   </sql>
   <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -60,11 +61,11 @@
     insert into pay_user (id, UserName, LoginPassWord, 
       UserType, status, RegDate, 
       activate, mbk, SjUserID, 
-      gmwttk, mypayurlname)
+      gmwttk, mypayurlname,usersessionid)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{loginpassword,jdbcType=VARCHAR}, 
       #{usertype,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{regdate,jdbcType=TIMESTAMP}, 
       #{activate,jdbcType=VARCHAR}, #{mbk,jdbcType=INTEGER}, #{sjuserid,jdbcType=INTEGER}, 
-      #{gmwttk,jdbcType=INTEGER}, #{mypayurlname,jdbcType=VARCHAR})
+      #{gmwttk,jdbcType=INTEGER}, #{mypayurlname,jdbcType=VARCHAR},#{usersessionid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pay.pojo.User" >
     insert into pay_user
@@ -102,6 +103,9 @@
       <if test="mypayurlname != null" >
         mypayurlname,
       </if>
+       <if test="usersessionid != null" >
+        usersessionid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -136,6 +140,9 @@
       </if>
       <if test="mypayurlname != null" >
         #{mypayurlname,jdbcType=VARCHAR},
+      </if>
+       <if test="usersessionid != null" >
+        #{usersessionid,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -172,6 +179,9 @@
       <if test="mypayurlname != null" >
         mypayurlname = #{mypayurlname,jdbcType=VARCHAR},
       </if>
+      <if test="usersessionid != null" >
+        usersessionid = #{usersessionid,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -186,7 +196,8 @@
       mbk = #{mbk,jdbcType=INTEGER},
       SjUserID = #{sjuserid,jdbcType=INTEGER},
       gmwttk = #{gmwttk,jdbcType=INTEGER},
-      mypayurlname = #{mypayurlname,jdbcType=VARCHAR}
+      mypayurlname = #{mypayurlname,jdbcType=VARCHAR},
+      usersessionid = #{usersessionid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

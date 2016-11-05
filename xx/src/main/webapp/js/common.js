@@ -4,6 +4,7 @@
      */  
     $.ajaxSetup({  
         complete: function(xhr,status) {
+        	alert(1);
             var sessionStatus = xhr.getResponseHeader('sessionstatus');  
             if(sessionStatus == 'timeout') {  
                 var top = getTopWinow();  

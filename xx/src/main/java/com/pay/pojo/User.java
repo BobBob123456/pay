@@ -24,6 +24,8 @@ public class User {
     private Integer gmwttk;
 
     private String mypayurlname;
+    
+    private String usersessionid;
 
     public Integer getId() {
         return id;
@@ -112,4 +114,14 @@ public class User {
     public void setMypayurlname(String mypayurlname) {
         this.mypayurlname = mypayurlname == null ? null : mypayurlname.trim();
     }
+
+	public String getUsersessionid() {
+		return usersessionid;
+	}
+
+	public void setUsersessionid(String usersessionid) {
+		this.usersessionid = usersessionid;
+	}
+    
+    
 }

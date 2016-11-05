@@ -7,7 +7,7 @@
 	
 	
 	.header .header-right {float:right;width:360px;}
-	.header .header-right .yue{float:left;margin-right:20px;}
+	.header .header-right .yue{}
 	.header .header-right .yue span{font-size: 14px;font-weight: bold;color: orange;margin:0 5px;}
 	.header .header-right .login-name .logout{color: #08c;text-decoration: none;}
 	.header .header-right .login-name .logout:hover{color: #08c;text-decoration: underline;cursor:pointer;color:#005CCC;}

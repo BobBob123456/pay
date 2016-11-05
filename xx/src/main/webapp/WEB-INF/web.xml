@@ -29,6 +29,14 @@
 		<filter>
 		 <filter-name>SessionFilter</filter-name>
 		 <filter-class>com.pay.filter.SessionFilter</filter-class>
+		  <init-param>
+            <param-name>userService</param-name>
+            <param-value>sessionFilter</param-value>         
+        </init-param>
+        <init-param>     
+                 <param-name>targetFilterLifecycle</param-name>     
+                 <param-value>true</param-value>     
+		</init-param>     
 		 <init-param>
 		     <description>将当前登录的用户的信息保存在 session 中时使用的key，如果没有配置此参数，则该过滤器不起作用</description>
 		     <param-name>sessionKey</param-name>
@@ -51,7 +59,7 @@
 			         还有一点需要说明的是，该参数的值不包含web应用的 ContextPath。
 		     </description>
 		     <param-name>excepUrlRegex</param-name>
-		     <param-value>/user/login.html|/imageGen/getSysManageLoginCode.html|/user/doLogin.html|/backend/^[A-Za-z0-9-]{0,20}$.html</param-value>
+		     <param-value>/user/login.html|/imageGen/getSysManageLoginCode.html|/user/doLogin.html|/backend/backend_login.html</param-value>
 		 </init-param>
 		</filter>
 		<filter-mapping>

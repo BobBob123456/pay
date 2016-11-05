@@ -3,22 +3,35 @@ package com.pay.filter;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import com.pay.base.StringUtils;
+import com.pay.base.Utils;
+import com.pay.pojo.User;
+import com.pay.service.IUserService;
 
 /**
  * 用于检查用户是否登录了系统的过滤器
  * @author bob
  */
 public class SessionFilter implements Filter {
+	
+	@Autowired
+	private IUserService userService;
+
 
 	/** 要检查的 session 的名称 */
 	private String sessionKey;
@@ -32,13 +45,15 @@ public class SessionFilter implements Filter {
 	public void init(FilterConfig cfg) throws ServletException {
 		sessionKey = cfg.getInitParameter("sessionKey");
 		
-
 		String excepUrlRegex = cfg.getInitParameter("excepUrlRegex");
 		if (!StringUtils.isBlank(excepUrlRegex)) {
 			excepUrlPattern = Pattern.compile(excepUrlRegex);
 		}
-
 		forwardUrl = cfg.getInitParameter("redirectUrl");
+		
+		ServletContext context = cfg.getServletContext();  
+	    ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(context);  
+	    userService =  (IUserService) ctx.getBean("userService");  
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -69,10 +84,18 @@ public class SessionFilter implements Filter {
                 return;  
              }  
 		} else {
-			chain.doFilter(req, res);
+		   User user=userService.getUserById(Integer.valueOf(sessionObj.toString()));
+		   String sessionid = request.getSession().getId();
+		   if(user.getUsersessionid().equals(sessionid)){
+			   chain.doFilter(req, res);
+		   }else{
+			   Utils.writer_out(response, "<script type='text/javascript'>alert('已在其他地方登陆！'); location.href='login.html'</script>");
+		   }
 		}
 	}
+	
 
+	
 	public void destroy() {
 	}
 }

@@ -10,10 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/backend")
 public class BackEndController {
 	
-	@RequestMapping("/backend_index")
-	public void backend_index(HttpServletResponse response,HttpServletRequest request){
-		System.out.println("woai");
-		//return "backend/backend_index";
+	
+	@RequestMapping("/backend_login")
+	public String backend_login(HttpServletResponse response,HttpServletRequest request){
+		return "backend/login";
 	}
-
+	
+	@RequestMapping("/do_login")
+	public void do_login(HttpServletResponse response,HttpServletRequest request){
+		
+	}
 }

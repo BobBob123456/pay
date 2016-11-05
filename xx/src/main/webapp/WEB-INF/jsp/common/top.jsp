@@ -43,8 +43,6 @@ $(function(){
 		}
 	});
 });
-
-
 	function tanchuang(i){
 		var content=$('#notice_content'+i).html()
 		var title=$('#title'+i).html();
@@ -67,9 +65,11 @@ $(function(){
 <!--头部-->
 	<div class="header">
 		<div class='logo'><img src='images/logo4.png' /></div>
-		<div class='header-right'>
-			<div class='yue'>账户余额<span id="account_money"></span>元</div>
-			<div class='login-name'>${sessionScope.userName}<span style='margin:0 5px;'>|</span><span class='logout'><a href="user/logou.html">退出系统</a></span></div>
+		<div class='header-right' align="right">
+			<c:if test="${sessionScope.userType!=6}">
+				<span class='yue'>账户余额<span id="account_money"></span>元</span>
+			</c:if>
+			<span style="font-size:14px;">${sessionScope.userName}</span><span style='margin:0 5px;'>|</span><span class='logout'><a href="user/logou.html">退出系统</a></span>
 		</div>
 	</div>
 	
@@ -78,67 +78,86 @@ $(function(){
 			<div class="t_c_cen">
 				<div class="t_c_bottom">
 					<ul>
-						<li>
-							<a href="javascript:void(0);"><span class="icon-shoukuan"></span>我的收款<b class="caret"></b></a>
-							<div class="Nodes">
-								<ul>
-									<li><a href="user/user_index.html">网关收款</a></li>
-									<li><a href="user/ptzz.html">账户收款</a></li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<a href="javascript:void(0);"><span class="icon-jiesuan"></span>我的结算<b class="caret"></b></a>
-							<div class="Nodes">
-								<ul>
-									<li><a href="user/settlement.html">银行卡结算</a></li>
-									<li><a href="user/pt_settlement.html" class="messages">账户付款</a></li>
-								</ul>
-							</div>
-						</li>
-						<li><a href="user/income_expenses_detail.html"><span class="icon-shouzhi"></span>收支明细</a></li>
-						<li>
-							<a href="javascript:void(0);"><span class="icon-fukuan"></span>批量付款<b class="caret"></b></a>
-							<div class="Nodes">
-								<ul>
-									<li><a href="batchPay/calcurate.html">逐笔录入</a></li>
-									<li><a href="batchPay/batchSubmission.html">批量提交</a></li>
-								</ul>
-							</div>
-						</li>
-						<li>
-							<a href="javascript:void(0);"><span class="icon-zhanghu"></span>账户管理<b class="caret"></b></a>
-							<div class="Nodes">
-								<ul>
-									<li class='bott1'><a href="account/withdraw.html">提现</a></li>
-									<li><a href="account/update_password.html">修改密码</a></li>
-									<li><a href="account/cardSet.html">银行卡设置</a></li>
-									<li><a href="account/merchantKey.html">商户key值</a></li>
-									<li class='bott1'><a href="account/retrieveSafeCode.html">找回安全码</a></li>
-									<!-- <li class='bott2'><a href="">手机绑定</a></li>
-									<li class='bott1'><a href="">IP绑定</a></li>
-									<li class='bott2'><a href="">手机解绑</a></li>
-									<li class='bott1'><a href="">IP解绑</a></li> -->
-									<li class='bott2'><a href="">安全令牌</a></li>
-								</ul>
-							</div>
-						</li>
-						
-						<c:if test="${sessionScope.userType==5}">
+						<c:if test="${sessionScope.userType!=6}">
 							<li>
-								<a href="javascript:void(0);"><span class="icon-daili"></span>代理管理<b class="caret"></b></a>
+								<a href="javascript:void(0);"><span class="icon-shoukuan"></span>我的收款<b class="caret"></b></a>
 								<div class="Nodes">
 									<ul>
-										<li class='bott1'><a href="user/tjyg.html">下级商户</a></li>
-										<li class='bott2'><a href="user/xj_order.html">下级收款订单</a></li>
-										<li><a href="">下级结算订单</a></li>
-										<li><a href="">下级收支明细</a></li>
-									
+										<li><a href="user/user_index.html">网关收款</a></li>
+										<li><a href="user/ptzz.html">账户收款</a></li>
 									</ul>
 								</div>
 							</li>
+							<li>
+								<a href="javascript:void(0);"><span class="icon-jiesuan"></span>我的结算<b class="caret"></b></a>
+								<div class="Nodes">
+									<ul>
+										<li><a href="user/settlement.html">银行卡结算</a></li>
+										<li><a href="user/pt_settlement.html" class="messages">账户付款</a></li>
+									</ul>
+								</div>
+							</li>
+							<li><a href="user/income_expenses_detail.html"><span class="icon-shouzhi"></span>收支明细</a></li>
+							<li>
+								<a href="javascript:void(0);"><span class="icon-fukuan"></span>批量付款<b class="caret"></b></a>
+								<div class="Nodes">
+									<ul>
+										<li><a href="batchPay/calcurate.html">逐笔录入</a></li>
+										<li><a href="batchPay/batchSubmission.html">批量提交</a></li>
+									</ul>
+								</div>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><span class="icon-zhanghu"></span>账户管理<b class="caret"></b></a>
+								<div class="Nodes">
+									<ul>
+										<li class='bott1'><a href="account/withdraw.html">提现</a></li>
+										<li><a href="account/update_password.html">修改密码</a></li>
+										<li><a href="account/cardSet.html">银行卡设置</a></li>
+										<li><a href="account/merchantKey.html">商户key值</a></li>
+										<li class='bott1'><a href="account/retrieveSafeCode.html">找回安全码</a></li>
+										<!-- <li class='bott2'><a href="">手机绑定</a></li>
+										<li class='bott1'><a href="">IP绑定</a></li>
+										<li class='bott2'><a href="">手机解绑</a></li>
+										<li class='bott1'><a href="">IP解绑</a></li> -->
+										<li class='bott2'><a href="">安全令牌</a></li>
+									</ul>
+								</div>
+							</li>
+							
+							<c:if test="${sessionScope.userType==5}">
+								<li>
+									<a href="javascript:void(0);"><span class="icon-daili"></span>代理管理<b class="caret"></b></a>
+									<div class="Nodes">
+										<ul>
+											<li class='bott1'><a href="user/tjyg.html">下级商户</a></li>
+											<li class='bott2'><a href="user/xj_order.html">下级收款订单</a></li>
+											<li><a href="">下级结算订单</a></li>
+											<li><a href="">下级收支明细</a></li>
+										
+										</ul>
+									</div>
+								</li>
+							</c:if>
+							<li><a href=""><span class="icon-api"></span>API接口</a></li>
 						</c:if>
-						<li><a href=""><span class="icon-api"></span>API接口</a></li>
+						<c:if test="${sessionScope.userType==6}">
+							<li>
+								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>商户管理</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>订单管理</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>通道管理</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>公告管理</a>
+							</li>
+							<li>
+								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>提款管理</a>
+							</li>
+						</c:if>
 					</ul>
 				</div>
 			</div>

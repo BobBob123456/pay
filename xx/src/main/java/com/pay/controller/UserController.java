@@ -131,11 +131,16 @@ public class UserController extends BaseController {
 			Utils.writer_out(response,"您的账号已被锁定！");
 			return;
 		}
+		User u=new User();
+		u.setId(user.getId());
+		u.setUsersessionid(sessionid);
+		userService.updateSelective(u);
 		/**把用户信息放到session里面去**/
 		request.getSession().setAttribute("userName",user.getUsername());
 		request.getSession().setAttribute("userType",user.getUsertype());
 		request.getSession().setAttribute("userId",user.getId());
 		Utils.writer_out(response, "ok");
+		
 	}
 	
 
