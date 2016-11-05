@@ -107,7 +107,7 @@ function checkImg(code){
            
             </div>
             <div id="dengludivcontentright">
-                <button type="button" class="btn btn-default" onclick="javascript:window.location.href='user/doLogin.html'">免费注册</button><br><br>
+                <button type="button" class="btn btn-default" onclick="javascript:window.location.href='user/register.html'">免费注册</button><br><br>
           		<button type="button" class="btn btn-default" onclick="javascript:window.location.href=''">账号激活</button><br><br>
               <!--  <button type="button" class="btn btn-primary" onclick="javascript:window.location.href=''">代理登录</button> -->
             </div>

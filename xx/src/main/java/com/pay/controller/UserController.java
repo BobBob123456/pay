@@ -78,6 +78,10 @@ public class UserController extends BaseController {
 	@Resource
 	private IMoneyBdService moneyBdService;
 	
+	@RequestMapping("/register")
+	public String register(HttpServletRequest request, HttpServletResponse response) {
+		return "register";
+	}
 
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request, HttpServletResponse response) {
