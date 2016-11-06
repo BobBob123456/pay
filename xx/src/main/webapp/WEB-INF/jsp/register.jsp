@@ -22,6 +22,9 @@
 <link rel="stylesheet" type="text/css" href="css/reg.css" />
 <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
 <script type="text/javascript" src="js/jquery.nbspSlider.1.0.min.js"></script>
+<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css"
+	rel="stylesheet">
 <script type="text/javascript" src="js/js.js"></script>
 <script type="text/javascript" src="js/reg.js"></script>
 
@@ -37,11 +40,84 @@
 	$(document).ready(function() {
 		flushValidateCode();//进入页面就刷新生成验证码
 	});
+	
+	//注册
+	function toRegister()
+	{
+		//验证码
+		var verify=$("#verify").val();
+		if(verify.length==0){
+			$("#errVerify").css("display", "block");
+			return;
+		}
+		else
+		{
+			$("#errVerify").css("display", "none");
+		}
+		
+		//确认密码
+		var pwd = $("#LoginPassWord").val();
+		var okpwd = $("#OkPassWord").val();
+		if (pwd != okpwd) {
+			$("#OkPassWord").val("");
+			$("#errOKPwd").css("display", "block");
+			return;
+		} else {
+			$("#errOKPwd").css("display", "none");
+		}
+		
+		//密码
+		var pwd = $("#LoginPassWord").val();
+		if (pwd.length >= 6 && pwd.length <= 16) {
+			$("#errPwd").css("display", "none");
+
+		} else {
+			$("#LoginPassWord").val("");
+			$("#errPwd").css("display", "block");
+			return;
+		}
+		
+		//用户名
+		var email = $("#UserName").val();
+		if(email.length==0)
+		{
+			$("#errName").css("display", "block");
+			return;
+		}
+		var reg = /\w+[@]{1}\w+[.]\w+/;
+		if (reg.test(email)) {
+			$("#errName").css("display", "none");
+		} else {
+			$("#UserName").val("");
+			$("#errName").css("display", "block");
+			return;
+		}
+		
+		$("#btnsub").html("发送中...");
+	 	$.ajax({
+			type : 'POST',
+			url : "user/doRegister.html",
+			data : {"UserName": $("#UserName").val() ,"LoginPassWord": $("#LoginPassWord").val(),"verify": $("#verify").val()},
+			dataType : 'text',
+			success : function(str) {
+				$("#btnsub").html("注册");
+				if (str != "ok") {
+					alert(str);
+				} else {
+					location.href = "<%=basePath%>user/succeedReg.html?uname="
+							+ $("#UserName").val();
+				}
+			},
+			error : function(str) {
+				$("#btnsub").html("注册");
+			}
+		});
+	}
 
 	/* 刷新生成验证码 */
 	function flushValidateCode() {
 		var validateImgObject = document.getElementById("codeValidateImg");
-		validateImgObject.src = "${pageContext.request.contextPath }/imageGen/getSysManageLoginCode.html?time="
+		validateImgObject.src = "${pageContext.request.contextPath }/imageGen/getSysManageRegisterCode.html?time="
 				+ new Date();
 	}
 	/*校验验证码输入是否正确*/
@@ -57,6 +133,42 @@
 				flushValidateCode();
 			}
 		})
+	}
+
+	function checkOKPwd() {
+		var pwd = $("#LoginPassWord").val();
+		var okpwd = $("#OkPassWord").val();
+		if (pwd != okpwd) {
+			$("#OkPassWord").val("");
+			$("#errOKPwd").css("display", "block");
+		} else {
+			$("#errOKPwd").css("display", "none");
+		}
+	}
+
+	function checkPwd() {
+		var pwd = $("#LoginPassWord").val();
+		if (pwd.length >= 6 && pwd.length <= 16) {
+			$("#errPwd").css("display", "none");
+
+		} else {
+			$("#LoginPassWord").val("");
+			$("#errPwd").css("display", "block");
+		}
+	}
+
+	function checkEmail() {
+		var email = $("#UserName").val();
+		if (email.length == 0) {
+			$("#errName").css("display", "block");
+		}
+		var reg = /\w+[@]{1}\w+[.]\w+/;
+		if (reg.test(email)) {
+			$("#errName").css("display", "none");
+		} else {
+			$("#UserName").val("");
+			$("#errName").css("display", "block");
+		}
 	}
 </script>
 </head>
@@ -80,14 +192,12 @@
 	<div id="Company_Content">
 		<div
 			style="margin-left: 10px; background-image: url(images/reg02.jpg);"
-			class="zcx zc">
-		</div>
+			class="zcx zc"></div>
 		<div style="clear: left;"></div>
 		<br>
-		
 
-		<form name="Form1" id="Form1" method="post" action="/Index_reg.html"
-			onsubmit="return check()">
+
+		<form name="Form1" id="Form1">
 			<div
 				style="width: 760px; height: 482px; margin: 0px auto; margin-top: 10px; display: none; background-image: url(images/regreg.gif)"
 				id="regdiv">
@@ -101,27 +211,27 @@
 				<div class="regtitle reginput">
 					账&nbsp;户&nbsp;名：<input type="text" name="UserName" id="UserName"
 						style="width: 200px; height: 25px; vertical-align: middle; font-size: 20px; color: #06C;"
-						class="inputtext">&nbsp;&nbsp;&nbsp;&nbsp;<span
+						class="inputtext" value="751060568@qq.com" onblur="checkEmail();">&nbsp;&nbsp;&nbsp;&nbsp;<span
 						style="font-size: 13px; color: #666;">账户只能用Email邮箱地址</span>
-					<div class="errordiv">账号不正确！</div>
+					<div id="errName" class="errordiv">账号不是Email地址！</div>
 				</div>
 
 
 				<div class="regtitle reginput">
 					登录密码：<input type="password" name="LoginPassWord" id="LoginPassWord"
 						style="width: 200px; height: 25px; vertical-align: middle; font-size: 20px; color: #06C;"
-						class="inputtext">&nbsp;&nbsp;&nbsp;&nbsp;<span
+						class="inputtext" onblur="checkPwd();">&nbsp;&nbsp;&nbsp;&nbsp;<span
 						style="font-size: 13px; color: #666;">登录密码为6-16位数字、字母、符号的组合</span>
-					<div class="errordiv">密码不正确！</div>
+					<div id="errPwd" class="errordiv">密码不正确！</div>
 				</div>
 
 
 				<div class="regtitle reginput">
 					确认密码：<input type="password" name="OkPassWord" id="OkPassWord"
 						style="width: 200px; height: 25px; vertical-align: middle; font-size: 20px; color: #06C;"
-						class="inputtext"> &nbsp;&nbsp;&nbsp;&nbsp;<span
-						style="font-size: 13px; color: #666;">再次确认输入登录密码</span>
-					<div class="errordiv">密码不正确！</div>
+						class="inputtext" onblur="checkOKPwd();">
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 13px; color: #666;">再次确认输入登录密码</span>
+					<div id="errOKPwd" class="errordiv">两次输入的密码不一致！</div>
 				</div>
 
 				<div class="regtitle reginput">
@@ -131,17 +241,16 @@
 						style="vertical-align: middle; height: 32px; cursor: pointer;"
 						onclick='flushValidateCode()' id="codeValidateImg"
 						name="codeValidateImg" title="点击刷新验证码" />
-					<div class="errordiv">验证码不正确！</div>
+					<div id="errVerify" class="errordiv">请输入验证码！</div>
 				</div>
 
 
 				<div class="reginput" style="margin-top: 10px; text-align: center;">
 					<input type="hidden" name="UserType" id="UserType"> <input
-						type="hidden" name="SjUserID" id="SjUserID" value="0"><input
-						type="image" src="images/gr_reg.gif"
-						style="vertical-align: middle;">&nbsp;&nbsp; <a
-						href="javascript:fanhui()" style="font-size: 15px; color: #069;">返
-						回</a>
+						type="hidden" name="SjUserID" id="SjUserID" value="0">
+
+					&nbsp;&nbsp; <a class="btn btn-primary" id="btnsub"
+						onclick="return toRegister();">注册</a>
 				</div>
 
 			</div>
@@ -154,8 +263,7 @@
 	<br>
 	<div
 		style="width: 100%; height: 180px; margin: 0px auto; background-color: #dbe0e3;">
-		<br>
-		<br>
+		<br> <br>
 		<!---------------------------------------------------------------------------------------------->
 		<div id="foot">
 			<div class="dt">

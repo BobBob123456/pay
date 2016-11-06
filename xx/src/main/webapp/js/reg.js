@@ -53,21 +53,3 @@ function check(){
 	
 	}
 	
-function plfsjh(arraylist){
-	
-		
-		 $.ajax({
-			  type:'POST',
-			  url:'/SjtAdminSjt_ShangHu_JiHuoEmail.html',
-			  data:"UserID="+arraylist,
-			  dataType:'text',
-			  success:function(str){
-				    alert("已成功重新发送激活邮件，请意查收！");
-				  },
-			  error:function(){
-				  alert("处理失败！");
-				  }	
-			  });
-
-	
-}

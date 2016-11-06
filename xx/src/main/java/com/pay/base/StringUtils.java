@@ -519,4 +519,12 @@ public class StringUtils {
 		// System.out.println(vistaMap);
 
 	}
+	
+	public static boolean isEmail(String emailStr)
+	{
+		String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";    
+		 Pattern regex = Pattern.compile(check);    
+		 Matcher matcher = regex.matcher(emailStr);    
+		 return matcher.matches();    
+	}
 }

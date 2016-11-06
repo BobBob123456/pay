@@ -57,7 +57,7 @@
     delete from pay_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.pay.pojo.User" >
+  <insert id="add" parameterType="com.pay.pojo.User" useGeneratedKeys="true" keyProperty="id">
     insert into pay_user (id, UserName, LoginPassWord, 
       UserType, status, RegDate, 
       activate, mbk, SjUserID, 
