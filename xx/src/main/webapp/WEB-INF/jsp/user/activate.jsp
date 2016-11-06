@@ -32,7 +32,7 @@
 		}
 
 		if (result == "fail") {
-			$("#Company_Content").html("出现了错误");
+			$("#Company_Content").html("无效的信息");
 			$("#Company_Content").css("background-image", "");
 		}
 	});
