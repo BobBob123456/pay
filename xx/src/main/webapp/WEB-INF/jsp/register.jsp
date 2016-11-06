@@ -211,7 +211,7 @@
 				<div class="regtitle reginput">
 					账&nbsp;户&nbsp;名：<input type="text" name="UserName" id="UserName"
 						style="width: 200px; height: 25px; vertical-align: middle; font-size: 20px; color: #06C;"
-						class="inputtext" value="751060568@qq.com" onblur="checkEmail();">&nbsp;&nbsp;&nbsp;&nbsp;<span
+						class="inputtext" onblur="checkEmail();">&nbsp;&nbsp;&nbsp;&nbsp;<span
 						style="font-size: 13px; color: #666;">账户只能用Email邮箱地址</span>
 					<div id="errName" class="errordiv">账号不是Email地址！</div>
 				</div>
