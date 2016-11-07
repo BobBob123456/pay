@@ -84,7 +84,6 @@ public class UserController extends BaseController {
 
 	@RequestMapping("/doRegister")
 	public void doRegister(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("woai");
 		String userName = request.getParameter("UserName");
 		String loginPassWord = request.getParameter("LoginPassWord");
 		String verify = request.getParameter("verify");
