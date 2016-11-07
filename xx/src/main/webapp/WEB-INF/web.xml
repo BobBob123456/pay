@@ -59,7 +59,7 @@
 			         还有一点需要说明的是，该参数的值不包含web应用的 ContextPath。
 		     </description>
 		     <param-name>excepUrlRegex</param-name>
-		     <param-value>/user/activate.html|/user/succeedReg.html|/user/register.html|/user/login.html|/imageGen/getSysManageLoginCode.html|/user/doLogin.html|/backend/backend_login.html</param-value>
+		     <param-value>/imageGen/getSysManageRegisterCode.html|/user/activate.html|/user/succeedReg.html|/user/register.html|/user/login.html|/imageGen/getSysManageLoginCode.html|/user/doLogin.html|/backend/backend_login.html</param-value>
 		 </init-param>
 		</filter>
 		<filter-mapping>
