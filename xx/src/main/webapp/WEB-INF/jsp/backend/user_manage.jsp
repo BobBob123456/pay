@@ -50,7 +50,7 @@ $(document).ready(function(e) {
 				</div>
 			</nav>
 			<div style='clear:both;'></div>
-			 <form action="backend/withdraw_manage.html" method="post">
+			 <form action="backend/user_manage.html" method="post">
 				<!--时间轴s-->
 				<div class='ztime'>
 					<div class="input-group" style='width:290px;float:left;font-size:13px;margin:0 5px 0 -5px;'>
@@ -70,15 +70,14 @@ $(document).ready(function(e) {
 					</div>
 					<div class="input-group" style='width:290px;float:left;font-size:13px;'>
 						<div class="input-group-addon">状态</div>
-						 <select class="form-control" name="zt" id="zt">
+						 <select class="form-control" name="status" id="status">
 							<option value="">全部</option>
-							<option value="0">未处理</option>
-							<option value="1">正在处理中</option>
-							<option value="2">已打款</option>
-							<option value="3">失败</option>
+							<option value="0">未激活</option>
+							<option value="1">激活</option>
+							<option value="2">停用</option>
 						</select>
 						<script type="text/javascript">
-							$("#zt").val(${zt});
+							$("#status").val(${status});
 						</script>
 					</div>
 					<div class="pull-right">
@@ -92,15 +91,15 @@ $(document).ready(function(e) {
 					<table class="table table-hover">
 					<thead>
 						<tr>
-							<th style="width: 116px;">商户类型</th>
+							<th style="width: 76px;">商户类型</th>
 							<th style="width: 179px;">用户名</th>
-							<th style="width: 179px;">商户号</th>
-							<th style="width: 179px;">网银通道</th>
+							<th style="width: 50px;">商户号</th>
+							<th style="width: 109px;">网银通道</th>
 							<th style="width: 240px;" colspan="2">金额（元）</th>
 							<th style="width: 149px;">状态</th>
 							<th style="width: 149px;">注册时间</th>
-							<th style="width: 149px;">手续费率设置</th>
-							<th style="width: 149px;">提款设置</th>
+							<th style="width: 149px;" colspan="2">手续费率设置</th>
+							<th style="width: 149px;" colspan="2">提款费率设置</th>
 							<th style="width: 149px;">上级</th>
 							<th style="width: 149px;">下级数量</th>
 							<th style="width: 149px;">操作</th>
@@ -108,31 +107,36 @@ $(document).ready(function(e) {
 						</tr>
 					</thead>
 					<tbody>
-					  <c:forEach items="${tklist}" var="vo">  
+					  <c:forEach items="${users}" var="vo">  
 						<tr>
-							<td>${vo.user.username}</td>
-							<td>${vo.orderId}</td>
-							<td>${vo.myname}</td>
-							<td>${vo.bankNumber}</td>
-							<td>${vo.tkMoney}</td>
+							<td>
+								<c:if test="${vo.usertype==0||vo.usertype==3}">
+									商户
+								</c:if>
+								<c:if test="${vo.usertype==5}">
+									代理
+								</c:if>
+							</td>
+							<td>${vo.username}</td>
+							<td>${vo.id}</td>
+							<td>${vo.sjapi.myname }</td>
+							<td>${vo.money.money }</td>
+							<td><span class="btn btn-primary btn-search">金额</span></td>
 							<td> 
-								<c:choose>
-									<c:when test="${vo.zt==0}">
-										未处理
-									</c:when>
-									<c:when test="${vo.zt==1}">
-										正在处理中
-									</c:when>
-									<c:when test="${vo.zt==2}">
-										已打款
-									</c:when>
-									<c:otherwise>
-										失败
-									</c:otherwise>
-								</c:choose>
+								<c:if test="${vo.status==0}">
+									未激活
+								</c:if>
+								<c:if test="${vo.status==1}">
+									已激活
+								</c:if>
 					       </td>
-					      <td><fmt:formatDate value="${vo.sqDate}" pattern="yyyy/MM/dd HH:mm:ss" /></td>
-					       <td>${vo.voucher}</td>
+					      <td><fmt:formatDate value="${vo.regdate}" pattern="yyyy/MM/dd HH:mm:ss" /></td>
+					      <td>${vo.sjapi.fl}</td>
+					      <td><span class="btn btn-primary btn-search">设置</span></td>
+					      <td></td>
+					      <td><span class="btn btn-primary btn-search">设置</span></td>
+					      <td>${vo.sj_name }</td>
+					      <td>${vo.xj_num}</td>
 					      <td></td>
 						</tr>
 					 </c:forEach> 

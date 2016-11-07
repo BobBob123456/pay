@@ -26,7 +26,24 @@ public class User {
     private String mypayurlname;
     
     private String usersessionid;
+    
+    private String key;
+    
+    private String email;
+    
+    private int payBank;
+    
+    private Money money;
+    
+    private Sjapi sjapi;
 
+    /**上级用户名**/
+    private String sj_name;
+
+    /**下级用户数**/
+    private int xj_num;
+    
+    
     public Integer getId() {
         return id;
     }
@@ -122,6 +139,61 @@ public class User {
 	public void setUsersessionid(String usersessionid) {
 		this.usersessionid = usersessionid;
 	}
-    
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public int getPayBank() {
+		return payBank;
+	}
+
+	public void setPayBank(int payBank) {
+		this.payBank = payBank;
+	}
+
+	public Money getMoney() {
+		return money;
+	}
+
+	public void setMoney(Money money) {
+		this.money = money;
+	}
+
+	public Sjapi getSjapi() {
+		return sjapi;
+	}
+
+	public void setSjapi(Sjapi sjapi) {
+		this.sjapi = sjapi;
+	}
+
+	public String getSj_name() {
+		return sj_name;
+	}
+
+	public void setSj_name(String sj_name) {
+		this.sj_name = sj_name;
+	}
+
+	public int getXj_num() {
+		return xj_num;
+	}
+
+	public void setXj_num(int xj_num) {
+		this.xj_num = xj_num;
+	}
     
 }

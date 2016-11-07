@@ -17,8 +17,10 @@ import com.pay.base.DateUtil;
 import com.pay.base.constant.CommonConstant;
 import com.pay.pojo.Order;
 import com.pay.pojo.TkList;
+import com.pay.pojo.User;
 import com.pay.service.IOrderService;
 import com.pay.service.ITkListService;
+import com.pay.service.IUserService;
 
 @Controller
 @RequestMapping("/backend")
@@ -27,7 +29,11 @@ public class BackEndController {
 	@Resource
 	private IOrderService orderService;
 	
-	@Resource ITkListService tkListService;
+	@Resource 
+	private ITkListService tkListService;
+	
+	@Resource
+	private IUserService userService;
 	
 	@RequestMapping("/order_manage")
 	public String order_manage(HttpServletResponse response,HttpServletRequest request){
@@ -82,7 +88,35 @@ public class BackEndController {
 	
 	@RequestMapping("/user_manage")
 	public String user_manage(HttpServletResponse response,HttpServletRequest request){
-		
+		String cur = request.getParameter("cur");
+		String ksjy_date = request.getParameter("ksjy_date");
+		String account=request.getParameter("account");
+		String jsjy_date = request.getParameter("jsjy_date");
+		String status = request.getParameter("status");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ksjy_date", ksjy_date);
+		map.put("jsjy_date", jsjy_date);
+		map.put("account", account);
+		map.put("status", status);
+		int total = userService.getAllUserCount(map);
+		int currentPage = 1;
+		if (StringUtils.isEmpty(cur)) {
+			currentPage = 1;
+		} else {
+			currentPage = Integer.valueOf(cur);
+		}
+		/** 计算总页数 **/
+		float p = Float.valueOf(total) / Float.valueOf(CommonConstant.PAGE_SIZE_DEFAULT);
+		int totalPage = (int) Math.ceil(p);
+		List<User> list = userService.getAllUser(map, currentPage);
+		request.setAttribute("account", account);
+		request.setAttribute("status", status);
+		request.setAttribute("total", total);
+		request.setAttribute("ksjy_date", ksjy_date);
+		request.setAttribute("jsjy_date", jsjy_date);
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("totalPage", totalPage);
+		request.setAttribute("users", list);
 		return "backend/user_manage";
 	}
 	

@@ -14,10 +14,22 @@
     <result column="gmwttk" property="gmwttk" jdbcType="INTEGER" />
     <result column="mypayurlname" property="mypayurlname" jdbcType="VARCHAR" />
     <result column="usersessionid" property="usersessionid" jdbcType="VARCHAR" />
+    <result column="key" property="key" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="PayBank" property="payBank" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap type="com.pay.pojo.User" id="UserMap" extends="BaseResultMap">
+ 	  <association property="money" javaType="com.pay.pojo.Money">
+            <result property="money" column="Money"/>
+      </association>
+      <association property="sjapi" javaType="com.pay.pojo.Sjapi">
+            <result property="myname" column="myname"/>
+            <result property="fl" column="fl"/>
+      </association>
   </resultMap>
   <sql id="Base_Column_List" >
     id, UserName, LoginPassWord, UserType, status, RegDate, activate, mbk, SjUserID, 
-    gmwttk, mypayurlname,usersessionid
+    gmwttk, mypayurlname,usersessionid,`key`,email,PayBank
   </sql>
   <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -30,13 +42,51 @@
  </select>
  <!-- 获得下级用户的数量 -->
  <select id="getOwnerUserCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-	select count(*) from pay_user 
+	select count(id) from pay_user 
     where SjUserID= #{sjuserid,jdbcType=INTEGER} 
  </select>
   <!-- 获得下级用户的userid-->
 <select id="getXjUserId" resultType="java.lang.String" parameterType="java.util.Map" >
     select group_concat(id) as uid from pay_user 
     where SjUserID= #{sjuserid,jdbcType=INTEGER} 
+</select>
+
+<!-- 获得所有下级 -->
+<select id="getAllUser" resultMap="UserMap" parameterType="java.util.Map" >
+select u.id,UserName,UserType,`status`,RegDate,SjUserID,email,Money,myname,fl
+from pay_user u LEFT JOIN pay_money m on u.id=m.UserID
+LEFT JOIN pay_sjapi s on u.PayBank=s.f_id 
+where UserType!=6 
+<if test="ksjy_date !=null and ksjy_date != ''" >
+	    and RegDate &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+</if>
+<if test="jsjy_date !=null and jsjy_date != ''" >
+	  	and RegDate &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+</if>
+<if test="account !=null and account != ''" >
+        and UserName=#{account,jdbcType=VARCHAR}
+</if>
+<if test="order_number !=null and order_number != ''" >
+        and `status`=#{status,jdbcType=INTEGER}
+</if>
+</select>
+<select id="getAllUserCount" resultType="Integer"  parameterType="java.util.Map" >
+   select count(u.id)
+	from pay_user u LEFT JOIN pay_money m on u.id=m.UserID
+	LEFT JOIN pay_sjapi s on u.PayBank=s.f_id where UserType!=6 
+	<if test="ksjy_date !=null and ksjy_date != ''" >
+	    and RegDate &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+	</if>
+	<if test="jsjy_date !=null and jsjy_date != ''" >
+	  	and RegDate &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+	</if>
+	
+	<if test="account !=null and account != ''" >
+        and UserName=#{account,jdbcType=VARCHAR}
+	</if>
+	<if test="order_number !=null and order_number != ''" >
+	        and `status`=#{status,jdbcType=INTEGER}
+	</if>
 </select>
  
  <!-- 获得下级用户的列表-->

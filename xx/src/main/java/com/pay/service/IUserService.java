@@ -17,8 +17,9 @@ public interface IUserService extends ICommonService<User>  {
 	/**获得下级用户的列表**/
 	List<User> getOwnerUserList(Map<String, Object> map,int currentPage);
 	
+	/**获取所有用户数**/
+	int getAllUserCount(Map<String, Object> map);
 	
-	
-	
-	
+	/**获取所有用户**/
+	List<User> getAllUser(Map<String, Object> map,int currentPage);
 }
