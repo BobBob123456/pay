@@ -37,14 +37,17 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	public int add(User t) {
+		userDaoImpl.add(t);
 		return 0;
 	}
 
 	public int addSelective(User t) {
+		
 		return 0;
 	}
 
 	public int update(User t) {
+		userDaoImpl.updateSelective(t);
 		return 0;
 	}
 
