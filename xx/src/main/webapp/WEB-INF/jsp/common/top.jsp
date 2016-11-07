@@ -143,11 +143,12 @@ $(function(){
 						</c:if>
 						<c:if test="${sessionScope.userType==6}">
 							<li>
-								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>商户管理</a>
+								<a href="backend/order_manage.html"><span class="icon-shouzhi"></span>订单管理</a>
 							</li>
 							<li>
-								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>订单管理</a>
+								<a href="backend/user_manage.html"><span class="icon-shouzhi"></span>商户管理</a>
 							</li>
+							
 							<li>
 								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>通道管理</a>
 							</li>
@@ -155,7 +156,7 @@ $(function(){
 								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>公告管理</a>
 							</li>
 							<li>
-								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>提款管理</a>
+								<a href="backend/withdraw_manage.html"><span class="icon-shouzhi"></span>结算管理</a>
 							</li>
 						</c:if>
 					</ul>

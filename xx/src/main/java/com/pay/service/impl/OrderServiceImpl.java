@@ -23,18 +23,12 @@ public class OrderServiceImpl implements IOrderService {
 	@Resource
 	private UserDaoImpl userDaoImpl;
 	
-	/**
-	 * 获取最近10条交易订单
-	 */
+	/** 获取最近10条交易订单**/
 	public List<Order> getRecentOrder(Map<String, Object> map) {
 		return this.orderDaoImpl.getObjectListBySelectSqlId(map, 1, CommonConstant.PAGE_SIZE_DEFAULT, "getRecentOrder");
 	}
 	
-	/**
-	 * 获取订单的总条数
-	 * @param map
-	 * @return
-	 */
+	/**获取订单的总条数**/
 	public int getcount(Map<String, Object> map){
 		return this.orderDaoImpl.getCount(map);
 	}
@@ -95,19 +89,15 @@ public class OrderServiceImpl implements IOrderService {
 
 	public List<Order> getXjOrders(Map<String, Object> map, int currentPage) {
 		String userids=this.userDaoImpl.getXjUserId(map);
-		
 		Map<String, Object> m=new HashMap<String, Object>();
 		m.put("userId", userids);
-		
 		return this.orderDaoImpl.getObjectListBySelectSqlId(m, currentPage, CommonConstant.PAGE_SIZE_DEFAULT, "getXjOrders");
 	}
 
 	public int getXjOrderCount(Map<String, Object> map) {
 		String userids=this.userDaoImpl.getXjUserId(map);
-		System.out.println(userids);
 		Map<String, Object> m=new HashMap<String, Object>();
 		m.put("userId", userids);
-		
 		return this.orderDaoImpl.getObjectCountBySelecSqltId(m, "getXjOrderCount");
 	}
 
@@ -118,6 +108,22 @@ public class OrderServiceImpl implements IOrderService {
 	
 	public List<Order> getPtSettlementList(Map<String, Object> map, int currentPage) {
 		return this.orderDaoImpl.getObjectListBySelectSqlId(map, currentPage, CommonConstant.PAGE_SIZE_DEFAULT, "getPtSettlementList");
+	}
+
+	public List<Order> getAllOrder(Map<String, Object> map, int currentPage) {
+		return orderDaoImpl.getObjectListBySelectSqlId(map, currentPage, CommonConstant.PAGE_SIZE_DEFAULT, "getAllOrder");
+	}
+
+	public int getAllOrderCount(Map<String, Object> map) {
+		return orderDaoImpl.getObjectCountBySelecSqltId(map, "getAllOrderCount");
+	}
+
+	public int getAllOrderSuccessCount(Map<String, Object> map) {
+		return orderDaoImpl.getObjectCountBySelecSqltId(map, "getAllOrderSuccessCount");
+	}
+
+	public float getAllOrderSuccessMoney(Map<String, Object> map) {
+		return orderDaoImpl.getNumber(map, "getAllOrderSuccessMoney");
 	}
 
 	

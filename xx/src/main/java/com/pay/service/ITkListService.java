@@ -8,9 +8,7 @@ import com.pay.pojo.TkList;
 
 
 public interface ITkListService  {
-	float getwclmoney(Map<String, Object> map);
-	
-	float getyclmoney(Map<String, Object> map);
+
 	
 	/**获取结算条数**/
 	int getSettlementCount(Map<String, Object> map);
@@ -26,4 +24,16 @@ public interface ITkListService  {
 	
 	/**新增提款**/
 	int save_tk(TkList tk);
+	
+	/**提款管理**/
+	int getAllWithdrawCount(Map<String, Object> map);
+	
+	/**提款管理**/
+	List<TkList> getAllWithdrawList(Map<String, Object> map,int currentPage);
+	
+	/**获取成功或失败条数**/
+	int getWithdrawCount(Map<String, Object> map);
+	
+	/**获取成功或者失败金额**/
+	float getWithdrawMoney(Map<String, Object> map);
 }

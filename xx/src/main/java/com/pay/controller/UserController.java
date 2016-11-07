@@ -343,8 +343,14 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping("/user_index")
-	public String wyjyjl(HttpServletResponse response, HttpServletRequest request) {
+	public String wyjyjl(HttpServletResponse response, HttpServletRequest request) throws IOException {
 		Integer userId = Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		Integer userType = Integer.parseInt(request.getSession().getAttribute("userType").toString());
+		if(userType==6){
+			String path = request.getContextPath();
+			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+			response.sendRedirect(basePath+"backend/order_manage.html");
+		}
 		String cur = request.getParameter("cur");
 		String order_number = request.getParameter("order_number");
 		String ksjy_date = request.getParameter("ksjy_date");

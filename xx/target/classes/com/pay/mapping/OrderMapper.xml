@@ -28,14 +28,84 @@
     <result column="fhlx" property="fhlx" jdbcType="VARCHAR" />
     <result column="ewmimg" property="ewmimg" jdbcType="VARCHAR" />
     <result column="tbhdurl" property="tbhdurl" jdbcType="VARCHAR" />
+    <result column="OrderId" property="orderId" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.pay.pojo.Order" extends="BaseResultMap" >
     <result column="AdditionalInfo" property="additionalinfo" jdbcType="LONGVARCHAR" />
   </resultMap>
+   <!-- 使用resultMap映射实体类和字段之间的一一对应关系 -->
+   <resultMap type="com.pay.pojo.Order" id="OrderResultMap" extends="BaseResultMap">
+       <association property="user" javaType="com.pay.pojo.User">
+            <result property="username" column="account"/>
+        </association>
+   </resultMap>
+     <!-- 获得所有的订单 -->
+  <select id="getAllOrderCount" resultType="Integer"  parameterType="java.util.Map" >
+   select count(o.id)   from pay_order o LEFT JOIN pay_user u 
+   on o.UserID=u.id where  (typepay = 0 or typepay = 1)
+   and TradeDate &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   and TradeDate &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+   <if test="status !=null and  status != ''" >
+        and Zt=#{status,jdbcType=INTEGER}
+   </if>
+   <if test="order_number !=null and order_number != ''" >
+        and OrderId=#{order_number,jdbcType=VARCHAR}
+   </if>
+   <if test="account !=null and account != ''" >
+        and u.UserName=#{account,jdbcType=VARCHAR}
+   </if>
+   order by TradeDate desc
+  </select>
+  
+  <select id="getAllOrderSuccessCount" resultType="Integer"  parameterType="java.util.Map" >
+   select count(o.id)   from pay_order o LEFT JOIN pay_user u 
+   on o.UserID=u.id where  (typepay = 0 or typepay = 1)
+   and TradeDate &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   and TradeDate &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+   <if test="order_number !=null and order_number != ''" >
+        and OrderId=#{order_number,jdbcType=VARCHAR}
+   </if>
+   <if test="account !=null and account != ''" >
+        and u.UserName=#{account,jdbcType=VARCHAR}
+   </if>
+        and Zt=1
+  </select>
+  <select id="getAllOrderSuccessMoney" resultType="float"  parameterType="java.util.Map" >
+   select SUM(trademoney)   from pay_order o LEFT JOIN pay_user u 
+   on o.UserID=u.id where  (typepay = 0 or typepay = 1)
+   and TradeDate &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   and TradeDate &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+   and Zt=1
+   <if test="order_number !=null and order_number != ''" >
+        and OrderId=#{order_number,jdbcType=VARCHAR}
+   </if>
+   <if test="account !=null and account != ''" >
+        and u.UserName=#{account,jdbcType=VARCHAR}
+   </if>
+        and Zt=1 
+  </select>
+  <!-- 获得所有的订单 -->
+  <select id="getAllOrder" resultMap="OrderResultMap" parameterType="java.util.Map" >
+   select o.*,u.UserName as account from pay_order o LEFT JOIN pay_user u 
+   on o.UserID=u.id where  (typepay = 0 or typepay = 1)
+   and TradeDate &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   and TradeDate &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+   <if test="status !=null and  status != ''" >
+        and Zt=#{status,jdbcType=INTEGER}
+   </if>
+   <if test="order_number !=null and order_number != ''" >
+        and OrderId=#{order_number,jdbcType=VARCHAR}
+   </if>
+   <if test="account !=null and account != ''" >
+        and u.UserName=#{account,jdbcType=VARCHAR}
+   </if>
+   order by TradeDate desc
+  </select>
+  
   <sql id="Base_Column_List" >
     id, UserID, TransID, TradeDate, trademoney, sxfmoney, sjflmoney, OrderMoney, ProductName, 
     Amount, Username, Email, Mobile, Zt, Sjt_Merchant_url, Sjt_Return_url, tjurl, CardNO, 
-    CardPWD, typepay, tongdao, bankname, payname, fhlx, ewmimg, tbhdurl
+    CardPWD, typepay, tongdao, bankname, payname, fhlx, ewmimg, tbhdurl,OrderId
   </sql>
   <sql id="Blob_Column_List" >
     AdditionalInfo
@@ -111,7 +181,7 @@
     order by TradeDate desc
   </select>
   
-
+ 
   
   <select id="getPtCount"  resultType="Integer"  parameterType="java.util.Map" >
    select count(*)  from pay_order where 
@@ -167,7 +237,6 @@
     order by TradeDate desc
   </select>	
 
-  
   <select id="getRecentOrder" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
     select 
     <include refid="Base_Column_List" />
@@ -193,7 +262,7 @@
       Sjt_Return_url, tjurl, CardNO, 
       CardPWD, typepay, tongdao, 
       bankname, payname, fhlx, 
-      ewmimg, tbhdurl, AdditionalInfo
+      ewmimg, tbhdurl, AdditionalInfo,OrderId
       )
     values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{transid,jdbcType=VARCHAR}, 
       #{tradedate,jdbcType=TIMESTAMP}, #{trademoney,jdbcType=DECIMAL}, #{sxfmoney,jdbcType=DECIMAL}, 
@@ -203,7 +272,8 @@
       #{sjtReturnUrl,jdbcType=VARCHAR}, #{tjurl,jdbcType=VARCHAR}, #{cardno,jdbcType=VARCHAR}, 
       #{cardpwd,jdbcType=VARCHAR}, #{typepay,jdbcType=INTEGER}, #{tongdao,jdbcType=VARCHAR}, 
       #{bankname,jdbcType=VARCHAR}, #{payname,jdbcType=VARCHAR}, #{fhlx,jdbcType=VARCHAR}, 
-      #{ewmimg,jdbcType=VARCHAR}, #{tbhdurl,jdbcType=VARCHAR}, #{additionalinfo,jdbcType=LONGVARCHAR}
+      #{ewmimg,jdbcType=VARCHAR}, #{tbhdurl,jdbcType=VARCHAR}, #{additionalinfo,jdbcType=LONGVARCHAR},
+      #{OrderId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pay.pojo.Order" >
@@ -290,6 +360,9 @@
       <if test="additionalinfo != null" >
         AdditionalInfo,
       </if>
+       <if test="orderId != null" >
+        OrderId,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -372,6 +445,9 @@
       </if>
       <if test="additionalinfo != null" >
         #{additionalinfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

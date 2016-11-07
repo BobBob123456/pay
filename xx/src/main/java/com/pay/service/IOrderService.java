@@ -34,5 +34,17 @@ public interface IOrderService extends ICommonService<Order> {
 	
 	int   getXjOrderCount(Map<String, Object> map);
 	
+	/**获取所有订单列表**/
+	List<Order> getAllOrder(Map<String, Object> map,int currentPage);
+	
+	/**获取所有订单条数**/
+	int getAllOrderCount(Map<String, Object> map);
+	
+	/**获取所有订单成功的条数**/
+	int getAllOrderSuccessCount(Map<String, Object> map);
+	
+	/**获取所有订单成功的条数**/
+	float getAllOrderSuccessMoney(Map<String, Object> map);
+	
 	
 }

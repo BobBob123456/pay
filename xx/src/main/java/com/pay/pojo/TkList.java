@@ -34,6 +34,12 @@ public class TkList {
 
     private Integer wt;
 
+    private String orderId;
+    
+    private String voucher;
+    
+    private User   user;
+    
     public Integer getId() {
         return id;
     }
@@ -153,4 +159,29 @@ public class TkList {
     public void setWt(Integer wt) {
         this.wt = wt;
     }
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+
+	public String getVoucher() {
+		return voucher;
+	}
+
+	public void setVoucher(String voucher) {
+		this.voucher = voucher;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+    
 }

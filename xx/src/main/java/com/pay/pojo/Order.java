@@ -57,8 +57,14 @@ public class Order {
     private String tbhdurl;
 
     private String additionalinfo;
+    
+    private String orderId;
+    
+    private User   user;
 
-    public Integer getId() {
+
+
+	public Integer getId() {
         return id;
     }
 
@@ -273,4 +279,22 @@ public class Order {
     public void setAdditionalinfo(String additionalinfo) {
         this.additionalinfo = additionalinfo == null ? null : additionalinfo.trim();
     }
+    
+    public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
 }

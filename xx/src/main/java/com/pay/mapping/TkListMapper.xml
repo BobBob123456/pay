@@ -17,8 +17,104 @@
     <result column="ZT" property="zt" jdbcType="INTEGER" />
     <result column="T" property="t" jdbcType="INTEGER" />
     <result column="wt" property="wt" jdbcType="INTEGER" />
+    <result column="OrderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="voucher" property="voucher" jdbcType="VARCHAR" />
   </resultMap>
-   <select id="getSuccessMoney"  resultType="float" parameterType="java.util.Map" >
+  <sql id="Base_Column_List" >
+    id, UserID, tk_money, sxf_money, money, bankname, zhi_bankname, fen_bankname, bank_number, 
+    myname, sq_date, qr_date, ZT, T, wt,OrderId,voucher
+  </sql>
+     <!-- 使用resultMap映射实体类和字段之间的一一对应关系 -->
+   <resultMap type="com.pay.pojo.TkList" id="TklistResultMap" extends="BaseResultMap">
+       <association property="user" javaType="com.pay.pojo.User">
+            <result property="username" column="account"/>
+        </association>
+   </resultMap>
+  <!-- 提款管理 -->
+    <select id="getWithdrawCount"  resultType="Integer" parameterType="java.util.Map" >
+		select count(tk.id) as account from pay_tklist tk LEFT JOIN pay_user u 
+		on tk.UserID=u.id where wt=0
+		and sq_date &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   		and sq_date &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+        and ZT=#{zt,jdbcType=INTEGER}
+   		<if test="account !=null and account != ''" >
+        	and u.UserName=#{account,jdbcType=VARCHAR}
+   		</if>
+   		<if test="name !=null and name != ''" >
+        	and myname=#{name,jdbcType=VARCHAR}
+   		</if>
+   		<if test="card !=null and card != ''" >
+        	and bank_number=#{card,jdbcType=VARCHAR}
+   		</if>
+   		 <if test="order_number !=null and order_number != ''" >
+	        and OrderId=#{order_number,jdbcType=VARCHAR}
+	    </if>
+  </select>
+  <select id="getWithdrawMoney"  resultType="float" parameterType="java.util.Map" >
+		select count(tk.id) as account from pay_tklist tk LEFT JOIN pay_user u 
+		on tk.UserID=u.id where wt=0
+		and sq_date &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   		and sq_date &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+        and ZT=#{zt,jdbcType=INTEGER}
+   		<if test="account !=null and account != ''" >
+        	and u.UserName=#{account,jdbcType=VARCHAR}
+   		</if>
+   		<if test="name !=null and name != ''" >
+        	and myname=#{name,jdbcType=VARCHAR}
+   		</if>
+   		<if test="card !=null and card != ''" >
+        	and bank_number=#{card,jdbcType=VARCHAR}
+   		</if>
+   		 <if test="order_number !=null and order_number != ''" >
+	        and OrderId=#{order_number,jdbcType=VARCHAR}
+	    </if>
+  </select>
+  
+  <select id="getAllWithdrawCount"  resultType="Integer" parameterType="java.util.Map" >
+		select count(tk.id) as account from pay_tklist tk LEFT JOIN pay_user u 
+		on tk.UserID=u.id where wt=0
+		and sq_date &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+   		and sq_date &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+   		<if test="zt !=null and  zt != ''" >
+        	and ZT=#{zt,jdbcType=INTEGER}
+   		</if>
+   		<if test="account !=null and account != ''" >
+        	and u.UserName=#{account,jdbcType=VARCHAR}
+   		</if>
+   		<if test="name !=null and name != ''" >
+        	and myname=#{name,jdbcType=VARCHAR}
+   		</if>
+   		<if test="card !=null and card != ''" >
+        	and bank_number=#{card,jdbcType=VARCHAR}
+   		</if>
+   		 <if test="order_number !=null and order_number != ''" >
+	        and OrderId=#{order_number,jdbcType=VARCHAR}
+	    </if>
+  </select>
+  <select id="getAllWithdrawList" resultMap="TklistResultMap" parameterType="java.util.Map" >
+	    select tk.*,u.UserName as account from pay_tklist tk LEFT JOIN pay_user u 
+		on tk.UserID=u.id where wt=0
+	    and sq_date &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+	   	and sq_date &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+	   	<if test="zt !=null and  zt != ''" >
+        	and ZT=#{zt,jdbcType=INTEGER}
+   		</if> 
+   		<if test="account !=null and account != ''" >
+        	and u.UserName=#{account,jdbcType=VARCHAR}
+   		</if>
+   		<if test="name !=null and name != ''" >
+        	and myname=#{name,jdbcType=VARCHAR}
+   		</if>
+   		<if test="card !=null and card != ''" >
+        	and bank_number=#{card,jdbcType=VARCHAR}
+   		</if>
+   		<if test="order_number !=null and order_number != ''" >
+	        and OrderId=#{order_number,jdbcType=VARCHAR}
+	   </if>
+	   	order by sq_date desc
+  </select>
+  <!-- 银行卡结算 -->
+  <select id="getSuccessMoney"  resultType="float" parameterType="java.util.Map" >
 		select sum(tk_money) from pay_tklist 
 		where UserID = #{userId,jdbcType=INTEGER} and wt = 0
 		and sq_date &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
@@ -27,7 +123,6 @@
         	and ZT=#{zt,jdbcType=INTEGER}
    		</if>
   </select>
-  
   <select id="getSuccessCount"  resultType="float" parameterType="java.util.Map" >
 		select count(*) from pay_tklist 
 		where UserID = #{userId,jdbcType=INTEGER} and wt = 0 and ZT=2
@@ -37,7 +132,6 @@
         	and ZT=#{zt,jdbcType=INTEGER}
    		</if>
   </select>
-  
   <select id="getSettlementCount"  resultType="Integer" parameterType="java.util.Map" >
 		select count(*) from pay_tklist 
 		where UserID = #{userId,jdbcType=INTEGER} and wt = 0
@@ -60,18 +154,6 @@
 	   	order by sq_date desc
   </select>
 
-  <sql id="Base_Column_List" >
-    id, UserID, tk_money, sxf_money, money, bankname, zhi_bankname, fen_bankname, bank_number, 
-    myname, sq_date, qr_date, ZT, T, wt
-  </sql>
-  <select id="getwclmoney"  resultType="float" parameterType="java.util.Map" >
-   select SUM(tk_money) from pay_tklist  where wt = 0 and 
-   UserID=#{userId,jdbcType=INTEGER} and ZT = 0
-  </select>
-  <select id="getyclmoney"  resultType="float" parameterType="java.util.Map" >
-   select SUM(money) from pay_tklist  where wt = 0 and 
-   UserID=#{userId,jdbcType=INTEGER} and ZT = 2
-  </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

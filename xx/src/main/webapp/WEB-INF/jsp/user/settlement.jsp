@@ -77,6 +77,7 @@
 						 <select class="form-control" name="zt" id="zt">
 							<option value="">全部</option>
 							<option value="0">未处理</option>
+							<option value="1">正在处理中</option>
 							<option value="2">已打款</option>
 							<option value="3">失败</option>
 						</select>
