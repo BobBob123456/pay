@@ -108,8 +108,8 @@ $(document).ready(function(e) {
 					<table class="table table-hover">
 					<thead>
 						<tr>
-							<th style="width: 116px;">支付方式</th>
-							<th style="width: 179px;">订单号</th>
+							<th style="width: 116px;">收款订单号</th>
+							<th style="width: 179px;">商户订单号</th>
 							<th style="width: 179px;">建立时间</th>
 							<th style="width: 240px;">金额（元）</th>
 							<th style="width: 149px;">状态</th>
@@ -120,8 +120,8 @@ $(document).ready(function(e) {
 					<tbody>
 					  <c:forEach items="${orders}" var="vo">  
 						<tr>
-							<td>${vo.bankname}</td>
 							<td>${vo.transid}</td>
+							<td></td>
 							<td><fmt:formatDate value="${vo.tradedate}" pattern="yyyy/MM/dd HH:mm:ss" /></td>
 							<td>${vo.trademoney}</td>
 							<td> 
