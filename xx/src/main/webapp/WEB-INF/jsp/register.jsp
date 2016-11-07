@@ -211,7 +211,7 @@
 				<div class="regtitle reginput">
 					账&nbsp;户&nbsp;名：<input type="text" name="UserName" id="UserName"
 						style="width: 200px; height: 25px; vertical-align: middle; font-size: 20px; color: #06C;"
-						class="inputtext" onblur="checkEmail();">&nbsp;&nbsp;&nbsp;&nbsp;<span
+						class="inputtext" class="form-control"  onblur="checkEmail();">&nbsp;&nbsp;&nbsp;&nbsp;<span
 						style="font-size: 13px; color: #666;">账户只能用Email邮箱地址</span>
 					<div id="errName" class="errordiv">账号不是Email地址！</div>
 				</div>
@@ -220,7 +220,7 @@
 				<div class="regtitle reginput">
 					登录密码：<input type="password" name="LoginPassWord" id="LoginPassWord"
 						style="width: 200px; height: 25px; vertical-align: middle; font-size: 20px; color: #06C;"
-						class="inputtext" onblur="checkPwd();">&nbsp;&nbsp;&nbsp;&nbsp;<span
+						class="inputtext"   onblur="checkPwd();">&nbsp;&nbsp;&nbsp;&nbsp;<span
 						style="font-size: 13px; color: #666;">登录密码为6-16位数字、字母、符号的组合</span>
 					<div id="errPwd" class="errordiv">密码不正确！</div>
 				</div>

@@ -84,6 +84,7 @@ public class UserController extends BaseController {
 
 	@RequestMapping("/doRegister")
 	public void doRegister(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("woai");
 		String userName = request.getParameter("UserName");
 		String loginPassWord = request.getParameter("LoginPassWord");
 		String verify = request.getParameter("verify");
@@ -121,6 +122,7 @@ public class UserController extends BaseController {
 		user.setUsername(userName);
 		user.setLoginpassword(Utils.MD5(loginPassWord));
 		String activate = com.pay.base.StringUtils.getStringRandom(64);
+		user.setRegdate(new Date());
 		user.setActivate(activate);
 		user.setStatus(0);
 		user.setUsertype(0);
@@ -156,7 +158,7 @@ public class UserController extends BaseController {
 		str.append(
 				"<a target=\"_blank\" href=\"http://pay.jiangxin123.cn/\">http://pay.jiangxin123.cn/</a><br>Copyright 国盛通 2013 All Right Reserved");
 
-		EmailUtil.send("751060568@qq.com", "国盛通账户激活邮件", str.toString());
+		EmailUtil.send(userName, "国盛通账户激活邮件", str.toString());
 	}
 
 	@RequestMapping("/succeedReg")
