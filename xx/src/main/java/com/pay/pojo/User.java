@@ -36,6 +36,8 @@ public class User {
     private Money money;
     
     private Sjapi sjapi;
+    
+    private Sjfl sjfl;
 
     /**上级用户名**/
     private String sj_name;
@@ -178,6 +180,14 @@ public class User {
 
 	public void setSjapi(Sjapi sjapi) {
 		this.sjapi = sjapi;
+	}
+
+	public Sjfl getSjfl() {
+		return sjfl;
+	}
+
+	public void setSjfl(Sjfl sjfl) {
+		this.sjfl = sjfl;
 	}
 
 	public String getSj_name() {

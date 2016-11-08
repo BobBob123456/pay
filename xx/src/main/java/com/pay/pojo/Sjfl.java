@@ -1,49 +1,29 @@
 package com.pay.pojo;
 
-import java.math.BigDecimal;
+import java.util.Date;
 
 public class Sjfl {
     private Integer id;
 
-    private String jkname;
+    private Integer userid;
 
-    private BigDecimal wy;
+    private Float chequeFl;
 
-    private BigDecimal thykt;
+    private Float statementFl;
 
-    private BigDecimal wmykt;
+    private Float statementFd;
 
-    private BigDecimal ltczk;
+    private Float statementBd;
 
-    private BigDecimal jyykt;
+    private Date setChequeTime;
 
-    private BigDecimal qqczk;
+    private Date setStatementTime;
 
-    private BigDecimal shykt;
+    private Integer setChequeUserid;
 
-    private BigDecimal ztyxk;
+    private Integer setStatementUserid;
 
-    private BigDecimal jwykt;
-
-    private BigDecimal sdykt;
-
-    private BigDecimal qgszx;
-
-    private BigDecimal txykt;
-
-    private BigDecimal dxczk;
-
-    private BigDecimal gyykt;
-
-    private BigDecimal zyykt;
-
-    private BigDecimal yddx;
-
-    private BigDecimal ltdx;
-
-    private BigDecimal dxdx;
-
-    private BigDecimal wyykt;
+    private Float sjFl;
 
     public Integer getId() {
         return id;
@@ -53,163 +33,83 @@ public class Sjfl {
         this.id = id;
     }
 
-    public String getJkname() {
-        return jkname;
+    public Integer getUserid() {
+        return userid;
     }
 
-    public void setJkname(String jkname) {
-        this.jkname = jkname == null ? null : jkname.trim();
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
-    public BigDecimal getWy() {
-        return wy;
+    public Float getChequeFl() {
+        return chequeFl;
     }
 
-    public void setWy(BigDecimal wy) {
-        this.wy = wy;
+    public void setChequeFl(Float chequeFl) {
+        this.chequeFl = chequeFl;
     }
 
-    public BigDecimal getThykt() {
-        return thykt;
+    public Float getStatementFl() {
+        return statementFl;
     }
 
-    public void setThykt(BigDecimal thykt) {
-        this.thykt = thykt;
+    public void setStatementFl(Float statementFl) {
+        this.statementFl = statementFl;
     }
 
-    public BigDecimal getWmykt() {
-        return wmykt;
+    public Float getStatementFd() {
+        return statementFd;
     }
 
-    public void setWmykt(BigDecimal wmykt) {
-        this.wmykt = wmykt;
+    public void setStatementFd(Float statementFd) {
+        this.statementFd = statementFd;
     }
 
-    public BigDecimal getLtczk() {
-        return ltczk;
+    public Float getStatementBd() {
+        return statementBd;
     }
 
-    public void setLtczk(BigDecimal ltczk) {
-        this.ltczk = ltczk;
+    public void setStatementBd(Float statementBd) {
+        this.statementBd = statementBd;
     }
 
-    public BigDecimal getJyykt() {
-        return jyykt;
+    public Date getSetChequeTime() {
+        return setChequeTime;
     }
 
-    public void setJyykt(BigDecimal jyykt) {
-        this.jyykt = jyykt;
+    public void setSetChequeTime(Date setChequeTime) {
+        this.setChequeTime = setChequeTime;
     }
 
-    public BigDecimal getQqczk() {
-        return qqczk;
+    public Date getSetStatementTime() {
+        return setStatementTime;
     }
 
-    public void setQqczk(BigDecimal qqczk) {
-        this.qqczk = qqczk;
+    public void setSetStatementTime(Date setStatementTime) {
+        this.setStatementTime = setStatementTime;
     }
 
-    public BigDecimal getShykt() {
-        return shykt;
+    public Integer getSetChequeUserid() {
+        return setChequeUserid;
     }
 
-    public void setShykt(BigDecimal shykt) {
-        this.shykt = shykt;
+    public void setSetChequeUserid(Integer setChequeUserid) {
+        this.setChequeUserid = setChequeUserid;
     }
 
-    public BigDecimal getZtyxk() {
-        return ztyxk;
+    public Integer getSetStatementUserid() {
+        return setStatementUserid;
     }
 
-    public void setZtyxk(BigDecimal ztyxk) {
-        this.ztyxk = ztyxk;
+    public void setSetStatementUserid(Integer setStatementUserid) {
+        this.setStatementUserid = setStatementUserid;
     }
 
-    public BigDecimal getJwykt() {
-        return jwykt;
+    public Float getSjFl() {
+        return sjFl;
     }
 
-    public void setJwykt(BigDecimal jwykt) {
-        this.jwykt = jwykt;
-    }
-
-    public BigDecimal getSdykt() {
-        return sdykt;
-    }
-
-    public void setSdykt(BigDecimal sdykt) {
-        this.sdykt = sdykt;
-    }
-
-    public BigDecimal getQgszx() {
-        return qgszx;
-    }
-
-    public void setQgszx(BigDecimal qgszx) {
-        this.qgszx = qgszx;
-    }
-
-    public BigDecimal getTxykt() {
-        return txykt;
-    }
-
-    public void setTxykt(BigDecimal txykt) {
-        this.txykt = txykt;
-    }
-
-    public BigDecimal getDxczk() {
-        return dxczk;
-    }
-
-    public void setDxczk(BigDecimal dxczk) {
-        this.dxczk = dxczk;
-    }
-
-    public BigDecimal getGyykt() {
-        return gyykt;
-    }
-
-    public void setGyykt(BigDecimal gyykt) {
-        this.gyykt = gyykt;
-    }
-
-    public BigDecimal getZyykt() {
-        return zyykt;
-    }
-
-    public void setZyykt(BigDecimal zyykt) {
-        this.zyykt = zyykt;
-    }
-
-    public BigDecimal getYddx() {
-        return yddx;
-    }
-
-    public void setYddx(BigDecimal yddx) {
-        this.yddx = yddx;
-    }
-
-    public BigDecimal getLtdx() {
-        return ltdx;
-    }
-
-    public void setLtdx(BigDecimal ltdx) {
-        this.ltdx = ltdx;
-    }
-
-    public BigDecimal getDxdx() {
-        return dxdx;
-    }
-
-    public void setDxdx(BigDecimal dxdx) {
-        this.dxdx = dxdx;
-    }
-
-    public BigDecimal getWyykt() {
-        return wyykt;
-    }
-
-    public void setWyykt(BigDecimal wyykt) {
-        this.wyykt = wyykt;
+    public void setSjFl(Float sjFl) {
+        this.sjFl = sjFl;
     }
 }

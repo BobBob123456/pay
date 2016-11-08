@@ -11,12 +11,14 @@
     <result column="gmoney" property="gmoney" jdbcType="DECIMAL" />
     <result column="TransID" property="transid" jdbcType="VARCHAR" />
     <result column="tcjb" property="tcjb" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="dispose_userid" property="dispose_userid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, UserID, money, datetime, lx, ymoney, gmoney, TransID, tcjb
+    id, UserID, money, datetime, lx, ymoney, gmoney, TransID, tcjb,remark,dispose_userid
   </sql>
   <select id="getMoneyBdCount"  resultType="Integer" parameterType="java.util.Map" >
-		select count(*) from pay_moneybd 
+		select count(id) from pay_moneybd 
 		where UserID = #{userId,jdbcType=INTEGER}
 		and datetime &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
    		and datetime &lt;=#{jsjy_date,jdbcType=TIMESTAMP}

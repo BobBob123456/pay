@@ -3,31 +3,27 @@
 <mapper namespace="com.pay.dao.SjflDao" >
   <resultMap id="BaseResultMap" type="com.pay.pojo.Sjfl" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="jkname" property="jkname" jdbcType="VARCHAR" />
-    <result column="wy" property="wy" jdbcType="DECIMAL" />
-    <result column="thykt" property="thykt" jdbcType="DECIMAL" />
-    <result column="wmykt" property="wmykt" jdbcType="DECIMAL" />
-    <result column="ltczk" property="ltczk" jdbcType="DECIMAL" />
-    <result column="jyykt" property="jyykt" jdbcType="DECIMAL" />
-    <result column="qqczk" property="qqczk" jdbcType="DECIMAL" />
-    <result column="shykt" property="shykt" jdbcType="DECIMAL" />
-    <result column="ztyxk" property="ztyxk" jdbcType="DECIMAL" />
-    <result column="jwykt" property="jwykt" jdbcType="DECIMAL" />
-    <result column="sdykt" property="sdykt" jdbcType="DECIMAL" />
-    <result column="qgszx" property="qgszx" jdbcType="DECIMAL" />
-    <result column="txykt" property="txykt" jdbcType="DECIMAL" />
-    <result column="dxczk" property="dxczk" jdbcType="DECIMAL" />
-    <result column="gyykt" property="gyykt" jdbcType="DECIMAL" />
-    <result column="zyykt" property="zyykt" jdbcType="DECIMAL" />
-    <result column="yddx" property="yddx" jdbcType="DECIMAL" />
-    <result column="ltdx" property="ltdx" jdbcType="DECIMAL" />
-    <result column="dxdx" property="dxdx" jdbcType="DECIMAL" />
-    <result column="wyykt" property="wyykt" jdbcType="DECIMAL" />
+    <result column="UserId" property="userid" jdbcType="INTEGER" />
+    <result column="cheque_fl" property="chequeFl" jdbcType="REAL" />
+    <result column="statement_fl" property="statementFl" jdbcType="REAL" />
+    <result column="statement_fd" property="statementFd" jdbcType="REAL" />
+    <result column="statement_bd" property="statementBd" jdbcType="REAL" />
+    <result column="set_cheque_time" property="setChequeTime" jdbcType="TIMESTAMP" />
+    <result column="set_statement_time" property="setStatementTime" jdbcType="TIMESTAMP" />
+    <result column="set_cheque_userid" property="setChequeUserid" jdbcType="INTEGER" />
+    <result column="set_statement_userid" property="setStatementUserid" jdbcType="INTEGER" />
+    <result column="sj_fl" property="sjFl" jdbcType="REAL" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, jkname, wy, thykt, wmykt, ltczk, jyykt, qqczk, shykt, ztyxk, jwykt, sdykt, qgszx, 
-    txykt, dxczk, gyykt, zyykt, yddx, ltdx, dxdx, wyykt
+    id, UserId, cheque_fl, statement_fl, statement_fd, statement_bd, set_cheque_time, 
+    set_statement_time, set_cheque_userid, set_statement_userid, sj_fl
   </sql>
+  <select id="getObjectByCondition" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_sjfl
+    where UserId = 0
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -39,20 +35,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.pay.pojo.Sjfl" >
-    insert into pay_sjfl (id, jkname, wy, 
-      thykt, wmykt, ltczk, 
-      jyykt, qqczk, shykt, 
-      ztyxk, jwykt, sdykt, 
-      qgszx, txykt, dxczk, 
-      gyykt, zyykt, yddx, 
-      ltdx, dxdx, wyykt)
-    values (#{id,jdbcType=INTEGER}, #{jkname,jdbcType=VARCHAR}, #{wy,jdbcType=DECIMAL}, 
-      #{thykt,jdbcType=DECIMAL}, #{wmykt,jdbcType=DECIMAL}, #{ltczk,jdbcType=DECIMAL}, 
-      #{jyykt,jdbcType=DECIMAL}, #{qqczk,jdbcType=DECIMAL}, #{shykt,jdbcType=DECIMAL}, 
-      #{ztyxk,jdbcType=DECIMAL}, #{jwykt,jdbcType=DECIMAL}, #{sdykt,jdbcType=DECIMAL}, 
-      #{qgszx,jdbcType=DECIMAL}, #{txykt,jdbcType=DECIMAL}, #{dxczk,jdbcType=DECIMAL}, 
-      #{gyykt,jdbcType=DECIMAL}, #{zyykt,jdbcType=DECIMAL}, #{yddx,jdbcType=DECIMAL}, 
-      #{ltdx,jdbcType=DECIMAL}, #{dxdx,jdbcType=DECIMAL}, #{wyykt,jdbcType=DECIMAL})
+    insert into pay_sjfl (id, UserId, cheque_fl, 
+      statement_fl, statement_fd, statement_bd, 
+      set_cheque_time, set_statement_time, set_cheque_userid, 
+      set_statement_userid, sj_fl)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{chequeFl,jdbcType=REAL}, 
+      #{statementFl,jdbcType=REAL}, #{statementFd,jdbcType=REAL}, #{statementBd,jdbcType=REAL}, 
+      #{setChequeTime,jdbcType=TIMESTAMP}, #{setStatementTime,jdbcType=TIMESTAMP}, #{setChequeUserid,jdbcType=INTEGER}, 
+      #{setStatementUserid,jdbcType=INTEGER}, #{sjFl,jdbcType=REAL})
   </insert>
   <insert id="insertSelective" parameterType="com.pay.pojo.Sjfl" >
     insert into pay_sjfl
@@ -60,221 +50,121 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="jkname != null" >
-        jkname,
+      <if test="userid != null" >
+        UserId,
       </if>
-      <if test="wy != null" >
-        wy,
+      <if test="chequeFl != null" >
+        cheque_fl,
       </if>
-      <if test="thykt != null" >
-        thykt,
+      <if test="statementFl != null" >
+        statement_fl,
       </if>
-      <if test="wmykt != null" >
-        wmykt,
+      <if test="statementFd != null" >
+        statement_fd,
       </if>
-      <if test="ltczk != null" >
-        ltczk,
+      <if test="statementBd != null" >
+        statement_bd,
       </if>
-      <if test="jyykt != null" >
-        jyykt,
+      <if test="setChequeTime != null" >
+        set_cheque_time,
       </if>
-      <if test="qqczk != null" >
-        qqczk,
+      <if test="setStatementTime != null" >
+        set_statement_time,
       </if>
-      <if test="shykt != null" >
-        shykt,
+      <if test="setChequeUserid != null" >
+        set_cheque_userid,
       </if>
-      <if test="ztyxk != null" >
-        ztyxk,
+      <if test="setStatementUserid != null" >
+        set_statement_userid,
       </if>
-      <if test="jwykt != null" >
-        jwykt,
-      </if>
-      <if test="sdykt != null" >
-        sdykt,
-      </if>
-      <if test="qgszx != null" >
-        qgszx,
-      </if>
-      <if test="txykt != null" >
-        txykt,
-      </if>
-      <if test="dxczk != null" >
-        dxczk,
-      </if>
-      <if test="gyykt != null" >
-        gyykt,
-      </if>
-      <if test="zyykt != null" >
-        zyykt,
-      </if>
-      <if test="yddx != null" >
-        yddx,
-      </if>
-      <if test="ltdx != null" >
-        ltdx,
-      </if>
-      <if test="dxdx != null" >
-        dxdx,
-      </if>
-      <if test="wyykt != null" >
-        wyykt,
+      <if test="sjFl != null" >
+        sj_fl,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="jkname != null" >
-        #{jkname,jdbcType=VARCHAR},
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
       </if>
-      <if test="wy != null" >
-        #{wy,jdbcType=DECIMAL},
+      <if test="chequeFl != null" >
+        #{chequeFl,jdbcType=REAL},
       </if>
-      <if test="thykt != null" >
-        #{thykt,jdbcType=DECIMAL},
+      <if test="statementFl != null" >
+        #{statementFl,jdbcType=REAL},
       </if>
-      <if test="wmykt != null" >
-        #{wmykt,jdbcType=DECIMAL},
+      <if test="statementFd != null" >
+        #{statementFd,jdbcType=REAL},
       </if>
-      <if test="ltczk != null" >
-        #{ltczk,jdbcType=DECIMAL},
+      <if test="statementBd != null" >
+        #{statementBd,jdbcType=REAL},
       </if>
-      <if test="jyykt != null" >
-        #{jyykt,jdbcType=DECIMAL},
+      <if test="setChequeTime != null" >
+        #{setChequeTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="qqczk != null" >
-        #{qqczk,jdbcType=DECIMAL},
+      <if test="setStatementTime != null" >
+        #{setStatementTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="shykt != null" >
-        #{shykt,jdbcType=DECIMAL},
+      <if test="setChequeUserid != null" >
+        #{setChequeUserid,jdbcType=INTEGER},
       </if>
-      <if test="ztyxk != null" >
-        #{ztyxk,jdbcType=DECIMAL},
+      <if test="setStatementUserid != null" >
+        #{setStatementUserid,jdbcType=INTEGER},
       </if>
-      <if test="jwykt != null" >
-        #{jwykt,jdbcType=DECIMAL},
-      </if>
-      <if test="sdykt != null" >
-        #{sdykt,jdbcType=DECIMAL},
-      </if>
-      <if test="qgszx != null" >
-        #{qgszx,jdbcType=DECIMAL},
-      </if>
-      <if test="txykt != null" >
-        #{txykt,jdbcType=DECIMAL},
-      </if>
-      <if test="dxczk != null" >
-        #{dxczk,jdbcType=DECIMAL},
-      </if>
-      <if test="gyykt != null" >
-        #{gyykt,jdbcType=DECIMAL},
-      </if>
-      <if test="zyykt != null" >
-        #{zyykt,jdbcType=DECIMAL},
-      </if>
-      <if test="yddx != null" >
-        #{yddx,jdbcType=DECIMAL},
-      </if>
-      <if test="ltdx != null" >
-        #{ltdx,jdbcType=DECIMAL},
-      </if>
-      <if test="dxdx != null" >
-        #{dxdx,jdbcType=DECIMAL},
-      </if>
-      <if test="wyykt != null" >
-        #{wyykt,jdbcType=DECIMAL},
+      <if test="sjFl != null" >
+        #{sjFl,jdbcType=REAL},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.Sjfl" >
     update pay_sjfl
     <set >
-      <if test="jkname != null" >
-        jkname = #{jkname,jdbcType=VARCHAR},
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=INTEGER},
       </if>
-      <if test="wy != null" >
-        wy = #{wy,jdbcType=DECIMAL},
+      <if test="chequeFl != null" >
+        cheque_fl = #{chequeFl,jdbcType=REAL},
       </if>
-      <if test="thykt != null" >
-        thykt = #{thykt,jdbcType=DECIMAL},
+      <if test="statementFl != null" >
+        statement_fl = #{statementFl,jdbcType=REAL},
       </if>
-      <if test="wmykt != null" >
-        wmykt = #{wmykt,jdbcType=DECIMAL},
+      <if test="statementFd != null" >
+        statement_fd = #{statementFd,jdbcType=REAL},
       </if>
-      <if test="ltczk != null" >
-        ltczk = #{ltczk,jdbcType=DECIMAL},
+      <if test="statementBd != null" >
+        statement_bd = #{statementBd,jdbcType=REAL},
       </if>
-      <if test="jyykt != null" >
-        jyykt = #{jyykt,jdbcType=DECIMAL},
+      <if test="setChequeTime != null" >
+        set_cheque_time = #{setChequeTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="qqczk != null" >
-        qqczk = #{qqczk,jdbcType=DECIMAL},
+      <if test="setStatementTime != null" >
+        set_statement_time = #{setStatementTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="shykt != null" >
-        shykt = #{shykt,jdbcType=DECIMAL},
+      <if test="setChequeUserid != null" >
+        set_cheque_userid = #{setChequeUserid,jdbcType=INTEGER},
       </if>
-      <if test="ztyxk != null" >
-        ztyxk = #{ztyxk,jdbcType=DECIMAL},
+      <if test="setStatementUserid != null" >
+        set_statement_userid = #{setStatementUserid,jdbcType=INTEGER},
       </if>
-      <if test="jwykt != null" >
-        jwykt = #{jwykt,jdbcType=DECIMAL},
-      </if>
-      <if test="sdykt != null" >
-        sdykt = #{sdykt,jdbcType=DECIMAL},
-      </if>
-      <if test="qgszx != null" >
-        qgszx = #{qgszx,jdbcType=DECIMAL},
-      </if>
-      <if test="txykt != null" >
-        txykt = #{txykt,jdbcType=DECIMAL},
-      </if>
-      <if test="dxczk != null" >
-        dxczk = #{dxczk,jdbcType=DECIMAL},
-      </if>
-      <if test="gyykt != null" >
-        gyykt = #{gyykt,jdbcType=DECIMAL},
-      </if>
-      <if test="zyykt != null" >
-        zyykt = #{zyykt,jdbcType=DECIMAL},
-      </if>
-      <if test="yddx != null" >
-        yddx = #{yddx,jdbcType=DECIMAL},
-      </if>
-      <if test="ltdx != null" >
-        ltdx = #{ltdx,jdbcType=DECIMAL},
-      </if>
-      <if test="dxdx != null" >
-        dxdx = #{dxdx,jdbcType=DECIMAL},
-      </if>
-      <if test="wyykt != null" >
-        wyykt = #{wyykt,jdbcType=DECIMAL},
+      <if test="sjFl != null" >
+        sj_fl = #{sjFl,jdbcType=REAL},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pay.pojo.Sjfl" >
     update pay_sjfl
-    set jkname = #{jkname,jdbcType=VARCHAR},
-      wy = #{wy,jdbcType=DECIMAL},
-      thykt = #{thykt,jdbcType=DECIMAL},
-      wmykt = #{wmykt,jdbcType=DECIMAL},
-      ltczk = #{ltczk,jdbcType=DECIMAL},
-      jyykt = #{jyykt,jdbcType=DECIMAL},
-      qqczk = #{qqczk,jdbcType=DECIMAL},
-      shykt = #{shykt,jdbcType=DECIMAL},
-      ztyxk = #{ztyxk,jdbcType=DECIMAL},
-      jwykt = #{jwykt,jdbcType=DECIMAL},
-      sdykt = #{sdykt,jdbcType=DECIMAL},
-      qgszx = #{qgszx,jdbcType=DECIMAL},
-      txykt = #{txykt,jdbcType=DECIMAL},
-      dxczk = #{dxczk,jdbcType=DECIMAL},
-      gyykt = #{gyykt,jdbcType=DECIMAL},
-      zyykt = #{zyykt,jdbcType=DECIMAL},
-      yddx = #{yddx,jdbcType=DECIMAL},
-      ltdx = #{ltdx,jdbcType=DECIMAL},
-      dxdx = #{dxdx,jdbcType=DECIMAL},
-      wyykt = #{wyykt,jdbcType=DECIMAL}
+    set UserId = #{userid,jdbcType=INTEGER},
+      cheque_fl = #{chequeFl,jdbcType=REAL},
+      statement_fl = #{statementFl,jdbcType=REAL},
+      statement_fd = #{statementFd,jdbcType=REAL},
+      statement_bd = #{statementBd,jdbcType=REAL},
+      set_cheque_time = #{setChequeTime,jdbcType=TIMESTAMP},
+      set_statement_time = #{setStatementTime,jdbcType=TIMESTAMP},
+      set_cheque_userid = #{setChequeUserid,jdbcType=INTEGER},
+      set_statement_userid = #{setStatementUserid,jdbcType=INTEGER},
+      sj_fl = #{sjFl,jdbcType=REAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

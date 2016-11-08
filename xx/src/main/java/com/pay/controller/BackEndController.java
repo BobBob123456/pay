@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.pay.base.DateUtil;
 import com.pay.base.constant.CommonConstant;
 import com.pay.pojo.Order;
+import com.pay.pojo.Sjfl;
 import com.pay.pojo.TkList;
 import com.pay.pojo.User;
 import com.pay.service.IOrderService;
+import com.pay.service.ISjflService;
 import com.pay.service.ITkListService;
 import com.pay.service.IUserService;
 
@@ -34,6 +36,9 @@ public class BackEndController {
 	
 	@Resource
 	private IUserService userService;
+	
+	@Resource
+	private ISjflService sjflService;
 	
 	@RequestMapping("/order_manage")
 	public String order_manage(HttpServletResponse response,HttpServletRequest request){
@@ -109,6 +114,8 @@ public class BackEndController {
 		float p = Float.valueOf(total) / Float.valueOf(CommonConstant.PAGE_SIZE_DEFAULT);
 		int totalPage = (int) Math.ceil(p);
 		List<User> list = userService.getAllUser(map, currentPage);
+		Sjfl sjfl=sjflService.getDefaultSjfl(null);
+		request.setAttribute("sjfl_obj", sjfl);
 		request.setAttribute("account", account);
 		request.setAttribute("status", status);
 		request.setAttribute("total", total);

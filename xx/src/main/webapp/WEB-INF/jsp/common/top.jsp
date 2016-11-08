@@ -150,7 +150,7 @@ $(function(){
 							</li>
 							
 							<li>
-								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>通道管理</a>
+								<a href="sjapi/sjapi_index.html"><span class="icon-shouzhi"></span>通道管理</a>
 							</li>
 							<li>
 								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>公告管理</a>

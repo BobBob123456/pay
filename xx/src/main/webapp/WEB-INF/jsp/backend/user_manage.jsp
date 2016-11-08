@@ -16,8 +16,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="User/js/jquery-1.7.2.js"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"/>
 <script type="text/javascript" src="js/jqPaginator.js"></script>
-<script type="text/javascript" src="User/js/wyjyjl.js"></script>
 <script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
+<script src="css/layer/layer.js"></script>
 <script type="text/javascript">
 $(document).ready(function(e) {	
 	var totalPage=${totalPage};
@@ -35,10 +35,120 @@ $(document).ready(function(e) {
 		});
 	}
 });
+
+function change_money(userid,account,money){
+	var content='<div style="height: auto; padding: 20px 0 0;"><form class="form-horizontal">'+
+	'<div class="col-sm-10" style="text-align:center;font-size:16px;" id="account_label"></div>'+
+	'<div class="form-group" style="margin-left: 0; margin-right: 0;"><label class="col-sm-4 control-label">账号余额:</label><div class="col-sm-6" style="margin-top:5px;">'+
+	'<span id="money_label" style="color:red;font-size:14px;"></span></div></div><div class="form-group" style="margin-left: 0; margin-right: 0;">'+
+	'<label class="col-sm-4 control-label">请选择修改类型:</label><div class="col-sm-6"><select id="type" name="type" class="form-control">'+
+	'<option value="5">减少</option><option value="6">增加</option></select>'+
+	'</div></div><div class="form-group" style="margin-left: 0; margin-right: 0;"><label class="col-sm-4 control-label">请输入修改金额：</label>'+
+	'<div class="col-sm-6"><input type="text" id="money" name="money" class="form-control" placeholder="请输入修改金额"></div>'+
+	'</div><div class="form-group" style="margin-left: 0; margin-right: 0;"><label class="col-sm-4 control-label">备注说明：</label><div class="col-sm-6"><textarea rows="4" cols="10" class="form-control"></textarea>'+
+	'</div></div></form></div>';
+	layer.open({
+		type: 1,
+		title: '系统加减款',
+		closeBtn: 0,
+		shadeClose: true,
+		skin: 'yourclass',
+		area: ['500px', '400px'],
+		closeBtn: 1,
+		scrollbar: false,
+		shadeClose: false,
+		btn: ['确认', '关闭'],
+		yes: function(){
+			alert(1); 
+		},
+		content: content
+	});
+	$('#account_label').html(account);
+	$('#money_label').html(money);
+}
+function set_cheque(id,username,fl,sj_username){
+	var content='<div style="height: auto; padding: 20px 0 0;">'+
+	'<form class="form-horizontal"><div class="col-sm-10 account_label" style="text-align:center;font-size:16px;">'+
+	'<span>当前用户：</span><span>'+username+'</span></div><div class="form-group" style="margin-left: 0; margin-right: 0;">'+
+	'<label class="col-sm-4 control-label">请输入收款费率：</label><div class="col-sm-6"><input type="text" id="cheque_fl" name="cheque_fl" class="form-control" placeholder="请输入收款费率">'+
+	'</div></div>';
+	
+	if(sj_username!=''){
+		content+='<div class="col-sm-10 account_label" style="text-align:center;font-size:16px;"><span>上级用户：</span><span>'+
+		sj_username+'</span></div><div class="form-group" style="margin-left: 0; margin-right: 0;"><label class="col-sm-4 control-label">请输入上级收款提成：</label>'+
+		'<div class="col-sm-6"><input type="text" id="cheque_fl" name="cheque_fl" class="form-control" placeholder="请输入上级收款提成"></div></div>';
+		
+	} 
+	content+='</form></div>';
+	layer.open({
+		type: 1,
+		title: '收款费率设置',
+		closeBtn: 0,
+		shadeClose: true,
+		skin: 'yourclass',
+		area: ['500px', '260px'],
+		closeBtn: 1,
+		scrollbar: false,
+		shadeClose: false,
+		btn: ['设置', '关闭'],
+		yes: function(){
+			alert(1); 
+		},
+		content: content
+	});
+}
+
+function set_statement(){
+	var content=$('#money_div').html();
+	layer.open({
+		type: 1,
+		title: '结算费率设置',
+		closeBtn: 0,
+		shadeClose: true,
+		skin: 'yourclass',
+		area: ['500px', '280px'],
+		closeBtn: 1,
+		scrollbar: false,
+		shadeClose: false,
+		btn: ['设置', '关闭'],
+		yes: function(){
+			alert(1); 
+		},
+		content: content
+	});
+}
+
 </script>
 </head>
 <body>
 <jsp:include page="../common/top.jsp"></jsp:include>
+	<div id="money_div" style="display: none;">
+		<div style="height: auto; padding: 20px 0 0;">
+			<form class="form-horizontal">
+				<div class="col-sm-10 account_label" style="text-align:center;font-size:16px;">
+					<span>345425170@qq.com</span>
+				</div>
+				<div class="form-group" style="margin-left: 0; margin-right: 0;">
+					<label class="col-sm-4 control-label">请输入结算费率：</label>
+					<div class="col-sm-6">
+						<input type="text" id="cheque_fl" name="cheque_fl" class="form-control" placeholder="请输入结算费率">
+					</div>
+				</div>
+				<div class="form-group" style="margin-left: 0; margin-right: 0;">
+					<label class="col-sm-4 control-label">保底(元)：</label>
+					<div class="col-sm-6">
+						<input type="text" id="cheque_fl" name="cheque_fl" class="form-control" placeholder="保底(元)">
+					</div>
+				</div>
+				<div class="form-group" style="margin-left: 0; margin-right: 0;">
+					<label class="col-sm-4 control-label">封顶(元)：</label>
+					<div class="col-sm-6">
+						<input type="text" id="cheque_fl" name="cheque_fl" class="form-control" placeholder="封顶(元)">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 	<div class="biaoge">
 		<div class="main_content">
 			<nav>
@@ -91,24 +201,24 @@ $(document).ready(function(e) {
 					<table class="table table-hover">
 					<thead>
 						<tr>
+							<th style="width: 50px;">商户号</th>
 							<th style="width: 76px;">商户类型</th>
 							<th style="width: 179px;">用户名</th>
-							<th style="width: 50px;">商户号</th>
 							<th style="width: 109px;">网银通道</th>
-							<th style="width: 240px;" colspan="2">金额（元）</th>
-							<th style="width: 149px;">状态</th>
+							<th style="width: 100px;" colspan="2">金额（元）</th>
+							<th style="width: 110px;">状态</th>
 							<th style="width: 149px;">注册时间</th>
-							<th style="width: 149px;" colspan="2">手续费率设置</th>
-							<th style="width: 149px;" colspan="2">提款费率设置</th>
+							<th style="width: 100px;" colspan="2">收款费率设置</th>
+							<th style="width: 149px;" colspan="2">结算费率设置</th>
 							<th style="width: 149px;">上级</th>
-							<th style="width: 149px;">下级数量</th>
+							<th style="width: 50px;">下级数量</th>
 							<th style="width: 149px;">操作</th>
-						
 						</tr>
 					</thead>
 					<tbody>
 					  <c:forEach items="${users}" var="vo">  
 						<tr>
+							<td>${vo.id}</td>
 							<td>
 								<c:if test="${vo.usertype==0||vo.usertype==3}">
 									商户
@@ -118,10 +228,9 @@ $(document).ready(function(e) {
 								</c:if>
 							</td>
 							<td>${vo.username}</td>
-							<td>${vo.id}</td>
 							<td>${vo.sjapi.myname }</td>
 							<td>${vo.money.money }</td>
-							<td><span class="btn btn-primary btn-search">金额</span></td>
+							<td><span class="btn btn-primary btn-search" onclick="change_money(${vo.id},'${vo.username}','${vo.money.money }')">金额</span></td>
 							<td> 
 								<c:if test="${vo.status==0}">
 									未激活
@@ -131,10 +240,37 @@ $(document).ready(function(e) {
 								</c:if>
 					       </td>
 					      <td><fmt:formatDate value="${vo.regdate}" pattern="yyyy/MM/dd HH:mm:ss" /></td>
-					      <td>${vo.sjapi.fl}</td>
-					      <td><span class="btn btn-primary btn-search">设置</span></td>
-					      <td></td>
-					      <td><span class="btn btn-primary btn-search">设置</span></td>
+					      <td>
+					      	<c:choose>
+					      		<c:when test="${!empty vo.sjfl.chequeFl}">
+					      			${vo.sjfl.chequeFl}
+					      		</c:when>
+					      		<c:otherwise>
+					      			${vo.sjapi.fl}
+					      		</c:otherwise>
+					      	</c:choose>
+					      </td>
+					      <td>
+					      	<c:choose>
+					      		<c:when test="${!empty vo.sjfl.chequeFl}">
+					      			<span class="btn btn-primary btn-search" onclick="set_cheque(${vo.id},'${vo.username}','${vo.sjfl.chequeFl}','${vo.sj_name }')">设置</span>
+					      		</c:when>
+					      		<c:otherwise>
+					      			<span class="btn btn-primary btn-search" onclick="set_cheque(${vo.id},'${vo.username}','${vo.sjapi.fl}','${vo.sj_name }')">设置</span>
+					      		</c:otherwise>
+					      	</c:choose>
+					      </td>
+					      <td>
+					      	<c:choose>
+					      		<c:when test="${!empty vo.sjfl.statementFl}">
+					      			${vo.sjfl.statementFl}
+					      		</c:when>
+					      		<c:otherwise>
+					      			${sjfl_obj.statementFl}/保底${sjfl_obj.statementBd}元/封顶${sjfl_obj.statementFd}元
+					      		</c:otherwise>
+					      	</c:choose>
+					      </td>
+					      <td><span class="btn btn-primary btn-search" onclick="set_statement()">设置</span></td>
 					      <td>${vo.sj_name }</td>
 					      <td>${vo.xj_num}</td>
 					      <td></td>

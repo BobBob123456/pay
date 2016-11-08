@@ -21,6 +21,10 @@ public class MoneyBd {
     private String transid;
 
     private Integer tcjb;
+    
+    private String remark;
+    
+    private Integer dispose_userid;
 
     public Integer getId() {
         return id;
@@ -93,4 +97,21 @@ public class MoneyBd {
     public void setTcjb(Integer tcjb) {
         this.tcjb = tcjb;
     }
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Integer getDispose_userid() {
+		return dispose_userid;
+	}
+
+	public void setDispose_userid(Integer dispose_userid) {
+		this.dispose_userid = dispose_userid;
+	}
+    
 }

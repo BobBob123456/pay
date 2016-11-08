@@ -26,6 +26,10 @@
             <result property="myname" column="myname"/>
             <result property="fl" column="fl"/>
       </association>
+       <association property="sjfl" javaType="com.pay.pojo.Sjfl">
+            <result property="chequeFl" column="cheque_fl"/>
+            <result property="statementFl" column="statement_fl"/>
+      </association>
   </resultMap>
   <sql id="Base_Column_List" >
     id, UserName, LoginPassWord, UserType, status, RegDate, activate, mbk, SjUserID, 
@@ -51,11 +55,12 @@
     where SjUserID= #{sjuserid,jdbcType=INTEGER} 
 </select>
 
-<!-- 获得所有下级 -->
+<!-- 获得所有商户 -->
 <select id="getAllUser" resultMap="UserMap" parameterType="java.util.Map" >
-select u.id,UserName,UserType,`status`,RegDate,SjUserID,email,Money,myname,fl
+select u.id,UserName,UserType,`status`,RegDate,SjUserID,email,Money,myname,fl,cheque_fl,statement_fl
 from pay_user u LEFT JOIN pay_money m on u.id=m.UserID
 LEFT JOIN pay_sjapi s on u.PayBank=s.f_id 
+LEFT JOIN pay_sjfl f on u.id=f.UserId
 where UserType!=6 
 <if test="ksjy_date !=null and ksjy_date != ''" >
 	    and RegDate &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
