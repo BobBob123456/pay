@@ -21,12 +21,19 @@ public class NewsController {
 	@Resource
 	private INewListService newListService;
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/getNews")
 	public void getNews(HttpServletRequest request,HttpServletResponse response){
-		 List<Newlist> list= newListService.getNews();
+		 Object obj= request.getSession().getAttribute("newsList");
+		 List<Newlist> list=null;
+		 if(obj==null){
+			 list = newListService.getNews();
+			 request.getSession().setAttribute("newsList",list);
+		 }else{
+			 list=(List<Newlist>) obj;
+		 }
 		 JSONArray a=new JSONArray();
 		 a.addAll(list);
-		// System.out.println(a.toJSONString());
 		 Utils.writer_out(response, a.toJSONString());
 	}
 }

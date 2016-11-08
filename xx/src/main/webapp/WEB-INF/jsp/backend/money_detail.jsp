@@ -44,7 +44,7 @@ $(document).ready(function(e) {
 			<nav>
 				<div class='znav'>
 					<ul style="width: 5000px;">
-						<li class="first"><a href=""><i class="icon-home"></i></a></li>
+						<li class="first"><i class="icon-home"></i></li>
 						<li>收支明细管理</li>
 					</ul>
 				</div>
