@@ -168,6 +168,16 @@ public class UserController extends BaseController {
 		return modelAndView;
 	}
 
+	@RequestMapping("/go_activate")
+	public String go_activate(HttpServletRequest request, HttpServletResponse response) {
+		return "go_activate";
+	}
+	@RequestMapping("/forget_password")
+	public String forget_password(HttpServletRequest request, HttpServletResponse response) {
+		return "forget_password";
+	}
+	
+	
 	@RequestMapping("/activate")
 	public ModelAndView activate(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -190,7 +200,6 @@ public class UserController extends BaseController {
 		modelAndView.addObject("result", resp);
 		modelAndView.setViewName("user/activate");
 		return modelAndView;
-
 	}
 
 	@RequestMapping("/cfEmail")
