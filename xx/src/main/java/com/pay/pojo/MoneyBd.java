@@ -25,6 +25,8 @@ public class MoneyBd {
     private String remark;
     
     private Integer dispose_userid;
+    
+    private User  user;
 
     public Integer getId() {
         return id;
@@ -113,5 +115,14 @@ public class MoneyBd {
 	public void setDispose_userid(Integer dispose_userid) {
 		this.dispose_userid = dispose_userid;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
     
+	
 }

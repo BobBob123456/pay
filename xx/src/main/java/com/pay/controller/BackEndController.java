@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pay.base.DateUtil;
 import com.pay.base.constant.CommonConstant;
+import com.pay.pojo.MoneyBd;
 import com.pay.pojo.Order;
 import com.pay.pojo.Sjfl;
 import com.pay.pojo.TkList;
 import com.pay.pojo.User;
+import com.pay.service.IMoneyBdService;
 import com.pay.service.IOrderService;
 import com.pay.service.ISjflService;
 import com.pay.service.ITkListService;
@@ -39,6 +41,9 @@ public class BackEndController {
 	
 	@Resource
 	private ISjflService sjflService;
+	
+	@Resource
+	private IMoneyBdService moneyBdService;
 	
 	@RequestMapping("/order_manage")
 	public String order_manage(HttpServletResponse response,HttpServletRequest request){
@@ -188,5 +193,43 @@ public class BackEndController {
 		request.setAttribute("name", name);
 		request.setAttribute("card", card);
 		return "backend/withdraw_manage";
+	}
+	
+	@RequestMapping("/money_detail")
+	public String money_detail(HttpServletResponse response,HttpServletRequest request){
+		String cur = request.getParameter("cur");
+		String ksjy_date = request.getParameter("ksjy_date");
+		String account=request.getParameter("account");
+		String jsjy_date = request.getParameter("jsjy_date");
+		String order_number=request.getParameter("order_number");
+		if (StringUtils.isEmpty(ksjy_date) && StringUtils.isEmpty(jsjy_date)) {
+			ksjy_date = DateUtil.getDate(new Date()) + " 00:00:00";
+			jsjy_date = DateUtil.getDate(new Date()) + " 23:59:59";
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ksjy_date", ksjy_date);
+		map.put("jsjy_date", jsjy_date);
+		map.put("account", account);
+		map.put("order_number",order_number);
+		int total = moneyBdService.getAllMoneyBdCount(map);
+		int currentPage = 1;
+		if (StringUtils.isEmpty(cur)) {
+			currentPage = 1;
+		} else {
+			currentPage = Integer.valueOf(cur);
+		}
+		/** 计算总页数 **/
+		float p = Float.valueOf(total) / Float.valueOf(CommonConstant.PAGE_SIZE_DEFAULT);
+		int totalPage = (int) Math.ceil(p);
+		List<MoneyBd> list = moneyBdService.getAllMoneyBdList(map, currentPage);
+		request.setAttribute("account", account);
+		request.setAttribute("order_number", order_number);
+		request.setAttribute("total", total);
+		request.setAttribute("ksjy_date", ksjy_date);
+		request.setAttribute("jsjy_date", jsjy_date);
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("totalPage", totalPage);
+		request.setAttribute("list", list);
+		return "backend/money_detail";
 	}
 }

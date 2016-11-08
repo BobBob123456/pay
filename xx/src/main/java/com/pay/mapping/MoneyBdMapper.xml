@@ -14,9 +14,42 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="dispose_userid" property="dispose_userid" jdbcType="INTEGER" />
   </resultMap>
+  <resultMap type="com.pay.pojo.MoneyBd" id="MoneyBdResultMap" extends="BaseResultMap">
+       <association property="user" javaType="com.pay.pojo.User">
+            <result property="username" column="UserName"/>
+        </association>
+   </resultMap>
   <sql id="Base_Column_List" >
     id, UserID, money, datetime, lx, ymoney, gmoney, TransID, tcjb,remark,dispose_userid
   </sql>
+
+ <select id="getAllMoneyBdCount"  resultType="Integer" parameterType="java.util.Map" >
+ 	 select count(bd.id) from pay_moneybd bd LEFT JOIN pay_user u on bd.UserID=u.id
+ 	 where 1=1
+ 	 and datetime &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+  	 and datetime &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+ 	 <if test="account !=null and  account != ''" >
+        	and UserID=#{account,jdbcType=INTEGER}
+   	 </if>
+   	 <if test="order_number !=null and  order_number != ''" >
+        	and TransID=#{order_number,jdbcType=VARCHAR}
+   	 </if>
+  </select>
+  <select id="getAllMoneyBdList" resultMap="MoneyBdResultMap" parameterType="java.util.Map" >
+	   select bd.*,UserName
+	   from pay_moneybd bd LEFT JOIN pay_user u on bd.UserID=u.id
+	   where 1=1 
+	   and datetime &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
+  	   and datetime &lt;=#{jsjy_date,jdbcType=TIMESTAMP}
+	   <if test="account !=null and  account != ''" >
+        	and UserID=#{account,jdbcType=INTEGER}
+   	  </if>
+   	  <if test="order_number !=null and  order_number != ''" >
+        	and TransID=#{order_number,jdbcType=VARCHAR}
+   	  </if>
+	   order by datetime desc
+  </select>
+
   <select id="getMoneyBdCount"  resultType="Integer" parameterType="java.util.Map" >
 		select count(id) from pay_moneybd 
 		where UserID = #{userId,jdbcType=INTEGER}
@@ -26,10 +59,9 @@
         	and lx=#{lx,jdbcType=INTEGER}
    		</if>
   </select>
-  <select id="getMoneyBdList" resultMap="BaseResultMap" parameterType="java.util.Map" >
-	    select 
-	    <include refid="Base_Column_List" />
-	    from pay_moneybd
+  <select id="getMoneyBdList" resultMap="MoneyBdResultMap" parameterType="java.util.Map" >
+	    select bd.id, UserID, money, datetime, lx, ymoney, gmoney, TransID, tcjb,remark,dispose_userid,UserName
+	    from pay_moneybd bd LEFT JOIN pay_user u on bd.UserID=u.id
 	   	where UserID = #{userId,jdbcType=INTEGER} 
 	    and datetime &gt;=#{ksjy_date,jdbcType=TIMESTAMP} 
 	   	and datetime &lt;=#{jsjy_date,jdbcType=TIMESTAMP}

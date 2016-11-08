@@ -21,11 +21,22 @@ public class MoneyBdService implements IMoneyBdService {
 	
 	public int getMoneyBdCount(Map<String, Object> map) {
 
-		return this.moneyBdDaoImpl.getObjectCountBySelecSqltId(map, "getMoneyBdCount");
+		return moneyBdDaoImpl.getObjectCountBySelecSqltId(map, "getMoneyBdCount");
 	}
 
 	public List<MoneyBd> getMoneyBdList(Map<String, Object> map, int currentPage) {
-		return this.moneyBdDaoImpl.getObjectListBySelectSqlId(map, currentPage,CommonConstant.PAGE_SIZE_DEFAULT,"getMoneyBdList");
+		return moneyBdDaoImpl.getObjectListBySelectSqlId(map, currentPage,CommonConstant.PAGE_SIZE_DEFAULT,"getMoneyBdList");
+	}
+
+	public int getAllMoneyBdCount(Map<String, Object> map) {
+		return moneyBdDaoImpl.getObjectCountBySelecSqltId(map, "getAllMoneyBdCount");
+	}
+
+	public List<MoneyBd> getAllMoneyBdList(Map<String, Object> map, int currentPage) {
+		System.out.println(CommonConstant.PAGE_SIZE_DEFAULT);
+		List<MoneyBd> list= moneyBdDaoImpl.getObjectListBySelectSqlId(map, currentPage, CommonConstant.PAGE_SIZE_DEFAULT,"getAllMoneyBdList");
+		System.out.println(list.size());
+		return list;
 	}
 	
 	

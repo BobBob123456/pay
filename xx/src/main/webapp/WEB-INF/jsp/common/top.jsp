@@ -158,6 +158,12 @@ $(function(){
 							<li>
 								<a href="backend/withdraw_manage.html"><span class="icon-shouzhi"></span>结算管理</a>
 							</li>
+							<li>
+								<a href="backend/withdraw_manage.html"><span class="icon-shouzhi"></span>结算管理</a>
+							</li>
+							<li>
+								<a href="backend/money_detail.html"><span class="icon-shouzhi"></span>收支明细管理</a>
+							</li>
 						</c:if>
 					</ul>
 				</div>
