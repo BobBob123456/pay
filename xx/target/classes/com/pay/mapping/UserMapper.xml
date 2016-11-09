@@ -115,11 +115,11 @@ where UserType!=6
     insert into pay_user (id, UserName, LoginPassWord, 
       UserType, status, RegDate, 
       activate, mbk, SjUserID, 
-      gmwttk, mypayurlname,usersessionid)
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{loginpassword,jdbcType=VARCHAR}, 
-      #{usertype,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{regdate,jdbcType=TIMESTAMP}, 
-      #{activate,jdbcType=VARCHAR}, #{mbk,jdbcType=INTEGER}, #{sjuserid,jdbcType=INTEGER}, 
-      #{gmwttk,jdbcType=INTEGER}, #{mypayurlname,jdbcType=VARCHAR},#{usersessionid,jdbcType=VARCHAR})
+      gmwttk, mypayurlname,usersessionid,email,`key`)
+    values (#{id}, #{username}, #{loginpassword}, 
+      #{usertype}, #{status,jdbcType=INTEGER}, #{regdate}, 
+      #{activate}, #{mbk}, #{sjuserid}, 
+      #{gmwttk}, #{mypayurlname},#{usersessionid},#{email},#{key})
   </insert>
   <insert id="insertSelective" parameterType="com.pay.pojo.User" >
     insert into pay_user
@@ -254,4 +254,7 @@ where UserType!=6
       usersessionid = #{usersessionid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectUserByEmail" resultMap="BaseResultMap"  parameterType="java.lang.String" >
+  select * from pay_user where email=#{email}
+  </select>
 </mapper>

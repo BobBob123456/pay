@@ -87,6 +87,7 @@ public class UserController extends BaseController {
 		String userName = request.getParameter("UserName");
 		String loginPassWord = request.getParameter("LoginPassWord");
 		String verify = request.getParameter("verify");
+		String email = request.getParameter("Email");
 		// 检验
 		String key = "registercode";
 		String sessionid = request.getSession().getId();
@@ -97,13 +98,18 @@ public class UserController extends BaseController {
 			return;
 		}
 
-		if (!com.pay.base.StringUtils.isEmail(userName)) {
-			Utils.writer_out(response, "用户名不是邮箱地址！");
+		if (!com.pay.base.StringUtils.isEmail(email)) {
+			Utils.writer_out(response, "邮箱地址格式不正确！");
 			return;
 		}
 
 		if (userService.selectByUserName(userName) != null) {
 			Utils.writer_out(response, "用户名已存在！");
+			return;
+		}
+		
+		if (userService.selectUserByEmail(email) != null) {
+			Utils.writer_out(response, "邮箱已经注册过！");
 			return;
 		}
 
@@ -128,10 +134,12 @@ public class UserController extends BaseController {
 		user.setMbk(0);
 		user.setSjuserid(0);
 		user.setGmwttk(0);
+		user.setEmail(email);
+		user.setKey(Utils.MD5(loginPassWord+userName));
 		userService.add(user);
 		// 发送邮件
 
-		sendEmail(request, user.getId(), activate, userName);
+		sendEmail(request, user.getId(), activate, email);
 
 		Utils.writer_out(response, "ok");
 		return;
@@ -177,6 +185,41 @@ public class UserController extends BaseController {
 		return "forget_password";
 	}
 	
+	@RequestMapping("/sendPwdEmail")
+	public void sendPwdEmail(HttpServletRequest request, HttpServletResponse response) {
+		String email=request.getParameter("email");
+		User user = userService.selectByUserEmail(email);
+		if (user != null) {
+			sendEmail(request, user.getId(), user.getActivate(), user.getEmail());
+			Integer id=user.getId();
+			String activate=user.getActivate(); 
+			String path = request.getContextPath();
+			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path
+					+ "/";
+
+			String urlPath = basePath + "user/resetpwd.html?id=" + id + "&activate=" + activate;
+
+			StringBuilder str = new StringBuilder();
+			str.append("亲爱的会员：");
+			str.append("<a target=\"_blank\" href=\"mailto:" + email + "\">" + email + "</a>您好！");
+			str.append("<br>感谢您实用化国盛通！<br>您现在可以修改您的国盛通账户密码");
+			str.append("<br><a target=\"_blank\" href=" + urlPath + ">点此修改国盛通账户密码 </a>");
+			str.append(" <br>如果上述文字点击无效，请把下面网页地址复制到浏览器地址栏中打开：<br>");
+			str.append("<a target=\"_blank\" href=" + urlPath + ">");
+			str.append(urlPath + "</a>");
+			str.append("<br>此为系统邮件，请勿回复<br>请保管好您的邮箱，避免国盛通账户被他人盗用");
+			str.append("<br>如有任何疑问，可查看 国盛通相关规则，国盛通网站访问");
+			str.append(
+					"<a target=\"_blank\" href=\"http://pay.jiangxin123.cn/\">http://pay.jiangxin123.cn/</a><br>Copyright 国盛通 2013 All Right Reserved");
+
+			EmailUtil.send(email, "国盛通账户激活邮件", str.toString());
+			
+			Utils.writer_out(response, "ok");
+		} else {
+			Utils.writer_out(response, "用户不存在");
+		}
+	}
+	
 	
 	@RequestMapping("/activate")
 	public ModelAndView activate(HttpServletRequest request, HttpServletResponse response) {
@@ -206,7 +249,7 @@ public class UserController extends BaseController {
 	public void cfEmail(HttpServletRequest request, HttpServletResponse response) {
 		User user = userService.selectByUserName(request.getParameter("uname"));
 		if (user != null) {
-			sendEmail(request, user.getId(), user.getActivate(), user.getUsername());
+			sendEmail(request, user.getId(), user.getActivate(), user.getEmail());
 			Utils.writer_out(response, "ok");
 		} else {
 			Utils.writer_out(response, "用户不存在");

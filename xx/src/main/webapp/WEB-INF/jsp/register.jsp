@@ -89,17 +89,16 @@
 		}
 		
 		
-		
-		
 		$("#btnsub").html("发送中...");
 	 	$.ajax({
 			type : 'POST',
 			url : "user/doRegister.html",
-			data : {"UserName": $("#UserName").val() ,"LoginPassWord": $("#LoginPassWord").val(),"verify": $("#verify").val()},
+			data : {"UserName": $("#UserName").val() ,"LoginPassWord": $("#LoginPassWord").val(),"verify": $("#verify").val(),"Email":email},
 			dataType : 'text',
 			success : function(str) {
 				$("#btnsub").html("注册");
 				if (str != "ok") {
+					alert(str);
 					$('#msg-error').hide();
 				} else {
 					location.href = "<%=basePath%>user/succeedReg.html?uname="

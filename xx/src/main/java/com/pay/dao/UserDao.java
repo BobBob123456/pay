@@ -8,5 +8,5 @@ import com.pay.pojo.User;
 public interface UserDao extends CommonDao<User> {
 	
 	String getXjUserId(Map<String,Object> map);
-	
+
 }

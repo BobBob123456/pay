@@ -11,6 +11,8 @@ public interface IUserService extends ICommonService<User>  {
 	
 	public User selectByUserName(String userName);
 	
+	public User selectByUserEmail(String email);
+	
 	/**获得下级用户的数量**/
 	int getOwnerUserCount(Map<String, Object> map);
 	
@@ -22,4 +24,6 @@ public interface IUserService extends ICommonService<User>  {
 	
 	/**获取所有用户**/
 	List<User> getAllUser(Map<String, Object> map,int currentPage);
+	
+	public User selectUserByEmail(String email) ;
 }

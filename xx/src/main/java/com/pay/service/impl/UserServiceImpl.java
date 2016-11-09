@@ -31,6 +31,17 @@ public class UserServiceImpl implements IUserService {
 		List<User> users = userDaoImpl.getObjectListBySelectSqlId(map, 0, 0, "selectByUserName");
 		return users.size() == 0 ? null : users.get(0);
 	}
+	
+	/**
+	 * 根据邮箱查询用户信息
+	 */
+	public User selectUserByEmail(String email) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("email", email);
+		List<User> users = userDaoImpl.getObjectListBySelectSqlId(map, 0, 0, "selectUserByEmail");
+		return users.size() == 0 ? null : users.get(0);
+	}
+
 
 	public int add(User t) {
 		userDaoImpl.add(t);
@@ -82,6 +93,11 @@ public class UserServiceImpl implements IUserService {
 			user.setXj_num(getOwnerUserCount(map));
 		}
 		return list;
+	}
+
+	public User selectByUserEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
