@@ -1,6 +1,5 @@
 package com.pay.pojo;
 
-import java.math.BigDecimal;
 
 public class Bank {
     private Integer id;
@@ -14,20 +13,6 @@ public class Bank {
     private String bankaccountnumber;
 
     private String bankcompellation;
-
-    private Integer moren;
-
-    private Integer banktype;
-
-    private BigDecimal tkMoney;
-
-    private Double sxfMoney;
-
-    private BigDecimal sjMoney;
-
-    private Integer t;
-
-    private Integer tkIf;
 
     private String zhihang;
 
@@ -77,62 +62,6 @@ public class Bank {
 
     public void setBankcompellation(String bankcompellation) {
         this.bankcompellation = bankcompellation == null ? null : bankcompellation.trim();
-    }
-
-    public Integer getMoren() {
-        return moren;
-    }
-
-    public void setMoren(Integer moren) {
-        this.moren = moren;
-    }
-
-    public Integer getBanktype() {
-        return banktype;
-    }
-
-    public void setBanktype(Integer banktype) {
-        this.banktype = banktype;
-    }
-
-    public BigDecimal getTkMoney() {
-        return tkMoney;
-    }
-
-    public void setTkMoney(BigDecimal tkMoney) {
-        this.tkMoney = tkMoney;
-    }
-
-    public Double getSxfMoney() {
-        return sxfMoney;
-    }
-
-    public void setSxfMoney(Double sxfMoney) {
-        this.sxfMoney = sxfMoney;
-    }
-
-    public BigDecimal getSjMoney() {
-        return sjMoney;
-    }
-
-    public void setSjMoney(BigDecimal sjMoney) {
-        this.sjMoney = sjMoney;
-    }
-
-    public Integer getT() {
-        return t;
-    }
-
-    public void setT(Integer t) {
-        this.t = t;
-    }
-
-    public Integer getTkIf() {
-        return tkIf;
-    }
-
-    public void setTkIf(Integer tkIf) {
-        this.tkIf = tkIf;
     }
 
     public String getZhihang() {

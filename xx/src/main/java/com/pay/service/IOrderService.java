@@ -30,9 +30,7 @@ public interface IOrderService extends ICommonService<Order> {
 	/**获取平台账号结算列表**/
 	List<Order> getPtSettlementList(Map<String, Object> map,int currentPage);
 	
-	List<Order> getXjOrders(Map<String, Object> map,int currentPage);
-	
-	int   getXjOrderCount(Map<String, Object> map);
+
 	
 	/**获取所有订单列表**/
 	List<Order> getAllOrder(Map<String, Object> map,int currentPage);

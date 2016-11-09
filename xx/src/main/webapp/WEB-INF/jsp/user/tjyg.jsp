@@ -13,12 +13,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>国盛通管理系统</title>
 <base href="<%=basePath%>">
-<link href="User/css/css.css" rel="stylesheet">
 <script type="text/javascript" src="User/js/jquery-1.7.2.js"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"
 	media="all" />
 <script type="text/javascript" src="js/jqPaginator.js"></script>
-<script type="text/javascript" src="User/js/js.js"></script>
 <script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript">
 	$(document).ready(
@@ -32,7 +30,7 @@
 						currentPage : currentPage,
 						onPageChange : function(num, type) {
 							if (currentPage != num) {
-								location.href = "user/wyjyjl.html?cur=" + num;
+								location.href = "user/tjyg.html?cur=" + num;
 							}
 						}
 					});
@@ -40,25 +38,9 @@
 			}
 		);
 </script>
-<style type="text/css">
-#yggl {
-	width: 100%;
-	height: auto;
-}
-
-#yggl tr td {
-	width: 10%;
-	height: 40px;
-	text-align: left;
-	padding-left: 10px;
-	vertical-align: middle;
-	font-size: 13px;
-}
-</style>
 </head>
 <body>
 <jsp:include page="../common/top.jsp"></jsp:include>
-
 	<div class="biaoge">
 		<div class="main_content">
 			<nav>
@@ -78,7 +60,8 @@
 						<tr>
 							<th style="width: 116px;">商户号</th>
 							<th style="width: 179px;">用户名</th>
-							<th style="width: 179px;">费率</th>
+							<th style="width: 179px;">收款费率</th>
+							<th style="width: 179px;">结算费率</th>
 							<th style="width: 240px;">建立时间</th>
 						</tr>
 					</thead>
@@ -87,7 +70,26 @@
 							<tr>
 								<td>${vo.id+10000}</td>
 								<td>${vo.username}</td>
-								<td></td>
+								<td>
+									<c:choose>
+							      		<c:when test="${!empty vo.sjfl.chequeFl}">
+							      			${vo.sjfl.chequeFl}
+							      		</c:when>
+							      		<c:otherwise>
+							      			${vo.sjapi.fl}
+							      		</c:otherwise>
+							      	</c:choose>
+								</td>
+								<td>
+									<c:choose>
+							      		<c:when test="${!empty vo.sjfl.statementFl}">
+							      			${vo.sjfl.statementFl}/保底${vo.sjfl.statementBd}元/封顶${vo.sjfl.statementFd}元
+							      		</c:when>
+							      		<c:otherwise>
+							      			${sjfl_obj.statementFl}/保底${sjfl_obj.statementBd}元/封顶${sjfl_obj.statementFd}元
+							      		</c:otherwise>
+							      	</c:choose>
+								</td>
 								<td><fmt:formatDate value="${vo.regdate}"
 										pattern="yyyy/MM/dd HH:mm:ss" /></td>
 							</tr>

@@ -19,5 +19,15 @@ public class SjflService implements ISjflService {
 		return sjflDaoImpl.getObjectByCondition(map);
 	}
 
-	
+	public int addAndUpdateSjfl(String userId, Sjfl sjfl) {
+		Sjfl sj=sjflDaoImpl.get(userId);
+		int result=0;
+		if(sj==null){
+			result=sjflDaoImpl.addSelective(sjfl);
+		}else{
+			result=sjflDaoImpl.updateSelective(sjfl);
+		}
+		return result;
+	}
+
 }

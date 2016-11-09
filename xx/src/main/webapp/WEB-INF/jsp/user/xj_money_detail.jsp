@@ -29,7 +29,7 @@ $(document).ready(function(e) {
 		    currentPage: currentPage,
 		    onPageChange: function (num, type) {
 		    	if(currentPage!=num){
-		    		location.href="user/xj_order.html?cur="+num;
+		    		location.href="user/xj_money_detail.html?cur="+num;
 		    	}
 		    }
 		});
@@ -44,14 +44,14 @@ $(document).ready(function(e) {
 			<nav>
 				<div class='znav'>
 					<ul style="width: 5000px;">
-						<li class="first"><a href=""><i class="icon-home"></i></a></li>
+						<li class="first"><i class="icon-home"></i></li>
 						<li>代理管理</li>
-						<li>下级收款订单</li>
+						<li>下级收支明细</li>
 					</ul>
 				</div>
 			</nav>
 			<div style='clear:both;'></div>
-			 <form action="user/xj_order.html" method="post">
+			 <form action="user/xj_money_detail.html" method="post">
 				<!--时间轴s-->
 				<div class='ztime'>
 					<div class="input-group" style='width:290px;float:left;font-size:13px;margin:0 5px 0 -5px;'>
@@ -66,77 +66,71 @@ $(document).ready(function(e) {
 						 <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div> 
 					</div>
 					<div class="input-group" style='width:290px;float:left;font-size:13px;margin:0 5px;'>
-						<div class="input-group-addon">商户订单号</div>
+						<div class="input-group-addon">订单号</div>
 						<input type="text" class="form-control" id="order_number" name="order_number" value="${order_number}" >
 					</div>
 					<div class="input-group" style='width:290px;float:left;font-size:13px;margin:0 5px;'>
-						<div class="input-group-addon">商户登陆账号</div>
+						<div class="input-group-addon">商户</div>
 						<input type="text" class="form-control" id="account" name="account" value="${account}" >
-					</div>
-					<div class="input-group" style='width:290px;float:left;font-size:13px;'>
-						<div class="input-group-addon">订单状态</div>
-						<select class="form-control" name="status" id="status">
-						  <c:choose>
-					      	<c:when test="${status==''}"><option value="" selected="selected">请选择</option></c:when>
-					      	<c:otherwise><option value="">请选择</option></c:otherwise>
-					      </c:choose>
-			      		 <c:choose>
-					      	<c:when test="${!empty status &&status==0}"><option value="0" selected="selected">待付款</option></c:when>
-					      	<c:otherwise><option value="0">待付款</option></c:otherwise>
-					      </c:choose>
-					      <c:choose>
-					      	<c:when test="${status==1}"><option value="1" selected="selected">成功</option></c:when>
-					      	<c:otherwise><option value="1">成功</option></c:otherwise>
-					      </c:choose>
-					      <c:choose>
-					      	<c:when test="${status==2}"><option value="2" selected="selected">失败</option></c:when>
-					      	<c:otherwise><option value="2">失败</option></c:otherwise>
-					      </c:choose>
-						</select>
 					</div>
 					<div class="pull-right">
 						 <input type="submit" value="查询" class="btn btn-primary btn-search"/>
-						<a class="btn btn-info btn-reset" style='margin:0 -5px 0 0;'> 重 置</a>
+						<!-- <a class="btn btn-info btn-reset" style='margin:0 -5px 0 0;'> 重 置</a> -->
 					</div>
 				</div>
 				</form>
 				<!--时间轴e-->
-				 <div class="selectclass" style="text-align:center;">
-				 	订单笔数：<span style="font-size:20px; color:#F00; font-weight:bold;">${total}</span> 笔
-				 	成功金额：<span style="font-size:20px; color:#F00; font-weight:bold;">${daymoney}</span> 元
-				 	成功笔数：<span style="font-size:20px; color:#F00; font-weight:bold;">${daynum}</span> 元
-				 </div>
 				<div class='ztab'>
 					<table class="table table-hover">
 					<thead>
 						<tr>
-							<th style="width: 179px;">商户</th>
-							<th style="width: 179px;">商户登陆账号</th>
-							<th style="width: 116px;">收款订单号</th>
-							<th style="width: 179px;">商户订单号</th>
-							<th style="width: 179px;">建立时间</th>
-							<th style="width: 240px;">金额（元）</th>
-							<th style="width: 149px;">状态</th>
-							<th style="width: 149px;">操作</th>
+							<th style="width: 116px;">商户</th>
+							<th style="width: 116px;">商户登陆账号</th>
+							<th style="width: 179px;">订单号</th>
+							<th style="width: 179px;">金额</th>
+							<th style="width: 179px;">当前金额</th>
+							<th style="width: 149px;">建立时间</th>
+							<th style="width: 149px;">类型</th>
+							<th style="width: 149px;">备注</th>
+						
 						
 						</tr>
 					</thead>
 					<tbody>
-					  <c:forEach items="${orders}" var="vo">  
+					  <c:forEach items="${list}" var="vo">  
 						<tr>
 							<td>${vo.userid}</td>
 							<td>${vo.user.username}</td>
 							<td>${vo.transid}</td>
-							<td>${vo.orderId}</td>
-							<td><fmt:formatDate value="${vo.tradedate}" pattern="yyyy/MM/dd HH:mm:ss" /></td>
-							<td>${vo.trademoney}</td>
+							<td>${vo.money}</td>
+							<td>${vo.gmoney}</td>
+							<td><fmt:formatDate value="${vo.datetime}" pattern="yyyy/MM/dd HH:mm:ss" /></td>
 							<td> 
-							 <c:choose>
-						      	<c:when test="${vo.zt==1}">成功</c:when>
-						      	<c:otherwise>待付款</c:otherwise>
-						      </c:choose>
+								<c:choose>
+									<c:when test="${vo.lx==1}">
+										收款记录
+									</c:when>
+									<c:when test="${vo.lx==2}">
+										提成记录
+									</c:when>
+									<c:when test="${vo.lx==3}">
+										账号记录
+									</c:when>
+									<c:when test="${vo.lx==4}">
+										结算记录
+									</c:when>
+									<c:when test="${vo.lx==5}">
+										系统减金记录
+									</c:when>
+									<c:when test="${vo.lx==6}">
+										系统增金记录
+									</c:when>
+									<c:otherwise>
+										
+									</c:otherwise>
+								</c:choose>
 					       </td>
-					      <td></td>
+					      <td>${vo.remark}</td>
 						</tr>
 					 </c:forEach> 
 					</tbody>

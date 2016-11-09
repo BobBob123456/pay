@@ -15,9 +15,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="User/css/css.css" rel="stylesheet">
 <script type="text/javascript" src="User/js/jquery-1.7.2.js"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="js/vaildate_common.js"></script>
 <script type="text/javascript">
-function check(){
-
+function vaild_form(){
+	   var bankaccountnumber = $("#bankaccountnumber").val();
+	   var bankcompellation = $("#bankcompellation").val();
+	   var bankbranch = $("#bankbranch").val();
+	   var code = $("#code").val();
+	   if(bankcompellation==''){
+		   alert("开户姓名不能为空");
+		   return;
+	   }
+	   if(bankbranch==''){
+		   alert("开户支行不能为空");
+		   return;
+	   }
+	   if (bankaccountnumber == null || "" == bankaccountnumber) {
+			alert("卡号不能为空");
+			return
+		} else {
+			var l = /^\d*$/;
+			if (!l.exec(bankaccountnumber)) {
+				alert("银行卡号必须全为数字");
+				return
+			}
+		}
+		if (!checkBankCardNo(bankaccountnumber)) {
+			alert("银行卡号：【" + n + "】不合法，请重新输入");
+			return
+		}
+		if(code==''){
+			alert("安全码不能为空");
+			return;
+		}
+		$("#next").attr("disabled","disabled");
+		 $.ajax({
+          type: "POST",
+          url:"account/do_cardSet.html",
+          data: $('#card_form').serialize(),
+          success : function(g) {
+        	if(g=="设置成功"){
+        		alert(g);
+        		location.reload();
+        	}else{
+        		alert(g);
+        	}
+		},error : function(g) {
+			$("#next").removeAttr("disabled");
+		}
+      });
 }
 
 </script>
@@ -51,26 +97,29 @@ function check(){
 			</nav>
 		</div>
 	</div>
-<form name="Form2" method="post" action="account/EditLoginPassWord.html" onsubmit="return check2()">
+<form method="post" action="account/do_cardSet.html" id="card_form">
 	  <div class="selectclass">
 	  	<div class="ldiv">开户人姓名：</div>
 	 	<div class="rdiv">
-	 		<input type="password"  id="Y_LoginPassWord" name="Y_LoginPassWord"  class="form-control" id="code" name="code" style="width: 15%;margin-top:8px;display: inline;"/>
+	 	<input type="text"  id="bankcompellation" name="bankcompellation" value="${bank.bankcompellation}"  class="form-control" style="width: 15%;margin-top:8px;display: inline;"/>
+	 	<input type="hidden"  id="id" name="id" value="${bank.id}"  class="form-control" />
 	 		<span style="color:red;">银行卡号与开户名必须正确一致，否则提现会失败</span>
 	 	</div>
 	 </div>
-	  <div >
-	  	<div class="ldiv"></div>
-	 	<div class="rdiv">
-	 		
-	 	</div>
-	 </div>
+	 
 	 <div class="selectclass">
 	  	<div class="ldiv">开户银行：</div>
 	 	<div class="rdiv">
-	 		<select style="width: 15%;margin-top:8px;" class="form-control">
+	 		<select style="width: 15%;margin-top:8px;" class="form-control" id="bankname" name="bankname">
 	 			<c:forEach var="vo" items="${list}">
-					<option value="${vo.bankname}">${vo.bankname}</option>
+	 				<c:choose>
+	 					<c:when test="${vo.bankname ==bank.bankname}">
+	 						<option selected="selected" value="${vo.bankname}">${vo.bankname}</option>
+	 					</c:when>
+	 					<c:otherwise>
+	 						<option value="${vo.bankname}">${vo.bankname}</option>
+	 					</c:otherwise>
+	 				</c:choose>
 				</c:forEach>
 	 		</select>
 	 	</div>
@@ -78,21 +127,20 @@ function check(){
 	  <div class="selectclass">
 	  	<div class="ldiv">开户支行：</div>
 	 	<div class="rdiv">
-	 		<input type="password" id="XX_LoginPassWord" name="XX_LoginPassWord" class="form-control" id="code" name="code" style="width: 15%;margin-top:8px;display: inline;"/>
+	 		<input type="text" id="bankbranch" name="bankbranch" value="${bank.bankbranch}" class="form-control" style="width: 15%;margin-top:8px;display: inline;"/>
 	 		<span style="color:red;">请正确填写开户支行，否则可能会导致无法到账 </span>
 	 	</div>
 	 </div>
 	 <div class="selectclass">
 	  	<div class="ldiv">银行卡号：</div>
-	 	<div class="rdiv"><input type="password" id="XX_LoginPassWord" name="XX_LoginPassWord" class="form-control" id="code" name="code" style="width: 15%;margin-top:8px;"/></div>
+	 	<div class="rdiv"><input type="text" class="form-control" id="bankaccountnumber" name="bankaccountnumber" value="${bank.bankaccountnumber}" style="width: 15%;margin-top:8px;"/></div>
 	 </div>
 	 <div class="selectclass">
 	  	<div class="ldiv">安全码：</div>
-	 	<div class="rdiv"><input type="password" id="XX_LoginPassWord" name="XX_LoginPassWord" class="form-control" id="code" name="code" style="width: 15%;margin-top:8px;"/></div>
+	 	<div class="rdiv"><input type="password"  class="form-control" id="code" name="code" style="width: 15%;margin-top:8px;"/></div>
 	 </div>
-	  <div class="selectclass" style="text-align:left;clear: both;">
-	 	 <input type="submit" value="提交" class="btn btn-primary btn-search" style="margin-left:18%"/>
-		 <a class="btn btn-info btn-reset" style='margin:0 -5px 0 0;'> 重 置</a>
+	  <div class="selectclass" style="text-align:left;clear: both;margin-top:5px;">
+	 	 <span onclick="vaild_form()"  class="btn btn-primary btn-search" style="margin-left:18%" id="next">提交</span>
 	 </div>
 </form>
 <div style="clear:left;"></div>

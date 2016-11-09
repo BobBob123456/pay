@@ -17,14 +17,17 @@ public class BankService implements IBankService {
 	private BankDaoImpl bankDaoImpl;
 	
 	
-	
-	public int getBankByUserId(Map<String, Object> map) {
-		
-		return (int) bankDaoImpl.getNumber(map, "getBankByUserId");
+	public Bank getBankByUserId(Map<String, Object> map) {
+		return bankDaoImpl.getObjectByCondition(map);
 	}
 
-	public Bank getBankName(Map<String, Object> map) {
-		return bankDaoImpl.getObjectByCondition(map);
+
+	public int addAndUpdate(Bank bank) {
+		if(bank.getId()==null){
+			return bankDaoImpl.addSelective(bank);
+		}else{
+			return bankDaoImpl.updateSelective(bank);
+		}
 	}
 
 }

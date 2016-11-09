@@ -34,6 +34,9 @@
    	 <if test="order_number !=null and  order_number != ''" >
         	and TransID=#{order_number,jdbcType=VARCHAR}
    	 </if>
+   	 <if test="xjUserId !=null and xjUserId != ''" >
+	        and  UserID in (#{xjUserId,jdbcType=INTEGER})
+	  </if>
   </select>
   <select id="getAllMoneyBdList" resultMap="MoneyBdResultMap" parameterType="java.util.Map" >
 	   select bd.*,UserName
@@ -47,6 +50,9 @@
    	  <if test="order_number !=null and  order_number != ''" >
         	and TransID=#{order_number,jdbcType=VARCHAR}
    	  </if>
+   	  <if test="xjUserId !=null and xjUserId != ''" >
+	        and  UserID in (#{xjUserId,jdbcType=INTEGER})
+	  </if>
 	   order by datetime desc
   </select>
 

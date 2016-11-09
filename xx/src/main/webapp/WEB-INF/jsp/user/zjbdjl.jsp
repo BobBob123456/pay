@@ -69,16 +69,13 @@
 						<input type="text" class="form-control" name="jsjy_date" id="jsjy_date" value="${jsjy_date}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false,readOnly:true})">
 						 <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div> 
 					</div>
-	<!-- 				<div class="input-group" style='width:214px;float:left;font-size:13px;margin:0 5px;'>
-						<div class="input-group-addon">流水号</div>
-						<input type="text" class="form-control">
-					</div> -->
 					<div class="input-group" style='width:214px;float:left;font-size:13px;'>
 						<div class="input-group-addon">类型</div>
 						<select name="lx" id="lx" class="form-control">
 							<option value="">全部类型</option>
 							<option value="1">网银交易</option>
 							<option value="2">提成记录</option>
+							<option value="3">平台转账记录</option>
 							<option value="4">提款记录</option>
 							<option value="5">减金记录</option>
 							<option value="6">增金记录</option>
@@ -98,8 +95,7 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th style="width: 116px;">流水号</th>
-								<th style="width: 179px;">对应订单号</th>
+								<th style="width: 179px;">订单号</th>
 								<th style="width: 179px;">金额（元）</th>
 								<th style="width: 240px;">当前余额（元）</th>
 								<th style="width: 149px;">项目类型</th>
@@ -110,16 +106,18 @@
 						<tbody>
 							<c:forEach var="vo" items="${list}">
 								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
+									<td>${vo.transid}</td>
+									<td>${vo.money}</td>
+									<td>${vo.gmoney}</td>
 									<td>
 										<c:if test="${vo.lx==1}">
 											网银交易
 										</c:if>
 										<c:if test="${vo.lx==2}">
 											提成记录
+										</c:if>
+										<c:if test="${vo.lx==3}">
+											平台转账记录
 										</c:if>
 										<c:if test="${vo.lx==4}">
 											提款记录
@@ -132,7 +130,7 @@
 										</c:if>
 									</td>
 									<td><fmt:formatDate value="${vo.datetime}" pattern="yyyy/MM/dd HH:mm:ss" /></td>
-									<td></td>
+									<td>${vo.remark}</td>
 								</tr>
 							</c:forEach>
 						</tbody>

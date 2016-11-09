@@ -54,6 +54,9 @@
    <if test="account !=null and account != ''" >
         and u.UserName=#{account,jdbcType=VARCHAR}
    </if>
+   <if test="xjUserId !=null and xjUserId != ''" >
+	      and  UserID in (#{xjUserId,jdbcType=INTEGER})
+   </if>
    order by TradeDate desc
   </select>
   
@@ -68,7 +71,10 @@
    <if test="account !=null and account != ''" >
         and u.UserName=#{account,jdbcType=VARCHAR}
    </if>
-        and Zt=1
+    <if test="xjUserId !=null and xjUserId != ''" >
+	      and  UserID in (#{xjUserId,jdbcType=INTEGER})
+   </if>
+      and Zt=1
   </select>
   <select id="getAllOrderSuccessMoney" resultType="float"  parameterType="java.util.Map" >
    select SUM(trademoney)   from pay_order o LEFT JOIN pay_user u 
@@ -81,6 +87,9 @@
    </if>
    <if test="account !=null and account != ''" >
         and u.UserName=#{account,jdbcType=VARCHAR}
+   </if>
+   <if test="xjUserId !=null and xjUserId != ''" >
+	      and  UserID in (#{xjUserId,jdbcType=INTEGER})
    </if>
         and Zt=1 
   </select>
@@ -98,6 +107,9 @@
    </if>
    <if test="account !=null and account != ''" >
         and u.UserName=#{account,jdbcType=VARCHAR}
+   </if>
+   <if test="xjUserId !=null and xjUserId != ''" >
+	      and  UserID in (#{xjUserId,jdbcType=INTEGER})
    </if>
    order by TradeDate desc
   </select>
@@ -220,23 +232,6 @@
   </select>
 
 
-  <select id="getXjOrderCount"  resultType="Integer"  parameterType="java.util.Map" >
-   select count(*)  from pay_order where 
-   UserID in (#{userId,jdbcType=INTEGER}) and (typepay = 0 or typepay = 1)
-
-  </select>
-  
-  <select id="getXjOrders" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from pay_order
-    where 
-    UserID in (#{userId,jdbcType=INTEGER}) and (typepay = 0 or typepay = 1)
-    order by TradeDate desc
-  </select>	
-
   <select id="getRecentOrder" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
     select 
     <include refid="Base_Column_List" />
@@ -247,8 +242,7 @@
     (Username =#{userId,jdbcType=INTEGER}  and typepay=5))
     and Zt=1 order by TradeDate desc
   </select>
-  
-  
+   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from pay_order
     where id = #{id,jdbcType=INTEGER}

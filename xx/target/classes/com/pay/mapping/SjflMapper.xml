@@ -24,27 +24,14 @@
     from pay_sjfl
     where UserId = 0
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from pay_sjfl
-    where id = #{id,jdbcType=INTEGER}
+    where UserId= #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from pay_sjfl
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.pay.pojo.Sjfl" >
-    insert into pay_sjfl (id, UserId, cheque_fl, 
-      statement_fl, statement_fd, statement_bd, 
-      set_cheque_time, set_statement_time, set_cheque_userid, 
-      set_statement_userid, sj_fl)
-    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{chequeFl,jdbcType=REAL}, 
-      #{statementFl,jdbcType=REAL}, #{statementFd,jdbcType=REAL}, #{statementBd,jdbcType=REAL}, 
-      #{setChequeTime,jdbcType=TIMESTAMP}, #{setStatementTime,jdbcType=TIMESTAMP}, #{setChequeUserid,jdbcType=INTEGER}, 
-      #{setStatementUserid,jdbcType=INTEGER}, #{sjFl,jdbcType=REAL})
-  </insert>
-  <insert id="insertSelective" parameterType="com.pay.pojo.Sjfl" >
+
+  <insert id="addSelective" parameterType="com.pay.pojo.Sjfl" >
     insert into pay_sjfl
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -117,7 +104,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pay.pojo.Sjfl" >
+  <update id="updateSelective" parameterType="com.pay.pojo.Sjfl" >
     update pay_sjfl
     <set >
       <if test="userid != null" >
@@ -151,20 +138,6 @@
         sj_fl = #{sjFl,jdbcType=REAL},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.pay.pojo.Sjfl" >
-    update pay_sjfl
-    set UserId = #{userid,jdbcType=INTEGER},
-      cheque_fl = #{chequeFl,jdbcType=REAL},
-      statement_fl = #{statementFl,jdbcType=REAL},
-      statement_fd = #{statementFd,jdbcType=REAL},
-      statement_bd = #{statementBd,jdbcType=REAL},
-      set_cheque_time = #{setChequeTime,jdbcType=TIMESTAMP},
-      set_statement_time = #{setStatementTime,jdbcType=TIMESTAMP},
-      set_cheque_userid = #{setChequeUserid,jdbcType=INTEGER},
-      set_statement_userid = #{setStatementUserid,jdbcType=INTEGER},
-      sj_fl = #{sjFl,jdbcType=REAL}
-    where id = #{id,jdbcType=INTEGER}
+    where UserId= #{userid,jdbcType=INTEGER}
   </update>
 </mapper>

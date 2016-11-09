@@ -29,7 +29,7 @@ $(document).ready(function(e) {
 		    currentPage: currentPage,
 		    onPageChange: function (num, type) {
 		    	if(currentPage!=num){
-		    		location.href="user/user_index.html?cur="+num;
+		    		location.href="backend/user_manage.html?cur="+num;
 		    	}
 		    }
 		});
@@ -66,7 +66,7 @@ function change_money(userid,account,money){
 	$('#account_label').html(account);
 	$('#money_label').html(money);
 }
-function set_cheque(id,username,fl,sj_username){
+function set_cheque(id,username,fl,sj_username,sjfl){
 	var content='<div style="height: auto; padding: 20px 0 0;">'+
 	'<form class="form-horizontal"><div class="col-sm-10 account_label" style="text-align:center;font-size:16px;">'+
 	'<span>当前用户：</span><span>'+username+'</span></div><div class="form-group" style="margin-left: 0; margin-right: 0;">'+
@@ -76,7 +76,7 @@ function set_cheque(id,username,fl,sj_username){
 	if(sj_username!=''){
 		content+='<div class="col-sm-10 account_label" style="text-align:center;font-size:16px;"><span>上级用户：</span><span>'+
 		sj_username+'</span></div><div class="form-group" style="margin-left: 0; margin-right: 0;"><label class="col-sm-4 control-label">请输入上级收款提成：</label>'+
-		'<div class="col-sm-6"><input type="text" id="cheque_fl" name="cheque_fl" class="form-control" placeholder="请输入上级收款提成"></div></div>';
+		'<div class="col-sm-6"><input type="text" id="sj_fl" name="sj_fl" class="form-control" placeholder="请输入上级收款提成"></div></div>';
 		
 	} 
 	content+='</form></div>';
@@ -91,31 +91,70 @@ function set_cheque(id,username,fl,sj_username){
 		scrollbar: false,
 		shadeClose: false,
 		btn: ['设置', '关闭'],
-		yes: function(){
-			alert(1); 
+		yes: function(index, layero){
+			var cheque_fl=$("#cheque_fl").val();
+			var sj_fl=$("#sj_fl").val();
+			$.ajax({
+				type : "POST",
+				url : "backend/set_cheque_fl.html",
+				data:{"userId":id,"cheque_fl":cheque_fl,"sj_fl":sj_fl},
+				cache : false,
+				success : function(e) {
+					//如果设定了yes回调，需进行手工关闭
+					layer.close(index); 
+					location.reload(); 
+				}
+			});
 		},
 		content: content
 	});
+	$('#cheque_fl').val(fl);
+	$('#sj_fl').val(sjfl);
 }
 
-function set_statement(){
-	var content=$('#money_div').html();
-	layer.open({
-		type: 1,
-		title: '结算费率设置',
-		closeBtn: 0,
-		shadeClose: true,
-		skin: 'yourclass',
-		area: ['500px', '280px'],
-		closeBtn: 1,
-		scrollbar: false,
-		shadeClose: false,
-		btn: ['设置', '关闭'],
-		yes: function(){
-			alert(1); 
-		},
-		content: content
-	});
+function set_statement(id,username,statement_fl,statement_bd,statement_fd){
+	var content='<div style="height: auto; padding: 20px 0 0;"><form class="form-horizontal">'+
+		'<div class="col-sm-10 account_label" style="text-align:center;font-size:16px;"><span>'+
+		username+'</span></div><div class="form-group" style="margin-left: 0; margin-right: 0;">'+
+		'<label class="col-sm-4 control-label">请输入结算费率：</label><div class="col-sm-6">'+
+		'<input type="text" id="statement_fl" name="statement_fl" class="form-control" placeholder="请输入结算费率"></div>'+
+	    '</div><div class="form-group" style="margin-left: 0; margin-right: 0;"><label class="col-sm-4 control-label">保底(元)：</label>'+
+		'<div class="col-sm-6"><input type="text" id="statement_bd" name="statement_bd" class="form-control" placeholder="保底(元)">'+
+		'</div></div><div class="form-group" style="margin-left: 0; margin-right: 0;"><label class="col-sm-4 control-label">封顶(元)：</label>'+
+		'<div class="col-sm-6"><input type="text" id="statement_fd" name="statement_fd" class="form-control" placeholder="封顶(元)">'+
+		'</div></div></form></div>';
+		layer.open({
+			type: 1,
+			title: '结算费率设置',
+			closeBtn: 0,
+			shadeClose: true,
+			skin: 'yourclass',
+			area: ['500px', '280px'],
+			closeBtn: 1,
+			scrollbar: false,
+			shadeClose: false,
+			btn: ['设置', '关闭'],
+			yes: function(index, layero){
+				var statement_fl = $('#statement_fl').val();
+				var statement_bd = $('#statement_bd').val();
+				var statement_fd =$('#statement_fd').val();
+				$.ajax({
+					type : "POST",
+					url : "backend/set_statement_fl.html",
+					data:{"userId":id,"statement_fl":statement_fl,"statement_bd":statement_bd,"statement_fd":statement_fd},
+					cache : false,
+					success : function(e) {
+						//如果设定了yes回调，需进行手工关闭
+						layer.close(index); 
+						location.reload(); 
+					}
+				});
+			},
+			content: content
+		});
+		$('#statement_fl').val(statement_fl);
+		$('#statement_bd').val(statement_bd);
+		$('#statement_fd').val(statement_fd);		
 }
 
 </script>
@@ -123,31 +162,7 @@ function set_statement(){
 <body>
 <jsp:include page="../common/top.jsp"></jsp:include>
 	<div id="money_div" style="display: none;">
-		<div style="height: auto; padding: 20px 0 0;">
-			<form class="form-horizontal">
-				<div class="col-sm-10 account_label" style="text-align:center;font-size:16px;">
-					<span>345425170@qq.com</span>
-				</div>
-				<div class="form-group" style="margin-left: 0; margin-right: 0;">
-					<label class="col-sm-4 control-label">请输入结算费率：</label>
-					<div class="col-sm-6">
-						<input type="text" id="cheque_fl" name="cheque_fl" class="form-control" placeholder="请输入结算费率">
-					</div>
-				</div>
-				<div class="form-group" style="margin-left: 0; margin-right: 0;">
-					<label class="col-sm-4 control-label">保底(元)：</label>
-					<div class="col-sm-6">
-						<input type="text" id="cheque_fl" name="cheque_fl" class="form-control" placeholder="保底(元)">
-					</div>
-				</div>
-				<div class="form-group" style="margin-left: 0; margin-right: 0;">
-					<label class="col-sm-4 control-label">封顶(元)：</label>
-					<div class="col-sm-6">
-						<input type="text" id="cheque_fl" name="cheque_fl" class="form-control" placeholder="封顶(元)">
-					</div>
-				</div>
-			</form>
-		</div>
+		
 	</div>
 	<div class="biaoge">
 		<div class="main_content">
@@ -249,28 +264,41 @@ function set_statement(){
 					      			${vo.sjapi.fl}
 					      		</c:otherwise>
 					      	</c:choose>
+					      	<c:if test="${!empty vo.sjfl.sjFl}">
+					      		代理收款提成费率：${vo.sjfl.sjFl}
+					      	</c:if>
 					      </td>
 					      <td>
 					      	<c:choose>
 					      		<c:when test="${!empty vo.sjfl.chequeFl}">
-					      			<span class="btn btn-primary btn-search" onclick="set_cheque(${vo.id},'${vo.username}','${vo.sjfl.chequeFl}','${vo.sj_name }')">设置</span>
+					      			<span class="btn btn-primary btn-search" onclick="set_cheque(${vo.id},'${vo.username}','${vo.sjfl.chequeFl}','${vo.sj_name }','${vo.sjfl.sjFl}')">设置</span>
 					      		</c:when>
 					      		<c:otherwise>
-					      			<span class="btn btn-primary btn-search" onclick="set_cheque(${vo.id},'${vo.username}','${vo.sjapi.fl}','${vo.sj_name }')">设置</span>
+					      			<span class="btn btn-primary btn-search" onclick="set_cheque(${vo.id},'${vo.username}','${vo.sjapi.fl}','${vo.sj_name }','')">设置</span>
 					      		</c:otherwise>
 					      	</c:choose>
 					      </td>
 					      <td>
 					      	<c:choose>
 					      		<c:when test="${!empty vo.sjfl.statementFl}">
-					      			${vo.sjfl.statementFl}
+					      			${vo.sjfl.statementFl}/保底${vo.sjfl.statementBd}元/封顶${vo.sjfl.statementFd}元
 					      		</c:when>
 					      		<c:otherwise>
 					      			${sjfl_obj.statementFl}/保底${sjfl_obj.statementBd}元/封顶${sjfl_obj.statementFd}元
 					      		</c:otherwise>
 					      	</c:choose>
 					      </td>
-					      <td><span class="btn btn-primary btn-search" onclick="set_statement()">设置</span></td>
+					      <td>
+					      	<c:choose>
+					      		<c:when test="${!empty vo.sjfl.statementFl}">
+					      			<span class="btn btn-primary btn-search" onclick="set_statement(${vo.id},'${vo.username}','${vo.sjfl.statementFl}','${vo.sjfl.statementBd}','${vo.sjfl.statementFd}')">设置</span>
+					      		</c:when>
+					      		<c:otherwise>
+					      			<span class="btn btn-primary btn-search" onclick="set_statement(${vo.id},'${vo.username}','${sjfl_obj.statementFl}','${sjfl_obj.statementBd}','${sjfl_obj.statementFd}')">设置</span>
+					      		</c:otherwise>
+					      	</c:choose>
+					      	
+					      </td>
 					      <td>${vo.sj_name }</td>
 					      <td>${vo.xj_num}</td>
 					      <td></td>

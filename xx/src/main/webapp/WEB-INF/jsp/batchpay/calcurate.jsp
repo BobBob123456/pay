@@ -128,7 +128,62 @@ function vaild_form(){
 <body>
 	<jsp:include page="../common/top.jsp"></jsp:include>
 	<form action="batchPay/do_calcurate.html" method="post" id="pay_form"> 
-		<div class="xgjcxx">
+		<div class="biaoge">
+		<div class="main_content">
+			<nav>
+				<div class='znav'>
+					<ul style="width: 5000px;">
+						<li class="first"><i class="icon-home"></i></li>
+						<li>批量付款</li>
+						<li class="last">逐笔录入</li>
+					</ul>
+				</div>
+			</nav>
+			<div>
+				<select id="bank_hidden"  name="bank_hidden" class="form-control" style="width:60%;margin-left:20%;display: none;">
+								<c:forEach var="vo" items="${list}">
+									<option value="${vo.bankname}">${vo.bankname}</option>
+								</c:forEach>
+				 </select>
+			</div>
+			<div style='clear:both;'></div>
+				<div class='ztab'>
+					<table class="table table-hover">
+					<thead>
+						<tr>
+							<th style="width: 116px;">银行</th>
+							<th style="width: 179px;">卡号</th>
+							<th style="width: 179px;">姓名</th>
+							<th style="width: 240px;">金额（元）</th>
+							<th style="width: 240px;">操作</th>
+						</tr>
+					</thead>
+					<tbody id="mytable">
+					 	<tr>
+								<td style="font-size: 18px; width: 30%;"><select
+									name="bank" class="form-control"
+									style="width: 60%; margin-left: 20%;">
+										<c:forEach var="vo" items="${list}">
+											<option value="${vo.bankname}">${vo.bankname}</option>
+										</c:forEach>
+								</select></td>
+								<td><input type="text" name="card" class="form-control"
+									style="width: 80%; margin-left: 10%;" /></td>
+								<td><input type="text" name="name" class="form-control"
+									style="width: 60%; margin-left: 20%;" /></td>
+								<td><input type="text" name="money" class="form-control"
+									style="width: 60%; margin-left: 20%;" /></td>
+								<td style="width: 10%;">
+									<button type="button" class="btn btn-danger"
+										onclick="delTr(this)">删除</button>
+								</td>
+							</tr>
+					</tbody>
+				</table>
+				</div>
+		</div>
+	</div>
+		<%-- <div class="xgjcxx">
 			<div
 				style="border: 1px solid #ccc; background-image: url(User/images/menu_bg_x.jpg); width: 100%; height: 40px; line-height: 40px; font-size: 15px; text-align: left; font-weight: bold; color: #333">
 				&nbsp;&nbsp;&nbsp;&nbsp;添加列表</div>
@@ -145,7 +200,7 @@ function vaild_form(){
 					</div>
 					<div class="selectclass"
 						style="height: auto; overflow: hidden; border-bottom: 0px;">
-						<table cellpadding="0" cellspacing="0" border="0" id="mytable">
+						<table cellpadding="0" cellspacing="0" border="0" >
 							<tr style="background-color: #5d7b9d; color: #fff;">
 								<td style="width: 30%">银行</td>
 								<td>卡号</td>
@@ -154,31 +209,13 @@ function vaild_form(){
 								<td style="width: 10%;">操作</td>
 							</tr>
 							<tr>
-									<td style="font-size: 18px; width: 30%;">
-										<select  name="bank" class="form-control" style="width:60%;margin-left:20%;">
-											<c:forEach var="vo" items="${list}">
-												<option value="${vo.bankname}">${vo.bankname}</option>
-											</c:forEach>
-										</select>
-									</td>
-									<td>
-										<input type="text"  name="card"  class="form-control" style="width: 80%;margin-left:10%;"/>
-									</td>
-									<td>
-										<input type="text"  name="name" class="form-control" style="width: 60%;margin-left:20%;" />
-									</td>
-									<td>
-										<input type="text"  name="money" class="form-control" style="width: 60%;margin-left:20%;"/>
-									</td>
-									<td style="width: 10%;" >
-										<button type="button" class="btn btn-danger" onclick="delTr(this)">删除</button>
-									</td>
+									
 							</tr>
 						</table>
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> --%>
 		<div class="selectclass" style="text-align:center;">
 			<span  class="btn btn-primary" onclick="vaild_form()" id="next">下一步</span>&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="addTr()">新增</button>
 		</div>

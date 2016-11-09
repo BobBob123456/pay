@@ -1,6 +1,6 @@
 package com.pay.service.impl;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -86,21 +86,6 @@ public class OrderServiceImpl implements IOrderService {
 	public List<Order> getPtOrders(Map<String, Object> map, int currentPage) {
 		return this.orderDaoImpl.getObjectListBySelectSqlId(map, currentPage, CommonConstant.PAGE_SIZE_DEFAULT, "getPtList");
 	}
-
-	public List<Order> getXjOrders(Map<String, Object> map, int currentPage) {
-		String userids=this.userDaoImpl.getXjUserId(map);
-		Map<String, Object> m=new HashMap<String, Object>();
-		m.put("userId", userids);
-		return this.orderDaoImpl.getObjectListBySelectSqlId(m, currentPage, CommonConstant.PAGE_SIZE_DEFAULT, "getXjOrders");
-	}
-
-	public int getXjOrderCount(Map<String, Object> map) {
-		String userids=this.userDaoImpl.getXjUserId(map);
-		Map<String, Object> m=new HashMap<String, Object>();
-		m.put("userId", userids);
-		return this.orderDaoImpl.getObjectCountBySelecSqltId(m, "getXjOrderCount");
-	}
-
 	
 	public int getPtSettlementCount(Map<String, Object> map) {
 		return this.orderDaoImpl.getObjectCountBySelecSqltId(map, "getPtSettlementCount");

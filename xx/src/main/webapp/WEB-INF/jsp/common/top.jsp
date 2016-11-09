@@ -132,8 +132,8 @@ $(function(){
 										<ul>
 											<li class='bott1'><a href="user/tjyg.html">下级商户</a></li>
 											<li class='bott2'><a href="user/xj_order.html">下级收款订单</a></li>
-											<li><a href="">下级结算订单</a></li>
-											<li><a href="">下级收支明细</a></li>
+											<li><a href="user/xj_withdraw.html">下级结算订单</a></li>
+											<li><a href="user/xj_money_detail.html">下级收支明细</a></li>
 										
 										</ul>
 									</div>
@@ -154,9 +154,6 @@ $(function(){
 							</li>
 							<li>
 								<a href="javascript:void(0);"><span class="icon-shouzhi"></span>公告管理</a>
-							</li>
-							<li>
-								<a href="backend/withdraw_manage.html"><span class="icon-shouzhi"></span>结算管理</a>
 							</li>
 							<li>
 								<a href="backend/withdraw_manage.html"><span class="icon-shouzhi"></span>结算管理</a>

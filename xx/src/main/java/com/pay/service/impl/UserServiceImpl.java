@@ -84,4 +84,8 @@ public class UserServiceImpl implements IUserService {
 		return list;
 	}
 
+	public String getXjUserId(Map<String, Object> map) {
+		return userDaoImpl.getXjUserId(map);
+	}
+
 }

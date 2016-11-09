@@ -1,6 +1,8 @@
 package com.pay.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -10,10 +12,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.pay.base.BankUtil;
 import com.pay.base.Utils;
+import com.pay.pojo.Bank;
 import com.pay.pojo.BankPay;
 import com.pay.pojo.User;
 import com.pay.service.IBankPayService;
+import com.pay.service.IBankService;
 import com.pay.service.IUserService;
 
 @Controller
@@ -26,24 +31,76 @@ public class AccountController {
 	@Resource
 	private IBankPayService bankPayService;
 	
-	    
+	@Resource
+	private IBankService bankService;
 	
+	    
 	@RequestMapping("/update_password")
 	public String update_password(HttpServletResponse response,HttpServletRequest request){
-		
-	/*	mailMessage.setSubject("你好");
-		mailMessage.setText("这个是一个通过Spring框架来发送邮件的小程序");
-		mailMessage.setTo("345425170@qq.com");
-		mailSender.send(mailMessage);*/
 		return "account/update_password";
 	}
 	
 	@RequestMapping("/cardSet")
 	public String cardSet(HttpServletResponse response,HttpServletRequest request){
+		Integer userId=Integer.parseInt(request.getSession().getAttribute("userId").toString());
 		List<BankPay> list=bankPayService.getBankPayList();
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("userId", userId);
+		Bank bank=bankService.getBankByUserId(map);
+		request.setAttribute("bank", bank);
 		request.setAttribute("list", list);
 		return "account/card_set";
 	}
+	
+	@RequestMapping("/do_cardSet")
+	public void do_cardSet(HttpServletResponse response,HttpServletRequest request){
+		Integer userId=Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		String bankcompellation=request.getParameter("bankcompellation");
+		String id=request.getParameter("id");
+		String bankname=request.getParameter("bankname");
+		String bankbranch=request.getParameter("bankbranch");
+		String bankaccountnumber=request.getParameter("bankaccountnumber");
+		User user=userService.getUserById(userId);
+		String code=request.getParameter("code");
+		if(!user.getCode().equals(Utils.MD5(code))){
+			Utils.writer_out(response, "安全码不正确");
+			return;
+		}
+		if(!Utils.check_bank(bankaccountnumber)){
+			Utils.writer_out(response, "银行卡不合法");
+        	return;
+		}
+		String bankName=BankUtil.getNameOfBank(bankaccountnumber);
+		if(StringUtils.isEmpty(bankName)){
+			Utils.writer_out(response, "输入的卡号与选择的银行不匹配");
+			return;
+		}
+		if(!StringUtils.isEmpty(bankName)){
+			String [] bs=bankName.split("·");
+			if(bs.length>1){
+				if(bankname.indexOf(bs[0])==-1){
+					Utils.writer_out(response, "输入的卡号属于["+bs[0]+"]");
+					return;
+				}
+			}
+		}
+		Bank bank=new Bank();
+		bank.setBankaccountnumber(bankaccountnumber);
+		bank.setBankbranch(bankbranch);
+		bank.setBankcompellation(bankcompellation);
+		bank.setBankname(bankname);
+		bank.setUserid(userId);
+		if(id!=null){
+			bank.setId(Integer.valueOf(id));
+		}
+		int result=bankService.addAndUpdate(bank);
+		if(result==1){
+			Utils.writer_out(response, "设置成功");
+		}else{
+			Utils.writer_out(response, "设置失败");
+		}
+	}
+	
 	
 	@RequestMapping("/withdraw")
 	public String withdraw(HttpServletResponse response,HttpServletRequest request){

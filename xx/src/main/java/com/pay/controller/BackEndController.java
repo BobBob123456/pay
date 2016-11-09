@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pay.base.DateUtil;
+import com.pay.base.Utils;
 import com.pay.base.constant.CommonConstant;
 import com.pay.pojo.MoneyBd;
 import com.pay.pojo.Order;
@@ -232,4 +233,57 @@ public class BackEndController {
 		request.setAttribute("list", list);
 		return "backend/money_detail";
 	}
+	
+	/**设置收款费率**/
+	@RequestMapping("/set_cheque_fl")
+	public void set_cheque_fl(HttpServletResponse response,HttpServletRequest request){
+		Integer set_cheque_userid=Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		String cheque_fl=request.getParameter("cheque_fl");
+		String sj_fl=request.getParameter("sj_fl");
+		String userId=request.getParameter("userId");
+		Sjfl sjfl=new Sjfl();
+		if(cheque_fl!=null){
+			sjfl.setChequeFl(Float.valueOf(cheque_fl));
+		}
+		if(sj_fl!=null){
+			sjfl.setSjFl(Float.valueOf(sj_fl));
+		}
+		sjfl.setUserid(Integer.valueOf(userId));
+		sjfl.setSetChequeTime(new Date());
+		sjfl.setSetChequeUserid(set_cheque_userid);
+		int result=sjflService.addAndUpdateSjfl(userId, sjfl);
+		if(result==1)
+			Utils.writer_out(response, "设置成功");
+		else
+			Utils.writer_out(response, "设置失败");
+	}
+	
+	/**设置上级费率**/
+	@RequestMapping("/set_statement_fl")
+	public void set_statement_fl(HttpServletResponse response,HttpServletRequest request){
+		Integer set_statement_userid=Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		String statement_fl=request.getParameter("statement_fl");
+		String statement_fd=request.getParameter("statement_fd");
+		String statement_bd=request.getParameter("statement_bd");
+		String userId=request.getParameter("userId");
+		Sjfl sjfl=new Sjfl();
+		if(statement_fl!=null){
+			sjfl.setStatementFl(Float.valueOf(statement_fl));
+		}
+		if(statement_fd!=null){
+			sjfl.setStatementFd(Float.valueOf(statement_fd));
+		}
+		if(statement_bd!=null){
+			sjfl.setStatementBd(Float.valueOf(statement_bd));
+		}
+		sjfl.setUserid(Integer.valueOf(userId));
+		sjfl.setSetStatementTime(new Date());
+		sjfl.setSetStatementUserid(set_statement_userid);
+		int result=sjflService.addAndUpdateSjfl(userId, sjfl);
+		if(result==1)
+			Utils.writer_out(response, "设置成功");
+		else
+			Utils.writer_out(response, "设置失败");
+	}
+	
 }

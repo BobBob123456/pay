@@ -33,6 +33,8 @@ public class User {
     
     private int payBank;
     
+    private String code;
+    
     private Money money;
     
     private Sjapi sjapi;
@@ -164,6 +166,14 @@ public class User {
 
 	public void setPayBank(int payBank) {
 		this.payBank = payBank;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public Money getMoney() {

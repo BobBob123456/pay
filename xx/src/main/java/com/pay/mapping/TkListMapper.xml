@@ -49,6 +49,9 @@
    		 <if test="order_number !=null and order_number != ''" >
 	        and OrderId=#{order_number,jdbcType=VARCHAR}
 	    </if>
+   		<if test="xjUserId !=null and xjUserId != ''" >
+	        and  UserID in (#{xjUserId,jdbcType=INTEGER})
+	    </if>
   </select>
   <select id="getWithdrawMoney"  resultType="float" parameterType="java.util.Map" >
 		select count(tk.id) as account from pay_tklist tk LEFT JOIN pay_user u 
@@ -67,6 +70,9 @@
    		</if>
    		 <if test="order_number !=null and order_number != ''" >
 	        and OrderId=#{order_number,jdbcType=VARCHAR}
+	    </if>
+   		<if test="xjUserId !=null and xjUserId != ''" >
+	        and  UserID in (#{xjUserId,jdbcType=INTEGER})
 	    </if>
   </select>
   
@@ -90,6 +96,9 @@
    		 <if test="order_number !=null and order_number != ''" >
 	        and OrderId=#{order_number,jdbcType=VARCHAR}
 	    </if>
+   		<if test="xjUserId !=null and xjUserId != ''" >
+	        and  UserID in (#{xjUserId,jdbcType=INTEGER})
+	    </if>
   </select>
   <select id="getAllWithdrawList" resultMap="TklistResultMap" parameterType="java.util.Map" >
 	    select tk.*,u.UserName as account from pay_tklist tk LEFT JOIN pay_user u 
@@ -111,6 +120,9 @@
    		<if test="order_number !=null and order_number != ''" >
 	        and OrderId=#{order_number,jdbcType=VARCHAR}
 	   </if>
+	   <if test="xjUserId !=null and xjUserId != ''" >
+	        and  UserID in (#{xjUserId,jdbcType=INTEGER})
+	    </if>
 	   	order by sq_date desc
   </select>
   <!-- 银行卡结算 -->

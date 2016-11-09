@@ -69,7 +69,7 @@ $(document).ready(function(e) {
 						<input type="text" class="form-control" id="order_number" name="order_number" value="${order_number}" >
 					</div>
 					<div class="input-group" style='width:290px;float:left;font-size:13px;margin:0 5px;'>
-						<div class="input-group-addon">商户</div>
+						<div class="input-group-addon">商户登陆账号</div>
 						<input type="text" class="form-control" id="account" name="account" value="${account}" >
 					</div>
 					<div class="input-group" style='width:290px;float:left;font-size:13px;'>
@@ -109,9 +109,10 @@ $(document).ready(function(e) {
 					<table class="table table-hover">
 					<thead>
 						<tr>
+							<th style="width: 179px;">商户</th>
+							<th style="width: 179px;">商户登陆账号</th>
 							<th style="width: 116px;">收款订单号</th>
 							<th style="width: 179px;">商户订单号</th>
-							<th style="width: 179px;">商户</th>
 							<th style="width: 179px;">建立时间</th>
 							<th style="width: 240px;">金额（元）</th>
 							<th style="width: 149px;">状态</th>
@@ -122,9 +123,10 @@ $(document).ready(function(e) {
 					<tbody>
 					  <c:forEach items="${orders}" var="vo">  
 						<tr>
+							<td>${vo.userid}</td>
+							<td>${vo.user.username}</td>
 							<td>${vo.transid}</td>
 							<td>${vo.orderId}</td>
-							<td>${vo.user.username}</td>
 							<td><fmt:formatDate value="${vo.tradedate}" pattern="yyyy/MM/dd HH:mm:ss" /></td>
 							<td>${vo.trademoney}</td>
 							<td> 

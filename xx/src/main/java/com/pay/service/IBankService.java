@@ -6,7 +6,7 @@ import com.pay.pojo.Bank;
 
 public interface IBankService {
 	
-	int getBankByUserId(Map<String, Object> map);
+	Bank getBankByUserId(Map<String, Object> map);
 	
-	Bank getBankName(Map<String, Object> map);
+	int addAndUpdate(Bank bank);
 }
