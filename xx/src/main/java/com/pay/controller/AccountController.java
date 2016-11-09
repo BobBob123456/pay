@@ -90,7 +90,7 @@ public class AccountController {
 		bank.setBankcompellation(bankcompellation);
 		bank.setBankname(bankname);
 		bank.setUserid(userId);
-		if(id!=null){
+		if(!StringUtils.isEmpty(id)){
 			bank.setId(Integer.valueOf(id));
 		}
 		int result=bankService.addAndUpdate(bank);
@@ -104,6 +104,11 @@ public class AccountController {
 	
 	@RequestMapping("/withdraw")
 	public String withdraw(HttpServletResponse response,HttpServletRequest request){
+		Integer userId=Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("userId", userId);
+		Bank bank=bankService.getBankByUserId(map);
+		request.setAttribute("bank", bank);
 		return "account/withdraw";
 	}
 	

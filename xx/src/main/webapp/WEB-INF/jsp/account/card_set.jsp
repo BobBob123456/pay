@@ -41,7 +41,7 @@ function vaild_form(){
 			}
 		}
 		if (!checkBankCardNo(bankaccountnumber)) {
-			alert("银行卡号：【" + n + "】不合法，请重新输入");
+			alert("银行卡号：【" + bankaccountnumber + "】不合法，请重新输入");
 			return
 		}
 		if(code==''){

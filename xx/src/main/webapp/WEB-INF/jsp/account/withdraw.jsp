@@ -15,6 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="User/css/css.css" rel="stylesheet">
 <script type="text/javascript" src="User/js/jquery-1.7.2.js"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"/>
+<script src="css/layer/layer.js"></script>
 <script type="text/javascript">
 function check(){
 	
@@ -54,15 +55,36 @@ function check(){
 <form name="Form2" method="post" action="account/EditLoginPassWord.html" onsubmit="return check2()">
 	  <div class="selectclass">
 	  	<div class="ldiv">提现银行卡：</div>
-	 	<div class="rdiv"></div>
+	 	<div class="rdiv">
+	 		<c:if test="${empty bank.bankaccountnumber}">
+	 			<script type="text/javascript">
+	 			layer.alert('银行卡未设置，前往设置银行?', function(index){
+	 				 	location.href="account/cardSet.html";
+	 				});       
+	 			/* layer.msg('银行卡未设置，前往设置银行', {
+	 				 shadeClose: true,
+	 				 time: 0 //不自动关闭
+	 				  ,btn: ['去设置']
+	 				  ,yes: function(index){
+	 				    layer.close(index);
+	 				    
+	 				  }
+	 			}); */
+	 				
+	 			</script>
+	 		</c:if>
+	 		<c:if test="${!empty bank.bankaccountnumber}">
+	 			${bank.bankaccountnumber}
+	 		</c:if>
+	 	</div>
 	 </div>
 	 <div class="selectclass">
 	  	<div class="ldiv">体现金额(元)：</div>
-	 	<div class="rdiv"><input type="password"  id="" name="" class="form-control" id="code" name="code" style="width: 15%;margin-top:8px;"/></div>
+	 	<div class="rdiv"><input type="text"  id="money" name="money" class="form-control"  style="width: 15%;margin-top:8px;"/></div>
 	 </div>
 	   <div class="selectclass">
 	  	<div class="ldiv">安全码：</div>
-	 	<div class="rdiv"><input type="password" id="" name="" class="form-control" id="code" name="code" style="width: 15%;margin-top:8px;"/></div>
+	 	<div class="rdiv"><input type="text" class="form-control" id="code" name="code" style="width: 15%;margin-top:8px;"/></div>
 	 </div>
 	  <div class="selectclass" style="text-align:left;clear: both;">
 	 	 <input type="submit" value="提交" class="btn btn-primary btn-search" style="margin-left:18%"/>
