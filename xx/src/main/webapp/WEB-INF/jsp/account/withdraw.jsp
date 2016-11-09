@@ -17,8 +17,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all"/>
 <script src="css/layer/layer.js"></script>
 <script type="text/javascript">
-function check(){
-	
+function vaild_form(){
+	   var bankaccountnumber = $("#bankaccountnumber").val();
+	   var money = $("#money").val();
+	   var code = $("#code").val();
+	   if(bankaccountnumber==''){
+		   layer.alert('银行卡未设置，前往设置银行?', function(index){
+			 	location.href="account/cardSet.html";
+			});  
+		   return;
+	   }
+	   if(money==''){
+		   alert("提现金额不能为空");
+		   return;
+	   }
+	   	var d = /^\d+(\.\d{1,2})?$/;
+		if (!d.test(money)) {
+			alert("金额必须是整数,或者是带两位小数的数字");
+			return
+		}
+		if (parseFloat(money) == 0) {
+			alert("金额必须大于0");
+			return
+		}
+		$("#next").attr("disabled","disabled");
+		 $.ajax({
+          type: "POST",
+          url:"account/do_withdraw.html",
+          data: $('#withdraw_form').serialize(),
+          success : function(g) {
+        	var json=eval("("+g+")");
+        	if(json.status==-1){
+        		alert(json.str);
+        		$("#next").removeAttr("disabled");
+        	}else{
+        		location.href = "batchPay/listBatchPay.html?batchId="+ json.batchId;
+        	}
+		},error : function(g) {
+			$("#next").removeAttr("disabled");
+		}
+      });
 }
 
 </script>
@@ -52,7 +90,7 @@ function check(){
 			</nav>
 		</div>
 	</div>
-<form name="Form2" method="post" action="account/EditLoginPassWord.html" onsubmit="return check2()">
+<form id="withdraw_form" method="post" action="account/do_withdraw.html" >
 	  <div class="selectclass">
 	  	<div class="ldiv">提现银行卡：</div>
 	 	<div class="rdiv">
@@ -60,35 +98,25 @@ function check(){
 	 			<script type="text/javascript">
 	 			layer.alert('银行卡未设置，前往设置银行?', function(index){
 	 				 	location.href="account/cardSet.html";
-	 				});       
-	 			/* layer.msg('银行卡未设置，前往设置银行', {
-	 				 shadeClose: true,
-	 				 time: 0 //不自动关闭
-	 				  ,btn: ['去设置']
-	 				  ,yes: function(index){
-	 				    layer.close(index);
-	 				    
-	 				  }
-	 			}); */
-	 				
+	 				});   
 	 			</script>
 	 		</c:if>
 	 		<c:if test="${!empty bank.bankaccountnumber}">
 	 			${bank.bankaccountnumber}
 	 		</c:if>
+	 		<input type="hidden" id="bankaccountnumber" name="bankaccountnumber" value="${bank.bankaccountnumber}"/>
 	 	</div>
 	 </div>
 	 <div class="selectclass">
-	  	<div class="ldiv">体现金额(元)：</div>
+	  	<div class="ldiv">提现金额(元)：</div>
 	 	<div class="rdiv"><input type="text"  id="money" name="money" class="form-control"  style="width: 15%;margin-top:8px;"/></div>
 	 </div>
 	   <div class="selectclass">
 	  	<div class="ldiv">安全码：</div>
 	 	<div class="rdiv"><input type="text" class="form-control" id="code" name="code" style="width: 15%;margin-top:8px;"/></div>
 	 </div>
-	  <div class="selectclass" style="text-align:left;clear: both;">
-	 	 <input type="submit" value="提交" class="btn btn-primary btn-search" style="margin-left:18%"/>
-		 <a class="btn btn-info btn-reset" style='margin:0 -5px 0 0;'> 重 置</a>
+	  <div  style="text-align:left;clear: both;margin-top:10px;">
+	 	<span onclick="vaild_form()"  class="btn btn-primary btn-search" style="margin-left:18%" id="next">提交</span>
 	 </div>
 </form>
 <div style="clear:left;"></div>

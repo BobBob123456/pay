@@ -9,7 +9,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" href="css/top.css" media="screen">
 <link rel="stylesheet" href="css/nav.css" media="screen">
 <link href="User/css/css.css" rel="stylesheet">
-<link href="User/css/showDialog.css" rel="stylesheet">
 <script type="text/javascript" src="User/js/js.js"></script>
 <script type="text/javascript" src="User/js/pcasunzip.js"></script>
 <script type="text/javascript" src="js/Other.js"></script>
@@ -60,8 +59,8 @@ $(function(){
 			content: '<div style="width:720px;height:480px;"><div><div style="text-align: center;border-bottom:1px dashed #ddd;margin:20px 15px;"><h3 style="font-size:16px;color:#333;font-weight:normal;">'+title+'</h3><div style="margin-top:20px;" ><span style="color: #999;line-height:40px;"></span></div>'+content+'</div></div></div>'
 		});
 	}
+	
 	</script>
-
 <!--头部-->
 	<div class="header">
 		<div class='logo'><img src='images/logo4.png' /></div>
@@ -72,7 +71,7 @@ $(function(){
 			<span style="font-size:14px;">${sessionScope.userName}</span><span style='margin:0 5px;'>|</span><span class='logout'><a href="user/logou.html">退出系统</a></span>
 		</div>
 	</div>
-	
+
 	<div class="top">
 		<div class="w t_cen">
 			<div class="t_c_cen">
@@ -172,6 +171,71 @@ $(function(){
 		
 		</ul>
 	</div>
+	<textarea id="tanchu" style="display: none;">
+		<div style="height: auto; padding: 20px 0 0;">
+			<form class="form-horizontal">
+				<div class="form-group" style="margin-left: 0; margin-right: 0;">
+					<label class="col-sm-4 control-label">安全码</label>
+					<div class="col-sm-6">
+						<input type="password" id="code" name="code" class="form-control" placeholder="请输入安全码">
+					</div>
+				</div>
+				<div class="form-group" style="margin-left: 0; margin-right: 0;">
+					<label class="col-sm-4 control-label">确认安全码</label>
+					<div class="col-sm-6">
+						<input type="password" class="form-control" placeholder="请确认安全码">
+					</div>
+				</div>
+				<div class="form-group" style="margin-left: 0; margin-right: 0;">
+					<label class="col-sm-4 control-label">验证码</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" placeholder="请输入验证码">
+					</div>
+					<div class="col-sm-3">
+						<img class="yzm" src="" onclick='flushValidateCode()' id="codeValidateImg" name="codeValidateImg" style="width:100px;border-radius:4px;cursor:pointer;"  title="点击刷新验证码"/>
+					</div>
+				</div>
+				<div class="form-group" style="margin-left: 0; margin-right: 0;">
+					<div class="col-sm-12" style="font-size:14px;color:red;text-align:center;">
+						安全码不能为空
+					</div>
+				</div>
+				<div class="form-group" style="margin-left: 0; margin-right: 0;">
+					<label class="col-sm-4 control-label"></label>
+					<div class="col-sm-6">
+						 <span onclick="vaild_form()"  class="btn btn-primary btn-search" style="margin-left:18%" id="next">提交</span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</textarea>
+	<c:if test="${sessionScope.is_set==0}">
+		<script type="text/javascript">
+			$(function(){
+				layer.open({
+					type: 1,
+					title: '设置安全码',
+					closeBtn: 0,
+					shadeClose: true,
+					skin: 'yourclass',
+					area: ['500px', '290px'],
+					closeBtn: 1,
+					scrollbar: false,
+					shadeClose: false,
+					content: $('#tanchu').val()
+				});
+				 flushValidateCode();
+			});
+			function vaild_form(){
+				alert($('#code').val());
+			}
+			/* 刷新生成验证码 */
+			function flushValidateCode(){
+			var validateImgObject = document.getElementById("codeValidateImg");
+			validateImgObject.src = "${pageContext.request.contextPath }/imageGen/getSysManageLoginCode.html?time=" + new Date();
+			}
+		</script>
+	</c:if>
 	
 	<!--注意事项e-->
 	

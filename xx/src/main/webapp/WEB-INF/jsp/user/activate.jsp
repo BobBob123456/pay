@@ -52,9 +52,9 @@
 	<script type="text/javascript" src="<%=basePath%>js/floatDiv.js"></script>
 	<div id="toptoptop">
 		<div>
-			欢迎来到国盛通！&nbsp;&nbsp;<a href="/Index_dengluqy.html"
+			欢迎来到国盛通！&nbsp;&nbsp;<a href="<%=basePath %>"
 				style="color: #fff">[登录]</a>&nbsp;&nbsp;<a
-				href="/Index_regstep.html" style="color: #fff">[注册]</a>&nbsp;|&nbsp;
+				href="<%=basePath %>" style="color: #fff">[注册]</a>&nbsp;|&nbsp;
 		</div>
 	</div>
 

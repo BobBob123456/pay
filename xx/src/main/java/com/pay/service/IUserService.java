@@ -26,4 +26,6 @@ public interface IUserService extends ICommonService<User>  {
 	/**获取下级用户的id**/
 	
 	String getXjUserId(Map<String, Object> map);
+	
+   User selectUserByEmail(String email) ;
 }

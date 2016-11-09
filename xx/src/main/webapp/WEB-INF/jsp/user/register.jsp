@@ -9,6 +9,11 @@
 <html>
 <head>
 <title>账户注册--国盛通管理系统</title>
+<meta
+	content="支付网银在线在外贸、航空等多个领域有着多年的外卡收款服务经验，服务客户包括海航等优质客户，商户可以通过单一接口接入MOTOpay和ReD Shield两项服务，实现安全的外卡收款。网银在线专业的风险控制团队可以提供本地支持。"
+	name=description>
+<meta content="游戏支付平台|在线支付平台|支付平台|三方支付平台|传奇支付平台|自动支付平台|在线支付平台|第三方支付"
+	name=keywords>
 <base href="<%=basePath%>">
 <link rel="stylesheet" href="css/style.css" />
 <script src="js/jquery.min.js"></script>

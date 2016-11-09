@@ -68,7 +68,7 @@ validateImgObject.src = "${pageContext.request.contextPath }/imageGen/getSysMana
 					<ul style="width: 5000px;">
 						<li class="first"><a href=""><i class="icon-home"></i></a></li>
 						<li>批量付款</li>
-						<li class="last">批量付款明细列表</li>
+						<li class="last">付款明细列表</li>
 					</ul>
 				</div>
 			</nav>

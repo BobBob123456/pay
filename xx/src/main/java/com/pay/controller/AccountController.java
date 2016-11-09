@@ -1,5 +1,7 @@
 package com.pay.controller;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,13 +14,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pay.base.BankUtil;
 import com.pay.base.Utils;
 import com.pay.pojo.Bank;
 import com.pay.pojo.BankPay;
+import com.pay.pojo.Money;
+import com.pay.pojo.StatmentTemp;
 import com.pay.pojo.User;
 import com.pay.service.IBankPayService;
 import com.pay.service.IBankService;
+import com.pay.service.IMoneyService;
+import com.pay.service.IStatmentTempService;
 import com.pay.service.IUserService;
 
 @Controller
@@ -33,6 +40,12 @@ public class AccountController {
 	
 	@Resource
 	private IBankService bankService;
+	
+	@Resource
+	private IStatmentTempService statmentTempService;
+	
+	@Resource 
+	private IMoneyService moneyService;
 	
 	    
 	@RequestMapping("/update_password")
@@ -110,6 +123,49 @@ public class AccountController {
 		Bank bank=bankService.getBankByUserId(map);
 		request.setAttribute("bank", bank);
 		return "account/withdraw";
+	}
+	
+	@RequestMapping("/do_withdraw")
+	public void do_withdraw(HttpServletResponse response,HttpServletRequest request){
+		JSONObject obj=new JSONObject();
+		Integer userId=Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		String money=request.getParameter("money");
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("userId", userId);
+		Bank bank=bankService.getBankByUserId(map);
+		User user=userService.getUserById(userId);
+		String code=request.getParameter("code");
+		if(!user.getCode().equals(Utils.MD5(code))){
+			obj.put("status", -1);
+			obj.put("str", "安全码不正确");
+			Utils.writer_out(response,obj.toString());
+			return;
+		}
+		/**获取账号余额**/
+		Money m= this.moneyService.selectByUserId(userId);
+		BigDecimal bd=new BigDecimal(money);   
+		//设置小数位数，第一个变量是小数位数，第二个变量是取舍方法(四舍五入)   
+		bd=bd.setScale(6, BigDecimal.ROUND_HALF_UP);  
+		if(!Utils.compare_money(m.getMoney(), bd)){
+			obj.put("status", -1);
+			obj.put("str", "提现金额不能大于余额");
+			Utils.writer_out(response,obj.toString());
+			return;
+		}
+		StatmentTemp st=new StatmentTemp();
+		st.setBank(bank.getBankname());
+		st.setCard(bank.getBankaccountnumber());
+		st.setMoney(Float.valueOf(money));
+		st.setName(bank.getBankcompellation());
+	 	String s=userId+"_"+System.currentTimeMillis();
+     	String batchId=Utils.MD5(s);
+     	List<StatmentTemp> statmentList=new ArrayList<StatmentTemp>();
+     	statmentList.add(st);
+     	statmentTempService.addStatmentBatch(userId, statmentList, batchId);
+     	obj.put("status", 1);
+     	obj.put("batchId", batchId);
+     	Utils.writer_out(response, obj.toJSONString());
+
 	}
 	
 	@RequestMapping("/retrieveSafeCode")
