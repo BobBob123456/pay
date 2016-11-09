@@ -98,6 +98,9 @@ public class UserServiceImpl implements IUserService {
 	public User selectByUserEmail(String email) {
 		// TODO Auto-generated method stub
 		return null;
+	public String getXjUserId(Map<String, Object> map) {
+		return userDaoImpl.getXjUserId(map);
+>>>>>>> d4052972e7e11d0ad2b8f738e963f5865484059c
 	}
 
 }

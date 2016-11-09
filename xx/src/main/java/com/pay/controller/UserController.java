@@ -23,6 +23,7 @@ import com.pay.base.constant.CommonConstant;
 import com.pay.pojo.Money;
 import com.pay.pojo.MoneyBd;
 import com.pay.pojo.Order;
+import com.pay.pojo.Sjfl;
 import com.pay.pojo.TkList;
 import com.pay.pojo.User;
 import com.pay.pojo.UserBasicInformation;
@@ -32,6 +33,7 @@ import com.pay.service.IDlDateService;
 import com.pay.service.IMoneyBdService;
 import com.pay.service.IMoneyService;
 import com.pay.service.IOrderService;
+import com.pay.service.ISjflService;
 import com.pay.service.ITkListService;
 import com.pay.service.IUserApiInformationService;
 import com.pay.service.IUserSafeTyInformationService;
@@ -76,6 +78,9 @@ public class UserController extends BaseController {
 
 	@Resource
 	private IMoneyBdService moneyBdService;
+	
+	@Resource
+	private ISjflService sjflService;
 
 	@RequestMapping("/register")
 	public String register(HttpServletRequest request, HttpServletResponse response) {
@@ -141,6 +146,8 @@ public class UserController extends BaseController {
 
 		sendEmail(request, user.getId(), activate, email);
 
+		sendEmail(request, user.getId(), activate, userName);
+>>>>>>> .merge_file_UwFT6q
 		Utils.writer_out(response, "ok");
 		return;
 	}
@@ -617,6 +624,8 @@ public class UserController extends BaseController {
 		float p = Float.valueOf(total) / Float.valueOf(CommonConstant.PAGE_SIZE_DEFAULT);
 		int totalPage = (int) Math.ceil(p);
 		List<User> list = this.userService.getOwnerUserList(map, currentPage);
+		Sjfl sjfl=sjflService.getDefaultSjfl(null);
+		request.setAttribute("sjfl_obj", sjfl);
 		request.setAttribute("total", total);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("totalPage", totalPage);
@@ -624,13 +633,34 @@ public class UserController extends BaseController {
 		return "user/tjyg";
 	}
 
-	@RequestMapping("/xj_order")
-	public String xj_order(HttpServletResponse response, HttpServletRequest request) {
-		String cur = request.getParameter("cur");
+
+	@RequestMapping("/xj_withdraw")
+	public String xj_withdraw(HttpServletResponse response,HttpServletRequest request){
 		Integer userId = Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		String cur = request.getParameter("cur");
+		String order_number = request.getParameter("order_number");
+		String ksjy_date = request.getParameter("ksjy_date");
+		String account=request.getParameter("account");
+		String jsjy_date = request.getParameter("jsjy_date");
+		String zt = request.getParameter("zt")==null?"":request.getParameter("zt");;
+		String name=request.getParameter("name");
+		String card=request.getParameter("card");
+		if (StringUtils.isEmpty(ksjy_date) && StringUtils.isEmpty(jsjy_date)) {
+			ksjy_date = DateUtil.getDate(new Date()) + " 00:00:00";
+			jsjy_date = DateUtil.getDate(new Date()) + " 23:59:59";
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("sjuserid", userId);
-		int total = this.orderService.getXjOrderCount(map);
+		String xjUserId=userService.getXjUserId(map);
+		map.put("xjUserId", xjUserId);
+		map.put("ksjy_date", ksjy_date);
+		map.put("jsjy_date", jsjy_date);
+		map.put("order_number", order_number);
+		map.put("account", account);
+		map.put("zt",zt);
+		map.put("name",name);
+		map.put("card",card);
+		int total = tkListService.getAllWithdrawCount(map);
 		int currentPage = 1;
 		if (StringUtils.isEmpty(cur)) {
 			currentPage = 1;
@@ -638,17 +668,137 @@ public class UserController extends BaseController {
 			currentPage = Integer.valueOf(cur);
 		}
 		/** 计算总页数 **/
-
 		float p = Float.valueOf(total) / Float.valueOf(CommonConstant.PAGE_SIZE_DEFAULT);
 		int totalPage = (int) Math.ceil(p);
-		List<Order> list = this.orderService.getXjOrders(map, currentPage);
+		List<TkList> list = tkListService.getAllWithdrawList(map, currentPage);
+		int successNum=0;int failNum=0;
+		float successMoney=0;float failMoney=0;
+		if(StringUtils.isEmpty(zt)||zt.equals(2)){
+			map.put("zt",2);
+			successNum=tkListService.getWithdrawCount(map);
+			successMoney=tkListService.getWithdrawMoney(map);
+		}
+		if(StringUtils.isEmpty(zt)||zt.equals(3)){
+			map.put("zt",3);
+			failNum=tkListService.getWithdrawCount(map);
+			failMoney=tkListService.getWithdrawMoney(map);
+		}	
+		
+		request.setAttribute("account", account);
+		request.setAttribute("zt", zt);
 		request.setAttribute("total", total);
+		request.setAttribute("ksjy_date", ksjy_date);
+		request.setAttribute("jsjy_date", jsjy_date);
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("totalPage", totalPage);
+		request.setAttribute("tklist", list);
+		request.setAttribute("successNum", successNum);
+		request.setAttribute("successMoney", successMoney);
+		request.setAttribute("failNum", failNum);
+		request.setAttribute("failMoney", failMoney);
+		request.setAttribute("name", name);
+		request.setAttribute("card", card);
+		return "user/xj_withdraw";
+	}
+	
+	
+	@RequestMapping("/xj_money_detail")
+	public String xj_money_detail(HttpServletResponse response,HttpServletRequest request){
+		Integer userId = Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		String cur = request.getParameter("cur");
+		String ksjy_date = request.getParameter("ksjy_date");
+		String account=request.getParameter("account");
+		String jsjy_date = request.getParameter("jsjy_date");
+		String order_number=request.getParameter("order_number");
+		if (StringUtils.isEmpty(ksjy_date) && StringUtils.isEmpty(jsjy_date)) {
+			ksjy_date = DateUtil.getDate(new Date()) + " 00:00:00";
+			jsjy_date = DateUtil.getDate(new Date()) + " 23:59:59";
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("sjuserid", userId);
+		String xjUserId=userService.getXjUserId(map);
+		map.put("ksjy_date", ksjy_date);
+		map.put("jsjy_date", jsjy_date);
+		map.put("account", account);
+		map.put("order_number",order_number);
+		map.put("xjUserId",xjUserId);
+		int total = moneyBdService.getAllMoneyBdCount(map);
+		int currentPage = 1;
+		if (StringUtils.isEmpty(cur)) {
+			currentPage = 1;
+		} else {
+			currentPage = Integer.valueOf(cur);
+		}
+		/** 计算总页数 **/
+		float p = Float.valueOf(total) / Float.valueOf(CommonConstant.PAGE_SIZE_DEFAULT);
+		int totalPage = (int) Math.ceil(p);
+		List<MoneyBd> list = moneyBdService.getAllMoneyBdList(map, currentPage);
+		request.setAttribute("account", account);
+		request.setAttribute("order_number", order_number);
+		request.setAttribute("total", total);
+		request.setAttribute("ksjy_date", ksjy_date);
+		request.setAttribute("jsjy_date", jsjy_date);
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("totalPage", totalPage);
+		request.setAttribute("list", list);
+		return "user/xj_money_detail";
+	}
+	
+	@RequestMapping("/xj_order")
+	public String xj_order(HttpServletResponse response,HttpServletRequest request){
+		Integer userId = Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		String cur = request.getParameter("cur");
+		String order_number = request.getParameter("order_number");
+		String ksjy_date = request.getParameter("ksjy_date");
+		String account=request.getParameter("account");
+		String jsjy_date = request.getParameter("jsjy_date");
+		if (StringUtils.isEmpty(ksjy_date) && StringUtils.isEmpty(jsjy_date)) {
+			ksjy_date = DateUtil.getDate(new Date()) + " 00:00:00";
+			jsjy_date = DateUtil.getDate(new Date()) + " 23:59:59";
+		}
+		String status = request.getParameter("status");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("sjuserid", userId);
+		String xjUserId=userService.getXjUserId(map);
+		map.put("xjUserId", xjUserId);
+		map.put("ksjy_date", ksjy_date);
+		map.put("jsjy_date", jsjy_date);
+		map.put("order_number", order_number);
+		map.put("account", account);
+		map.put("status", status);
+		int orderNum=0;
+		float orderMoney=0;
+		if(status==null){
+			 status="";
+		}
+		if(status.equals("")||status.equals("1")){
+			 orderNum = orderService.getAllOrderSuccessCount(map);
+			 orderMoney = orderService.getAllOrderSuccessMoney(map);
+		}
+		int total = this.orderService.getAllOrderCount(map);
+		int currentPage = 1;
+		if (StringUtils.isEmpty(cur)) {
+			currentPage = 1;
+		} else {
+			currentPage = Integer.valueOf(cur);
+		}
+		/** 计算总页数 **/
+		float p = Float.valueOf(total) / Float.valueOf(CommonConstant.PAGE_SIZE_DEFAULT);
+		int totalPage = (int) Math.ceil(p);
+		List<Order> list = orderService.getAllOrder(map, currentPage);
+		request.setAttribute("account", account);
+		request.setAttribute("status", status);
+		request.setAttribute("total", total);
+		request.setAttribute("ksjy_date", ksjy_date);
+		request.setAttribute("jsjy_date", jsjy_date);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("orders", list);
+		request.setAttribute("daymoney", orderMoney);
+		request.setAttribute("daynum", orderNum);
 		return "user/xj_order";
 	}
-
+	
 	@RequestMapping("/anquantiwen")
 	public void anquantiwen(HttpServletResponse response, HttpServletRequest request) {
 		String AffirmTitle = request.getParameter("AffirmTitle");
@@ -696,67 +846,6 @@ public class UserController extends BaseController {
 		if (result == 1) {
 			Utils.writer_out(response,
 					"<script type='text/javascript'>alert('修改成功！'); location.href='user_basic.html'</script>");
-			// response.sendRedirect("user_basic.html");
 		}
 	}
-
-	/*
-	 * @RequestMapping("/user_index") public String
-	 * user_index(HttpServletResponse response,HttpServletRequest request) {
-	 * Integer
-	 * userId=Integer.parseInt(request.getSession().getAttribute("userId").
-	 * toString());
-	 *//** 获取账号余额 **//*
-					 * Money money= this.moneyService.selectByUserId(userId);
-					 * String compellation=this.userbasicinformationService.
-					 * getUBIByUserId(userId).getCompellation(); Integer
-					 * zt=this.userApiInformationService.getUBIByUserId(userId).
-					 * getZt(); DlDate
-					 * dlDate=this.dlDateService.getLastDlDate(userId); String
-					 * scip="无"; String scdate = "无"; if(dlDate!=null){
-					 * scip=dlDate.getIp();
-					 * scdate=DateUtil.DateToString(dlDate.getDldate(),
-					 * DateStyle.YYYY_MM_DD_HH_MM) ; } DlDate ndlDate=new
-					 * DlDate(); ndlDate.setIp(Utils.getIpAddr(request));
-					 * ndlDate.setUserid(userId); ndlDate.setDldate(new Date());
-					 * this.dlDateService.add(ndlDate); Map<String, Object>
-					 * map=new HashMap<String, Object>(); map.put("userId",
-					 * userId); List<Order> orders=
-					 * this.orderService.getRecentOrder(map); String
-					 * tradeDate=DateUtil.getDate(new Date());
-					 * map.put("tradeDate", tradeDate); int
-					 * orderNum=this.orderService.getDayOrder(map); float
-					 * orderMoney=this.orderService.getDayMoney(map);
-					 * 
-					 * float wclmoney= this.tkListService.getwclmoney(map);
-					 * //未处理提款金额 float yclmoney =
-					 * this.tkListService.getyclmoney(map); //已处理提款金额
-					 * 
-					 * float wclmoney2= this.wttklistService.getwclmoney(map);
-					 * //未处理委托提款金额 float yclmoney2 =
-					 * this.wttklistService.getyclmoney(map); //已处理委托提款金额
-					 * 
-					 * float zhye = wclmoney + wclmoney2 +
-					 * money.getMoney().floatValue(); float ytxmoney = yclmoney+
-					 * yclmoney2;
-					 * 
-					 * int count =this.bankService.getBankByUserId(map);
-					 * //String BankName
-					 * =this.bankService.getBankName(map).getBankname();
-					 * 
-					 * request.getSession().setAttribute("scip", scip);
-					 * request.getSession().setAttribute("scdate", scdate);
-					 * request.setAttribute("count", count);
-					 * //request.setAttribute("BankName", BankName);
-					 * request.setAttribute("zhye", zhye);
-					 * request.setAttribute("ytxmoney", ytxmoney);
-					 * request.setAttribute("daymoney", orderMoney);
-					 * request.setAttribute("dayorder", orderNum);
-					 * request.setAttribute("orders", orders);
-					 * request.setAttribute("zt", zt);
-					 * request.setAttribute("compellation", compellation);
-					 * request.setAttribute("money", money.getMoney()); return
-					 * "user/user_index"; }
-					 */
-
 }

@@ -17,6 +17,7 @@
     <result column="key" property="key" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="PayBank" property="payBank" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap type="com.pay.pojo.User" id="UserMap" extends="BaseResultMap">
  	  <association property="money" javaType="com.pay.pojo.Money">
@@ -29,11 +30,14 @@
        <association property="sjfl" javaType="com.pay.pojo.Sjfl">
             <result property="chequeFl" column="cheque_fl"/>
             <result property="statementFl" column="statement_fl"/>
+            <result property="statementFd" column="statement_fd"/>
+            <result property="statementBd" column="statement_bd"/>
+            <result property="sjFl" column="sj_fl"/>
       </association>
   </resultMap>
   <sql id="Base_Column_List" >
     id, UserName, LoginPassWord, UserType, status, RegDate, activate, mbk, SjUserID, 
-    gmwttk, mypayurlname,usersessionid,`key`,email,PayBank
+    gmwttk, mypayurlname,usersessionid,`key`,email,PayBank,code
   </sql>
   <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -57,7 +61,7 @@
 
 <!-- 获得所有商户 -->
 <select id="getAllUser" resultMap="UserMap" parameterType="java.util.Map" >
-select u.id,UserName,UserType,`status`,RegDate,SjUserID,email,Money,myname,fl,cheque_fl,statement_fl
+select u.id,UserName,UserType,`status`,RegDate,SjUserID,email,Money,myname,fl,cheque_fl,statement_fl,statement_bd,statement_fd,sj_fl
 from pay_user u LEFT JOIN pay_money m on u.id=m.UserID
 LEFT JOIN pay_sjapi s on u.PayBank=s.f_id 
 LEFT JOIN pay_sjfl f on u.id=f.UserId
@@ -94,10 +98,11 @@ where UserType!=6
 </select>
  
  <!-- 获得下级用户的列表-->
-<select id="getOwnerUserList" resultMap="BaseResultMap" parameterType="java.util.Map" >
-    select 
-    <include refid="Base_Column_List" />
-    from pay_user
+<select id="getOwnerUserList" resultMap="UserMap" parameterType="java.util.Map" >
+ select u.id,UserName,UserType,`status`,RegDate,SjUserID,email,Money,myname,fl,cheque_fl,statement_fl,statement_bd,statement_fd,sj_fl
+	from pay_user u LEFT JOIN pay_money m on u.id=m.UserID
+	LEFT JOIN pay_sjapi s on u.PayBank=s.f_id 
+	LEFT JOIN pay_sjfl f on u.id=f.UserId
     where 
     SjUserID= #{sjuserid,jdbcType=INTEGER} 
 </select>

@@ -26,4 +26,8 @@ public interface IUserService extends ICommonService<User>  {
 	List<User> getAllUser(Map<String, Object> map,int currentPage);
 	
 	public User selectUserByEmail(String email) ;
+=======
+	/**获取下级用户的id**/
+	
+	String getXjUserId(Map<String, Object> map);
 }
