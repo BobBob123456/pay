@@ -14,56 +14,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--背景图片自动更换-->
 <script src="js/supersized.3.2.7.min.js"></script>
 <script src="js/supersized-init.js"></script>
+
 <script type="text/javascript">
-function forget_pwd() {
-	var email=$('#email').val();
-	if(email.length==0)
-	{
-		$('#email-error').show();
-		return;
-	}else{
-		$('#email-error').hide();
-	}
-	var reg = /\w+[@]{1}\w+[.]\w+/;
-	if (reg.test(email)) {
-		$('#email-error').hide();
-	} else {
-		$('#email-error').html("邮箱格式不正确").show();
-		return;
-	}
-	
-	var verify=$('#verify').val();
-	if(verify.length==0)
-	{
-		$('#verify-error').show();
-		return;
-	}else{
-		$('#verify-error').hide();
-	}
-	
-	$("#btnsub").html("发送中...");
-	$("#btnsub").attr("disabled","disabled");
- 	$.ajax({
-		type : 'POST',
-		url : "user/sendPwdEmail.html",
-		data : {"verify": verify,"email":email},
-		dataType : 'text',
-		success : function(str) {
-			str=eval("("+str+")");
-			$("#btnsub").html("提交");
-			if (str.msg != "ok") {
-				$('#msg-error').html(str.msg).show();
-				$("#btnsub").removeAttr("disabled");
-			} else {
-				$('#msg-error').html("已向您的邮箱发送修改密码邮件，注意查收！").show();
-				$("#btnsub").removeAttr("disabled");
-			}
-		},
-		error : function(str) {
-			$("#btnsub").html("提交");
-		}
-	});
- 	return false;
+function check() {
+
 }
 $(document).ready(function() {
      flushValidateCode();//进入页面就刷新生成验证码
@@ -81,12 +35,15 @@ validateImgObject.src = "${pageContext.request.contextPath }/imageGen/getSysMana
 	<div class="connect">
 		<p>忘记密码提示：根据你注册时输入的邮箱，可找回密码。</p>
 	</div>
-	 <form class="form-horizontal" name="loginForm" action="user/sendPwdEmail.html" method="post">
+	 <form class="form-horizontal" name="loginForm" action="user/doLogin.html" method="post">
 	 	<div>
-			<input type="text" name="email" id="email" class="email" placeholder="请输入您注册填写的邮箱" autocomplete="off"/>
-			<label id="email-error" class="error"  style="display: none;">请输入您注册填写的邮箱</label>
+			<input type="text" name="password" class="password" placeholder="请输入您的新密码" autocomplete="off"/>
+			<label id="email-error" class="error"  style="display: none;">新密码不能为空</label>
 		</div>
-		
+		<div>
+			<input type="text" name="password" class="password" placeholder="请确认新密码" autocomplete="off"/>
+			<label id="email-error" class="error"  style="display: none;">确认新密码不能为空</label>
+		</div>
 		<div>
 			<input type="text" id="verify"  name="verify" class="verify" placeholder="验证码"  style='width:160px;float:left;'/>
 			<div><img class="yzm" src="" style="width:100px;border-radius:4px;height:40px; margin-top: 26px;cursor:pointer;" onclick='flushValidateCode()' id="codeValidateImg"
@@ -96,7 +53,8 @@ validateImgObject.src = "${pageContext.request.contextPath }/imageGen/getSysMana
 		<div>
 			<label id="msg-error" class="error"  style="display: none;text-align:center;clear: both;margin-top:1rem;border-radius: 5px 5px 5px 5px;">请输入您的账户</label>
 		</div>
-		<button id="btnsub" type="button" style="margin-top: 10px;" onclick="return forget_pwd()">提交</button>
+		
+		<button id="submit" type="button" style="margin-top: 10px;" onclick="check()">提交</button>
 	</form>
 	<a href="user/login.html">
 		<button type="button" class="register-tis" style='width:96px;'>账号登陆</button>

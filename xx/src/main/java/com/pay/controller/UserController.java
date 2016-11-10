@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pay.base.DateUtil;
 import com.pay.base.EmailUtil;
 import com.pay.base.Utils;
@@ -145,6 +146,44 @@ public class UserController extends BaseController {
 		Utils.writer_out(response, "ok");
 		return;
 	}
+	
+	@RequestMapping("/do_activate")
+	public void do_activate(HttpServletRequest request, HttpServletResponse response) {
+		JSONObject obj=new JSONObject();
+		String verify = request.getParameter("verify");
+		String email = request.getParameter("email");
+		// 检验
+		String key = "imagecode";
+		String sessionid = request.getSession().getId();
+		String code = (String) request.getSession().getAttribute(sessionid + key);
+		User u=userService.selectUserByEmail(email);
+		if (!com.pay.base.StringUtils.isEmail(email)) {
+			 obj.put("msg", "邮箱地址格式不正确！");
+			 Utils.writer_out(response, obj.toString());
+			return;
+		}
+		if (u == null) {
+			obj.put("msg", "该邮箱地址未被注册！");
+			Utils.writer_out(response, obj.toString());
+			return;
+		}
+		if (!verify.toLowerCase().equals(code.toLowerCase())) {
+			obj.put("msg", "验证码不正确！");
+			Utils.writer_out(response, obj.toString());
+			return;
+		}
+		// 修改
+		User user = new User();
+		user.setId(u.getId());
+		String activate = com.pay.base.StringUtils.getStringRandom(64);
+		user.setActivate(activate);
+		userService.update(user);
+		// 发送邮件
+		sendEmail(request, u.getId(), activate, email);
+		obj.put("msg", "ok");
+		obj.put("uname", u.getUsername());
+		Utils.writer_out(response, obj.toString());
+	}
 
 	private void sendEmail(HttpServletRequest request, Integer id, String activate, String userName) {
 		String path = request.getContextPath();
@@ -169,24 +208,44 @@ public class UserController extends BaseController {
 		EmailUtil.send(userName, "国盛通账户激活邮件", str.toString());
 	}
 	
+	@RequestMapping("/resetpwd")
+	public String resetpwd(HttpServletRequest request, HttpServletResponse response){
+		String id=request.getParameter("id");
+		String activate=request.getParameter("activate");
+		return "resetpwd";
+	}
+	
 	@RequestMapping("/sendPwdEmail")
 	public void sendPwdEmail(HttpServletRequest request, HttpServletResponse response) {
-		String email=request.getParameter("email");
+		JSONObject obj=new JSONObject();
+		String verify = request.getParameter("verify");
+		String email = request.getParameter("email");
+		// 检验
+		String key = "imagecode";
+		String sessionid = request.getSession().getId();
+		String code = (String) request.getSession().getAttribute(sessionid + key);
+		if (!verify.toLowerCase().equals(code.toLowerCase())) {
+			obj.put("msg", "验证码不正确！");
+			Utils.writer_out(response, obj.toString());
+			return;
+		}
 		User user = userService.selectUserByEmail(email);
 		if (user != null) {
-			sendEmail(request, user.getId(), user.getActivate(), user.getEmail());
 			Integer id=user.getId();
-			String activate=user.getActivate(); 
+			String activate = com.pay.base.StringUtils.getStringRandom(64);
+			// 修改
+			User u = new User();
+			u.setId(user.getId());
+			u.setActivate(activate);
+			userService.update(u);
 			String path = request.getContextPath();
 			String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path
 					+ "/";
-
 			String urlPath = basePath + "user/resetpwd.html?id=" + id + "&activate=" + activate;
-
 			StringBuilder str = new StringBuilder();
 			str.append("亲爱的会员：");
 			str.append("<a target=\"_blank\" href=\"mailto:" + email + "\">" + email + "</a>您好！");
-			str.append("<br>感谢您实用化国盛通！<br>您现在可以修改您的国盛通账户密码");
+			str.append("<br>感谢您使用国盛通！<br>您现在可以修改您的国盛通账户密码");
 			str.append("<br><a target=\"_blank\" href=" + urlPath + ">点此修改国盛通账户密码 </a>");
 			str.append(" <br>如果上述文字点击无效，请把下面网页地址复制到浏览器地址栏中打开：<br>");
 			str.append("<a target=\"_blank\" href=" + urlPath + ">");
@@ -195,10 +254,9 @@ public class UserController extends BaseController {
 			str.append("<br>如有任何疑问，可查看 国盛通相关规则，国盛通网站访问");
 			str.append(
 					"<a target=\"_blank\" href=\"http://pay.jiangxin123.cn/\">http://pay.jiangxin123.cn/</a><br>Copyright 国盛通 2013 All Right Reserved");
-
 			EmailUtil.send(email, "国盛通账户激活邮件", str.toString());
-			
-			Utils.writer_out(response, "ok");
+			obj.put("msg", "ok");
+			Utils.writer_out(response, obj.toString());
 		} else {
 			Utils.writer_out(response, "用户不存在");
 		}
@@ -314,7 +372,11 @@ public class UserController extends BaseController {
 		u.setUsersessionid(sessionid);
 		userService.updateSelective(u);
 		if(StringUtils.isEmpty(user.getCode())){
-			request.getSession().setAttribute("is_set", 0);
+			if(user.getUsertype()==6){
+				request.getSession().setAttribute("is_set", 1);
+			}else{
+				request.getSession().setAttribute("is_set", 0);
+			}
 		}else{
 			request.getSession().setAttribute("is_set", 1);
 		}

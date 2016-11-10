@@ -58,6 +58,7 @@ function vaild_form(){
         		alert(g);
         		location.reload();
         	}else{
+        		$("#next").removeAttr("disabled");
         		alert(g);
         	}
 		},error : function(g) {

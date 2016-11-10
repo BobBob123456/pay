@@ -33,9 +33,7 @@ public class MoneyBdService implements IMoneyBdService {
 	}
 
 	public List<MoneyBd> getAllMoneyBdList(Map<String, Object> map, int currentPage) {
-		System.out.println(CommonConstant.PAGE_SIZE_DEFAULT);
 		List<MoneyBd> list= moneyBdDaoImpl.getObjectListBySelectSqlId(map, currentPage, CommonConstant.PAGE_SIZE_DEFAULT,"getAllMoneyBdList");
-		System.out.println(list.size());
 		return list;
 	}
 	

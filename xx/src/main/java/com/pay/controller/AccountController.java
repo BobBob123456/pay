@@ -183,6 +183,8 @@ public class AccountController {
 	
 	@RequestMapping("/EditLoginPassWord")
 	public void EditLoginPassWord(HttpServletResponse response,HttpServletRequest request){
+		String path = request.getContextPath();
+		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 		Integer userId=Integer.parseInt(request.getSession().getAttribute("userId").toString());
 		String Y_LoginPassWord=request.getParameter("Y_LoginPassWord");
 		String X_LoginPassWord=request.getParameter("X_LoginPassWord");
@@ -206,7 +208,7 @@ public class AccountController {
 						int result=this.userService.updateSelective(t);
 						if(result==1){
 							request.getSession().setAttribute("userId", "");
-							Utils.writer_out(response, "<script type='text/javascript'>alert('登录密码修改成功！'); location.href='login.html'</script>");
+							Utils.writer_out(response, "<script type='text/javascript'>alert('登录密码修改成功！'); location.href='"+basePath+"user/login.html'</script>");
 						}else{
 							Utils.writer_out(response, "<script type='text/javascript'>alert('修改失败，请稍后再试！'); location.href='history.go(-1);'</script>");
 						}
@@ -216,6 +218,32 @@ public class AccountController {
 		}
 	}
 	
-	
-
+	@RequestMapping("/set_code")
+	public void set_code(HttpServletResponse response,HttpServletRequest request){
+		Integer userId=Integer.parseInt(request.getSession().getAttribute("userId").toString());
+		String vaild_code=request.getParameter("vaild_code");
+		String code=request.getParameter("code");
+		String sure_code=request.getParameter("sure_code");
+		String key = "imagecode";
+		String sessionid = request.getSession().getId();
+		String verify = (String) request.getSession().getAttribute(sessionid + key);
+		System.out.println(verify);
+		System.out.println(vaild_code);
+		User user=new User();
+		user.setId(userId);
+		if(!sure_code.equals(code)){
+			Utils.writer_out(response, "两次安全码不相同");
+			return;
+		}
+		if(!verify.toLowerCase().equals(vaild_code.toLowerCase())){
+			Utils.writer_out(response, "验证码不正确");
+        	return;
+		}
+		user.setCode(Utils.MD5(code));
+		userService.update(user);
+		request.getSession().removeAttribute("is_set");
+		request.getSession().setAttribute("is_set", 1);
+		Utils.writer_out(response, "设置成功");
+		
+	}
 }

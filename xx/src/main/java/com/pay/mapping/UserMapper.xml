@@ -244,6 +244,9 @@ where UserType!=6
       <if test="usersessionid != null" >
         usersessionid = #{usersessionid,jdbcType=VARCHAR},
       </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

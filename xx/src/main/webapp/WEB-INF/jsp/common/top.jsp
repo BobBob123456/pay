@@ -173,7 +173,7 @@ $(function(){
 	</div>
 	<textarea id="tanchu" style="display: none;">
 		<div style="height: auto; padding: 20px 0 0;">
-			<form class="form-horizontal">
+			<form class="form-horizontal" id="code_form">
 				<div class="form-group" style="margin-left: 0; margin-right: 0;">
 					<label class="col-sm-4 control-label">安全码</label>
 					<div class="col-sm-6">
@@ -183,21 +183,21 @@ $(function(){
 				<div class="form-group" style="margin-left: 0; margin-right: 0;">
 					<label class="col-sm-4 control-label">确认安全码</label>
 					<div class="col-sm-6">
-						<input type="password" class="form-control" placeholder="请确认安全码">
+						<input type="password" class="form-control" id="sure_code" name="sure_code" placeholder="请确认安全码">
 					</div>
 				</div>
 				<div class="form-group" style="margin-left: 0; margin-right: 0;">
 					<label class="col-sm-4 control-label">验证码</label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" placeholder="请输入验证码">
+						<input type="text" class="form-control" id="vaild_code" name="vaild_code" placeholder="请输入验证码">
 					</div>
 					<div class="col-sm-3">
 						<img class="yzm" src="" onclick='flushValidateCode()' id="codeValidateImg" name="codeValidateImg" style="width:100px;border-radius:4px;cursor:pointer;"  title="点击刷新验证码"/>
 					</div>
 				</div>
 				<div class="form-group" style="margin-left: 0; margin-right: 0;">
-					<div class="col-sm-12" style="font-size:14px;color:red;text-align:center;">
-						安全码不能为空
+					<div class="col-sm-12" style="font-size:14px;color:red;text-align:center;" id="msg_div">
+						
 					</div>
 				</div>
 				<div class="form-group" style="margin-left: 0; margin-right: 0;">
@@ -227,7 +227,39 @@ $(function(){
 				 flushValidateCode();
 			});
 			function vaild_form(){
-				alert($('#code').val());
+				if($('#code').val()==''){
+					$('#msg_div').html("安全码不能为空");
+					return;
+				}
+				if($('#sure_code').val()==''){
+					$('#msg_div').html("确认安全码不能为空");
+					return;
+				}
+				if($('#sure_code').val()!=$('#code').val()){
+					$('#msg_div').html("两次安全码不相同");
+					return;
+				}
+				if($('#vaild_code').val()==''){
+					$('#msg_div').html("验证码不能为空");
+					return;
+				}
+				$("#next").attr("disabled","disabled");
+				 $.ajax({
+		          type: "POST",
+		          url:"account/set_code.html",
+		          data: $('#code_form').serialize(),
+		          success : function(g) {
+		        	if(g=="设置成功"){
+		        		alert(g);
+		        		location.reload();
+		        	}else{
+		        		$("#next").removeAttr("disabled");
+		        		alert(g);
+		        	}
+				},error : function(g) {
+					$("#next").removeAttr("disabled");
+				}
+		      });
 			}
 			/* 刷新生成验证码 */
 			function flushValidateCode(){

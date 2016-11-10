@@ -85,6 +85,7 @@
 		
 		
 		$("#btnsub").html("发送中...");
+		$("#btnsub").attr("disabled","disabled");
 	 	$.ajax({
 			type : 'POST',
 			url : "user/doRegister.html",
@@ -93,14 +94,15 @@
 			success : function(str) {
 				$("#btnsub").html("注册");
 				if (str != "ok") {
-					alert(str);
-					$('#msg-error').hide();
+					$('#msg-error').html(str).show();
+					$("#next").removeAttr("disabled");
 				} else {
 					location.href = "<%=basePath%>user/succeedReg.html?uname="
 							+ $("#UserName").val();
 				}
 			},
 			error : function(str) {
+				$("#btnsub").removeAttr("disabled");
 				$("#btnsub").html("注册");
 			}
 		});
@@ -170,7 +172,7 @@
 		<div>
 			<label id="msg-error" class="error"  style="display: none;text-align:center;clear: both;margin-top:1rem;border-radius: 5px 5px 5px 5px;">请输入您的账户</label>
 		</div>
-		<button id="submit" type="button" style="margin-top: 10px;" onclick="return toRegister();">注 册</button>
+		<button id="btnsub" type="button" style="margin-top: 10px;" onclick="return toRegister();">注 册</button>
 	</form>
 	<a href="user/login.html">
 		<button type="button" class="register-tis" style='margin:15px auto;'>已经有账号？点此返回</button>
