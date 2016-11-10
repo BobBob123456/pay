@@ -55,7 +55,8 @@ function forget_pwd() {
 				$('#msg-error').html(str.msg).show();
 				$("#btnsub").removeAttr("disabled");
 			} else {
-				$('#msg-error').html("已向您的邮箱发送修改密码邮件，注意查收！").show();
+				alert("已向您的邮箱发送修改密码邮件，注意查收！");
+				//$('#msg-error').html("").show();
 				$("#btnsub").removeAttr("disabled");
 			}
 		},

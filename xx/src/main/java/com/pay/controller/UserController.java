@@ -212,8 +212,53 @@ public class UserController extends BaseController {
 	public String resetpwd(HttpServletRequest request, HttpServletResponse response){
 		String id=request.getParameter("id");
 		String activate=request.getParameter("activate");
+		int status=0;
+		if(id!=null){
+			User user=userService.getUserById(Integer.valueOf(id));
+			if(user!=null&&user.getActivate().equals(activate)){
+				status=1;
+			}
+		}
+		request.setAttribute("id", id);
+		request.setAttribute("activate", activate);
+		request.setAttribute("status", status);
 		return "resetpwd";
 	}
+	
+	@RequestMapping("/do_forget_pwd")
+	public void do_forget_pwd(HttpServletRequest request, HttpServletResponse response){
+		JSONObject obj=new JSONObject();
+		String id=request.getParameter("id");
+		String activate=request.getParameter("activate");
+		String password=request.getParameter("password");
+		String verify = request.getParameter("verify");
+		String key = "imagecode";
+		String sessionid = request.getSession().getId();
+		String code = (String) request.getSession().getAttribute(sessionid + key);
+		if (!verify.toLowerCase().equals(code.toLowerCase())) {
+			obj.put("msg", "验证码不正确！");
+			Utils.writer_out(response, obj.toString());
+			return;
+		}
+		if (id != null) {
+			User user = userService.getUserById(Integer.valueOf(id));
+			if (user != null && user.getActivate().equals(activate)) {
+				user.setLoginpassword(Utils.MD5(password));
+				obj.put("msg", "ok");
+				Utils.writer_out(response, obj.toString());
+				return;
+			}else{
+				obj.put("msg", "修改密码地址已失效！");
+				Utils.writer_out(response, obj.toString());
+				return;
+			}
+		}else{
+			obj.put("msg", "修改密码地址已失效！");
+			Utils.writer_out(response, obj.toString());
+			return;
+		}
+	}
+	
 	
 	@RequestMapping("/sendPwdEmail")
 	public void sendPwdEmail(HttpServletRequest request, HttpServletResponse response) {
